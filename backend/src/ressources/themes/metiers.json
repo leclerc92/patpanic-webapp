@@ -1,0 +1,36 @@
+{
+  "category": "Métiers",
+  "color": "blue",
+  "themes": [
+    {
+      "title": "Métier du moyen âge",
+      "category": "Métiers",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Métier du social",
+      "category": "Métiers",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Métier en rapport avec la mer",
+      "category": "Métiers",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Métiers artistiques",
+      "category": "Métiers",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Métiers artisanaux",
+      "category": "Métiers",
+      "color": "blue",
+      "excludedRounds": []
+    }
+  ]
+}

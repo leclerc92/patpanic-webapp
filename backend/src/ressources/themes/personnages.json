@@ -1,0 +1,251 @@
+{
+  "category": "Personnages",
+  "color": "orange",
+  "themes": [
+    {
+      "title": "Drag queen",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnage de la petite sirène",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages de Star war",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Super hero",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Couple célèbre",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnalité décédée",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Roi et reine",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Prince et princesse",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnage de fantasme",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Michel célèbre",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Jeanne célèbre",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Claude célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fées",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pirates célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Astronautes célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Moustachus célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Physiciens / scientifiques célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Philosophes célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Mathématiciens célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Membres d'une famille",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Têtes dans un jeu de Tarot",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Reines de France",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Rois de France",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Premières dames de France",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Blonds célèbres (fictifs ou non)",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Brunes célèbres (fictives ou non)",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Cowboy célèbres (fictifs ou non)",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Couples célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages dans Pirates des Caraïbes",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Membres des Black Panters",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Artistes handicapés célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Jean célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Brigitte célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Explorateurs célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Astronautes",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Joueurs/joueuses d'échec célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnes/personnages qui portent des salopettes",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Mousquetaires",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Nains célèbres",
+      "category": "Personnages",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "category": "Sport",
+  "color": "green",
+  "themes": [
+    {
+      "title": "Sport de raquette",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Étapes du Tour de France",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Discipline des jeux olympiques",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays ayant accueillis les JO",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Équipe de foot",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Équipe de rugby",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Joueur de tennis",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Sport de glisse",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Compétition de football",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Tenue de sport",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Club de hockey sur glace",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Equipements de ski",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Trucs chiants à la piscine",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Jeux vidéo",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Stations de ski",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Noms de court de tennis",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Judoka célèbres",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Joueurs de NBA",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Joueurs de foot",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Joueurs de rugby",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Joueurs de baseball",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Joueurs de pétanques",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Gagnants du Tour de France",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Sports pratiqué en bord de mer",
+      "category": "Sport",
+      "color": "green",
+      "excludedRounds": []
+    }
+  ]
+}

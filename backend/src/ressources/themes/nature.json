@@ -1,0 +1,109 @@
+{
+  "category": "Nature",
+  "color": "green",
+  "themes": [
+    {
+      "title": "Plante",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Arbre",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fleurs",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Insecte insupportable",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Type de roche",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pierres précieuses",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèces de dinausore",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèces de pommes",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèces de poire",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Types de bois",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Plantes aquatiques",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Matières naturelles",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Nombres de feuilles sur un trèfles",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Herbes médicinales",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Arbres fruitiers",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Qu'on trouve dans le désert",
+      "category": "Nature",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

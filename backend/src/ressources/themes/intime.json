@@ -1,0 +1,72 @@
+{
+  "category": "Intime",
+  "color": "red",
+  "themes": [
+    {
+      "title": "Personne autour de cette table",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personne avec qui tu pourrais dormir",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Trait de caractère",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Position sexuelle",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Endroit pour faire l'amour",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Le dernier endroit où tu aimerais dormir",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Lieux où il convient de se soulager",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Lieux où faire des rencontres",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Taille de bonnet de poitrine",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Surnom pour un sexe masculin",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Taille de bonnet",
+      "category": "Intime",
+      "color": "red",
+      "excludedRounds": []
+    }
+  ]
+}

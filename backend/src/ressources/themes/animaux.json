@@ -1,0 +1,181 @@
+{
+  "category": "Animaux",
+  "color": "orange",
+  "themes": [
+    {
+      "title": "Animaux de compagnie",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux imaginaires",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux bizarres",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèce de poule",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Race de chien",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux à cornes",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux imaginaires aillés",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Races de vache",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Races de chat",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèces de papillons",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Races de cheval",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Jouets pour chien",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Jouets pour chat",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Couleurs pour des yeux de chats",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Animaux ovipares (qui pondent des oeufs)",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Mammifères marins",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux avec des grandes oreilles",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèces de poissons",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Poissons d'eau douce",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux ayant été dans l'espace",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Animaux ongulés (ayant des sabots)",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèces d'oiseaux",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux de la forêt",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux de la jungle",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux du désert",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Chiens célèbres",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Chats célèbres",
+      "category": "Animaux",
+      "color": "orange",
+      "excludedRounds": []
+    }
+  ]
+}

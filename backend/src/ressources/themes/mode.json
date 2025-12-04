@@ -1,0 +1,129 @@
+{
+  "category": "Mode",
+  "color": "purple",
+  "themes": [
+    {
+      "title": "Vêtement",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Type de chaussure",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chapeau",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marque de vêtement de luxe",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Couleur de cheveux",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Type de cheveux",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Motifs pour une chemise",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Couleur de chaussette",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Bijoux",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Différente Sorte de sacs",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Nom pour un salon de coiffure",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Couleurs pour du vernis à ongles",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Couleurs pour une moquette kitsch",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Couleurs chaudes",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Couleurs froides",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Couleurs primaires",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Types de robe",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Différentes façon de se coiffer",
+      "category": "Mode",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

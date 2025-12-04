@@ -1,0 +1,124 @@
+{
+  "category": "Langues",
+  "color": "green",
+  "themes": [
+    {
+      "title": "Langues d'Afrique",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Langues d'Europe",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Conjonctions de coordination",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Mots qui se terminent en -phobe",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Insultes",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Insultes d'un autre temps",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Voyelles",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Consonnes",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de politesse",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Différentes façons de dire \"Bonjour!\"",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Mots commençants par B",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Prénoms comprenant un A",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Mots commençant par -ri",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Accents français",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Mots en -ik",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Lettres dans \"LILLIPUTIENS\"",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Lettres absentes dans \"TOBOGGAN\"",
+      "category": "Langues",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

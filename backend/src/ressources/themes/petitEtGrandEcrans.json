@@ -1,0 +1,202 @@
+{
+  "category": "Petit et grand écrans",
+  "color": "green",
+  "themes": [
+    {
+      "title": "Emissions de télé-réalité",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Dessins animés de ton enfance",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Personnages de l'univers Ghibli",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages de Tim Burton",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages de l'univers Disney",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages de Grey's Anatomy",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages de Desperate Housewife",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Films avec Brad Pitt",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Films avec Jean Claude Van Damme",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Films avec Demi Moore",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Films de Clint Eastwood",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages dans Malcom",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animateurs TV",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Présentateurs.trices météo",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Séries américaines",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Séries policières",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Acteurs ayant joué James bond",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Séries des 90's/2000's",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages de Game of Thrones",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Qualités de Chuck Norris",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Personnages dans Smallville",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Films oscarisés/césarisés",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Films Blockbuster",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Séries drôles",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Séries Netflix",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Séries HBO",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Films avec Tom Hanks",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Films avec Margot Robbie",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Acteu.rices coréennes",
+      "category": "Petit et grand écrans",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "category": "Musique",
+  "color": "purple",
+  "themes": [
+    {
+      "title": "Cheffe d'orchestre",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marque de guitare",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marque de violoncelle",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Artiste impressionniste",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Artiste féminine",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Compositeurs",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Ballets célèbres",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Danseurs ou danseuse étoile",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chanson de Michel Polnareff",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Festivals de musique",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Notes de musique",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Guitar-héro",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Styles musicaux",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Groupes de musiques disco",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chansons de Johnny Haliday",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Comptines pour enfant",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Groupes de Rock'n roll",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Groupes de rock des 60's",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Membres des Beatles",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Membres des Beatch-Boys",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Membres des L5",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Membres des Tokio Hotel",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Membres du groupe Kyo",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Chanteuses/chanteurs des années 2000",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chanteuses/chanteurs anglophones",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Musiques de Phill Collins",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Groupes de musique punk",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Accordéonistes célèbres",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chanteurs-euses de country",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chanteurs-euses de R'n'B",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chanteurs-euses de Rap",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Jazzman/jazzwoman célèbres",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Trompettistes célèbres",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chansons de Patrick Sébastien",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Instruments à cuivre",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Instruments à cordes",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Instruments à vent",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Label/Maisons de disque",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Groupes de Kpop",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Membres des Stray Kids",
+      "category": "Musique",
+      "color": "purple",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

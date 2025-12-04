@@ -1,0 +1,181 @@
+{
+  "category": "Marques",
+  "color": "orange",
+  "themes": [
+    {
+      "title": "Marque de chaussure",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marque au logo rouge",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Parfumeur célèbre",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marque de préservatifs",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marque de sous vêtements",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Bijoutier célèbre",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marque de charbon de bois",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Magasins de bricolage",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Sociétés de location de voiture",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chaines de fast-food",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de tracteur",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Logiciels de programmation informatique",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chaines de station service",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de moto",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de scooter",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Compagnies aériennes",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chaines de supermarché",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Magasins de vêtements pas chers",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de montre",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Sociétés de parking",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Marques d'électro-ménager",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques au logo bleu",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de téléphones",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de croquettes",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Groupes de pharmacies",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Laboratoires pharmaceutiques",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Marques de tablette de chocolat",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de casseroles",
+      "category": "Marques",
+      "color": "orange",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

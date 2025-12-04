@@ -1,0 +1,42 @@
+{
+  "category": "Nombres",
+  "color": "blue",
+  "themes": [
+    {
+      "title": "Années non bissextiles",
+      "category": "Nombres",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Nombre pairs",
+      "category": "Nombres",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Nombre impairs",
+      "category": "Nombres",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Multiple de 5",
+      "category": "Nombres",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Multiple de 3",
+      "category": "Nombres",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Théorèmes mathématiques",
+      "category": "Nombres",
+      "color": "blue",
+      "excludedRounds": []
+    }
+  ]
+}

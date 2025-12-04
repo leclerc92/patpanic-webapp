@@ -1,0 +1,357 @@
+{
+  "category": "Alimentation",
+  "color": "red",
+  "themes": [
+    {
+      "title": "Fruit",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Légume",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Parfum de glace",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marque de yaourt",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Qui peut se manger avec du chocolat",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Ingrédients du couscous",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Ingrédients de la paella",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Façon de manger les huîtres",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Vin et vignoble",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fruit exotique",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèce de tomate",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèce de pomme de terre",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Façon de cuisiner les patates",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Plat traditionnel français",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Plat traditionnel espagnol",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Plat traditionnel kurde",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèces de champignon",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chefs pâtissiers célèbres",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Ingrédients pour faire du ketchup",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Ingrédients pour une fondue savoyarde",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fromages",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Types de bières",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de bières",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "type de steack",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Ingrédients pour un burger",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Types de pain",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Plats à base de pommes de terre",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Façons de cuisiner le poulet",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Types d'alcool",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Légumes verts",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fruits/Légumes rouges",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Types de vitamines",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Ingrédients pour une vinaigrette",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Plats japonais",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fruits à pépin",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fruits à pulpe",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fruits à noyau",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fruits à coque",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Plats italiens",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Marques de whisky",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Types de whisky",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Marques de rhum",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Types de rhum",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Marques de vodka",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Choses pour décapsuler une bière",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Sodas",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Jus de fruit",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Animaux pour faire du saucisson",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Plats à cuir au four",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Digestifs",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fruits rouges",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fruits/légumes violets",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Fruits/légumes de saison",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Sortes de pâtes",
+      "category": "Alimentation",
+      "color": "red",
+      "excludedRounds": []
+    }
+  ]
+}

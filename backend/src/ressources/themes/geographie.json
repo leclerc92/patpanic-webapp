@@ -1,0 +1,460 @@
+{
+  "category": "Géographie",
+  "color": "blue",
+  "themes": [
+    {
+      "title": "Pays d'Asie",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays d'Afrique",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays d'Europe de l'Est",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays de l'Union Européenne",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays ayant accès à la mer",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays avec des montagnes",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Département français",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Département et territoire d'outre mer",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays en - Stan",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays commençant par O",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Lieu de vacances",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Mers et océans",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Points cardinaux",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Station de métro parisien",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Ligne de métro parisien",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Monuments célèbres",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Statues célèbres",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Là où tu aime partir en vacances",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Départements français commençant par L",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Capitales africaines",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Lignes de bus",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Régions fromagères",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Routes nationales",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Routes départementales",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Volcans",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Stations balnéaires",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Capitales états-uniennes",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Etats des Etats-Unis",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Villes des USA",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Grandes villes françaises",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Pays d'Amériques Latines",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays d'Amérique centrale",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays commençant par C",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays des Balkans",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays où il y fait très froid",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Pays où il y fait très chaud",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Villes du Royaume Uni",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Nations du Royaume Uni",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Villes du Moyen Orient",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays bordant la Méditerranée",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Régions allemandes",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Villes allemandes",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Villes italiennes",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Régions italiennes",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Villes espagnoles",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Régions espagnoles",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays scandinaves",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Pays Baltes",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Pays limitrophes de la France",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Pays limitrophes de la Russie",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Villes \"bling-bling\"",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Quartiers de Paris",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Arrondissements parisiens",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Quartiers new yorkais",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Gares ferroviaires",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Aéroports",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Gares parisiennes",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Ex pays de l'URSS",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays à + de 1000km",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Iles de l'archipel japonais",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Capitales asiatiques",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Capitales européennes",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Peuples nomades",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Parcs",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Parcs parisiens",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Lacs",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Fleuves africains",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Châteaux de la Loire",
+      "category": "Géographie",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

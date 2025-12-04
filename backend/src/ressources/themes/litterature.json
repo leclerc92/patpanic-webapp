@@ -1,0 +1,98 @@
+{
+  "category": "Littérature",
+  "color": "green",
+  "themes": [
+    {
+      "title": "Mot absurde",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Oxymore",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Contes d'Anderson",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Contes",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages fictifs",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Bande dessinée",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnage de tintin",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Auteur / autrice vivante",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Mot du dictionnaire",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Onomatopée",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Mots drôle",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Séries de Manga",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Mangaka célèbres",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Maisons d'édition",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": []
+    },
+    {
+      "title": "Auteurs.trices de BD",
+      "category": "Littérature",
+      "color": "green",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

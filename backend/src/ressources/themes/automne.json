@@ -1,0 +1,996 @@
+{
+  "category": "Automne",
+  "color": "brown",
+  "themes": [
+    {
+      "title": "Signes du Zodiacaux",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Couleurs automnales",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Légumes d'automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Sorciers/Sorcières célèbres",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Titres de livre  \"Chair de poule\"",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Tueurs en série célèbres",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Façons de tuer quelqu'un",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Groupes sanguins",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Lieux effrayants",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Films d'horreur",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages épouvantables",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Accessoires de sorcellerie",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Accessoires vaudou",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Sectes/religions",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Choses dans une église",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Lieux possiblement hantés",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Monstres célèbres",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Créatures imaginaires",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages dans \"Harry Potter\"",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Espèces de champignons",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Espèces de pommes",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Cépages/vignobles",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Couleurs de raisin",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Vins",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Choses qui font penser aux vendanges",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Poisons",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Titres de potions magiques",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Ingrédients pour potions magiques",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Créatures imaginaires ailées",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Supers pouvoirs",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Phobies",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animaux réels bizarres",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Animaux de mauvais augures",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Choses qui portent malheur",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pierres précieuses",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Types de chapeaux",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Couleurs foncées",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Mois dans la saison d'automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Insectes méchants",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Contes de fées",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Accessoires du Diable",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Déguisements pour Halloween",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Accessoires pour aller chercher des bonbons",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Sortes de bonbons",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Ingrédients dans une tarte aux pommes",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Espèces de cucurbitacées",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Auteu.rices de polars",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Polars/thrillers",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Choses qui font peur",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Films de Science-Fiction",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Livres de Sciences-Fiction",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages de Sciences-Fiction",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Choses dans la cuisine d'un druide",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Accessoires de vampire",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Proies idéales pour un vampire",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Lieux où peut dormir un vampire",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Choses possédées",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Accessoires pour un exorcisme",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Parties du corps humain",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Organes vitaux",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Démons célèbres",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Derniers endroits ou tu aimerais être seul.e",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Animaux inquiétants",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Fantômes célèbres",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Animaux nocturnes",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Animaux de la forêts",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Forêts françaises",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Plantes magiques",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Choses bizarres à collectionner",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Qu'on trouve dans un cabinet de curiosité",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Choses que l'on peut accrocher à un chapeau",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Substances/champignons hallucinogènes",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Façons de faire disparaitre un corps",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Arbres qui perdent leurs feuilles",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Nuances de rouge",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Membres de la famille Addams",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages dans Games of Thrones",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages morts dans Games of Thrones",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Poupées célèbres",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Clowns célèbres",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Choses dans un champs",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Tartes à faire en automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Personnages gothiques",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Accessoires pour un style gothique",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Films de Tim Burton",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages dans l'univers de Tim Burton",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Endroits où se faire un piercing",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Moyens de transport magiques",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Personnages dans l'univers Ghibli",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Accessoires pour jardiner",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Boissons idéales pour l'automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Activités à faire en automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "K-drama d'horreur",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Oiseaux migrateurs",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Vêtements pour l'automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Fêtes ayant lieux en automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Décorations d'Halloween",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Sons associés à l'automne/Halloween",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Lettres dans HALLOWEEN",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Epices associées à l'automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Métiers dérangeants/malaisants",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Plats automnales",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Phénomènes météo d'automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Contes/légendes d'Halloween",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Choses dans un cimetière",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Mots qui riment avec \"citrouille\"",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Poétes/Poétesses",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Chevaliers de la Table Ronde",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Superstitions",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Objets dans une maison hantée",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Légumes dans une soupe",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Supers méchants",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Méchants dans les contes de fées",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Phrases qu'on dit le soir d'Halloween",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Odeurs automnales",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Instruments de musique inquiétants",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Pays où l'on fête Halloween (ou équivalent)",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Pays où l'on NE fête PAS Halloween",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Textures d'automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Objets pour une séance de spiritisme",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Desserts/friandises à base de pommes",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Masques d'Halloween",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Verbes liés à la peur",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": []
+    },
+    {
+      "title": "Vampires célèbres",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Fleurs d'automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Recettes à base de citrouille",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Adjectifs pour décrire l'automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Régions où il pleut beaucoup en automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Pays où il fait très chaud en automne",
+      "category": "Automne",
+      "color": "brown",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

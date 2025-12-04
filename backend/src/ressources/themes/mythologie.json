@@ -1,0 +1,48 @@
+{
+  "category": "Mythologie",
+  "color": "purple",
+  "themes": [
+    {
+      "title": "Monstres célèbres/legendaire",
+      "category": "Mythologie",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Chevaliers de la table ronde",
+      "category": "Mythologie",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Dieux grecs",
+      "category": "Mythologie",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Dieux hindous",
+      "category": "Mythologie",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Dieux de la mythologie nordique",
+      "category": "Mythologie",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Dieux de la mythologie japonaise/shintoiste",
+      "category": "Mythologie",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Saint",
+      "category": "Mythologie",
+      "color": "purple",
+      "excludedRounds": []
+    }
+  ]
+}

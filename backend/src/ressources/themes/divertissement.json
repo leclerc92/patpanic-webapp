@@ -1,0 +1,207 @@
+{
+  "category": "Divertissement",
+  "color": "blue",
+  "themes": [
+    {
+      "title": "Acteurs actrices",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Humoriste",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Film triste",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Film drôle",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Réalisateur",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnage de série TV",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnage de télé-réalité",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Trilogies cinématographiques",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Film de David Lynch",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Film d'Agnes Varda",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Types d'énergie de Pokémon",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pokémon",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Journaux français",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Journaux internationaux",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Noms de radio",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages de l'univers Marvel",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Personnages de l'univers DC Comics",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Musées",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Modèles de console de jeux",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Sentiers de GR (Grandes Randonnées)",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Animateurs/trices de radio",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Commentateurs.trices sportifs",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Youtubeurs.euses",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Animateurs.trices radio",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Présentateurs du journal TV",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Plateforme de streaming",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Personnalités participants aux Enfoirés",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": []
+    },
+    {
+      "title": "Magazines people",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Epées célèbres",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Prises de catch",
+      "category": "Divertissement",
+      "color": "blue",
+      "excludedRounds": [
+        2,
+        3
+      ]
+    }
+  ]
+}

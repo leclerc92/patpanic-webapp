@@ -1,0 +1,30 @@
+{
+  "category": "Technique",
+  "color": "blue",
+  "themes": [
+    {
+      "title": "Types de vis",
+      "category": "Technique",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Types d'énergies renouvelables",
+      "category": "Technique",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Vols de + de 6h",
+      "category": "Technique",
+      "color": "blue",
+      "excludedRounds": [
+        3
+      ]
+    }
+  ]
+}

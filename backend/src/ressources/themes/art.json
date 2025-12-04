@@ -1,0 +1,48 @@
+{
+  "category": "Art",
+  "color": "purple",
+  "themes": [
+    {
+      "title": "Peintres célèbres",
+      "category": "Art",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Sculpteurs-traces célèbres",
+      "category": "Art",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Oeuvres de Picasso",
+      "category": "Art",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Tableaux célèbres",
+      "category": "Art",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Photographes célèbres",
+      "category": "Art",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Arts",
+      "category": "Art",
+      "color": "purple",
+      "excludedRounds": []
+    },
+    {
+      "title": "Activités créatives",
+      "category": "Art",
+      "color": "purple",
+      "excludedRounds": []
+    }
+  ]
+}

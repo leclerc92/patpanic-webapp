@@ -1,0 +1,86 @@
+{
+  "category": "Politique",
+  "color": "red",
+  "themes": [
+    {
+      "title": "Parti politique",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Présidents de la République Française",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Présidents des USA",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Présidents africains",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Présient.e.s Asiatiques",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Batailles célèbres",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Pays gouvernés par une présidente",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Premiers ministres de la Ve Rébublique",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Premiers ministres sous Macron",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": [
+        3
+      ]
+    },
+    {
+      "title": "Ministres",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Ministères",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Lieux de pouvoir",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    },
+    {
+      "title": "Grades militaires",
+      "category": "Politique",
+      "color": "red",
+      "excludedRounds": []
+    }
+  ]
+}
