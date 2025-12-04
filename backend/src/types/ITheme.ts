@@ -1,6 +1,7 @@
+import { ICard } from './ICard';
+
 export interface ITheme {
-  title: string;
   category: string;
   color: string;
-  exludedRounds: number[];
+  themes: ICard[];
 }
