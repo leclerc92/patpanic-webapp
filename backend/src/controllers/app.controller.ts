@@ -1,7 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { AppService } from '../services/app.service';
 import { JsonImporterService } from '../services/json-importer.service';
-import { ITheme } from '../types/ITheme';
 
 @Controller()
 export class AppController {

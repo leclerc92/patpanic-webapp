@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { IPlayer } from '../types/IPlayer';
+import { IPlayer } from '../../../shared/src/types/IPlayer';
 import { JsonImporterService } from './json-importer.service';
-import { ICard } from '../types/ICard';
+import { ICard } from '../../../shared/src/types/ICard';
 
 @Injectable()
 export class GameService {
