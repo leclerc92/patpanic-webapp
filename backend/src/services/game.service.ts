@@ -1,9 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { IPlayer } from '../types/IPlayer';
+import { JsonImporterService } from './json-importer.service';
+import { ICard } from '../types/ICard';
+import { ITheme } from '../types/ITheme';
 
 @Injectable()
 export class GameService {
+  constructor(private readonly jsonImporterService: JsonImporterService) {}
+
   private players: IPlayer[] = [];
+  private cards: ICard[] = [];
+  private usedCards: ICard[] = [];
+  private currentRound: number = 0;
+  private currentPlayerIndex: number = 0;
+
+  startGame() {
+    this.currentRound = 1;
+    this.generateCards(this.currentRound);
+    console.log(this.cards);
+  }
 
   addPlayer(name: string) {
     if (name === '' || name.length < 2) {
@@ -20,13 +35,39 @@ export class GameService {
       score: 0,
       turnScore: 0,
       roundScore: 0,
+      personnalCard: undefined,
     };
 
     this.players.push(player);
+    console.log('JOUEUR CREE : ', player.name);
+    console.log(this.players);
     return player;
   }
 
   getAllPlayers() {
     return this.players;
+  }
+
+  private generateCards(round: number) {
+    console.log('GENERATION DES CARDS POUR LE ROUND ', round);
+    if (this.players.length < 2) {
+      throw new Error('Invalid game player count');
+    }
+
+    if (round < 3) {
+      const countCard: number =
+        this.players.length * 30 - this.usedCards.length;
+      const randomCards = this.jsonImporterService
+        .getAllCards()
+        .filter((c) => !this.usedCards.includes(c))
+        .sort(() => Math.random() - 0.5)
+        .slice(0, countCard);
+      this.cards.push(...randomCards);
+    } else {
+      if (this.players[this.currentPlayerIndex].personnalCard == undefined) {
+        throw new Error('Invalid game player personnalCard');
+      }
+      this.cards = [this.players[this.currentPlayerIndex].personnalCard!];
+    }
   }
 }

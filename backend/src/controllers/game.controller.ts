@@ -10,8 +10,13 @@ export class GameController {
     return this.gameService.getAllPlayers();
   }
 
-  @Post('players')
-  create(@Body('name') player: string) {
+  @Post('addplayer')
+  addplayer(@Body('name') player: string) {
     return this.gameService.addPlayer(player);
+  }
+
+  @Post('start')
+  startGame() {
+    return this.gameService.startGame();
   }
 }

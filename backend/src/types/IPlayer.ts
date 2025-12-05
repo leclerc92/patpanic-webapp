@@ -1,3 +1,5 @@
+import { ICard } from './ICard';
+
 export interface IPlayer {
   id: string;
   name: string;
@@ -8,4 +10,5 @@ export interface IPlayer {
   isMainPlayer: boolean;
   isCurrentPlayer: boolean;
   isActive: boolean;
+  personnalCard: ICard | undefined;
 }

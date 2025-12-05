@@ -5,7 +5,6 @@ import { ITheme } from '../types/ITheme';
 
 @Injectable()
 export class JsonImporterService {
-
   private data: Record<string, ITheme> = {};
 
   constructor() {
@@ -29,7 +28,11 @@ export class JsonImporterService {
     return this.data;
   }
 
-  getTheme(name: string) {
-    return this.data[name];
+  getAllCards() {
+    return Object.values(this.data).flatMap((file) => file.themes);
+  }
+
+  getThemeCard(name: string) {
+    return this.data[name]?.themes ?? [];
   }
 }
