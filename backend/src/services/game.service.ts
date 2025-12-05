@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { IPlayer } from '../types/IPlayer';
 import { JsonImporterService } from './json-importer.service';
 import { ICard } from '../types/ICard';
-import { ITheme } from '../types/ITheme';
 
 @Injectable()
 export class GameService {
@@ -11,7 +10,7 @@ export class GameService {
   private players: IPlayer[] = [];
   private cards: ICard[] = [];
   private usedCards: ICard[] = [];
-  private currentRound: number = 0;
+  private currentRound: number = 1;
   private currentPlayerIndex: number = 0;
 
   startGame() {
@@ -60,6 +59,7 @@ export class GameService {
       const randomCards = this.jsonImporterService
         .getAllCards()
         .filter((c) => !this.usedCards.includes(c))
+        .filter((c) => !c.excludedRounds.includes(round))
         .sort(() => Math.random() - 0.5)
         .slice(0, countCard);
       this.cards.push(...randomCards);
@@ -69,5 +69,20 @@ export class GameService {
       }
       this.cards = [this.players[this.currentPlayerIndex].personnalCard!];
     }
+  }
+
+  drawCard(): ICard {
+    if (this.cards.length < 1) {
+      this.generateCards(this.currentRound);
+    }
+    console.log(this.cards);
+    const card: ICard | undefined = this.cards.shift();
+    console.log(card);
+    if (!card) {
+      throw new Error('Invalid game card');
+    }
+    this.usedCards.push(card);
+
+    return card;
   }
 }

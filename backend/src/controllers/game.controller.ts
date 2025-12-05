@@ -10,6 +10,11 @@ export class GameController {
     return this.gameService.getAllPlayers();
   }
 
+  @Get('card')
+  getNextCard() {
+    return this.gameService.drawCard();
+  }
+
   @Post('addplayer')
   addplayer(@Body('name') player: string) {
     return this.gameService.addPlayer(player);
