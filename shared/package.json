@@ -1,6 +1,21 @@
 {
   "name": "@patpanic/shared",
   "version": "1.0.0",
-  "main": "src/index.ts",
-  "private": true
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "private": true,
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
 }

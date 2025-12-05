@@ -1,4 +1,4 @@
-import { ICard } from './ICard';
+import type { ICard } from './ICard.js';
 
 export interface IPlayer {
   id: string;

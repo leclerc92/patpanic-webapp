@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as path from 'path';
 import * as fs from 'fs';
-import { ITheme } from '../../../shared/src/types/ITheme';
+import { type ITheme } from '@patpanic/shared';
 
 @Injectable()
 export class JsonImporterService {

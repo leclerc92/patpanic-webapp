@@ -1,18 +1,21 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+import { GameState, type ICard, type IPlayer} from '@patpanic/shared';
 
 export const useGame = () => {
 
-    const [players, setPlayers] = useState<any[]>([]);
-    const [currentCard, setCurrentCard] = useState<any>(null);
-    const navigate = useNavigate();
+    const [gameState, setGameState] = useState<GameState>(GameState.LOBBY);
+    const [players, setPlayers] = useState<IPlayer[]>([]);
+    const [currentCard, setCurrentCard] = useState<ICard | null >(null);
 
-    // Charge les joueurs au démarrage
     useEffect(() => {
         fetch('http://localhost:3000/game/players')
             .then(res => res.json())
             .then(data => setPlayers(data))
             .catch(err => console.error(err));
+        fetch('http://localhost:3000/game/state')
+        .then(res => res.json())
+        .then(data => setGameState(data))
+        .catch(err => console.error(err));
     }, []);
 
     const addPlayer = async (name: string) => {
@@ -29,12 +32,6 @@ export const useGame = () => {
         return false;
     };
 
-    const startGame = async () => {
-        const res = await fetch('http://localhost:3000/game/start', { method: 'POST' });
-        if (res.ok) {
-            navigate("/game");
-        }
-    };
 
     const drawCard = async () => {
         const res = await fetch('http://localhost:3000/game/card');
@@ -44,5 +41,7 @@ export const useGame = () => {
         }
     };
 
-    return { players, currentCard, addPlayer, startGame, drawCard };
+    return { players, currentCard, gameState, addPlayer, drawCard };
 };
+
+export type UseGame = ReturnType<typeof useGame>;

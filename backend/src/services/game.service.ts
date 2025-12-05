@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { IPlayer } from '../../../shared/src/types/IPlayer';
 import { JsonImporterService } from './json-importer.service';
-import { ICard } from '../../../shared/src/types/ICard';
+import { type ICard } from '@patpanic/shared';
+import { type IPlayer } from '@patpanic/shared';
+import { GameState } from '@patpanic/shared';
 
 @Injectable()
 export class GameService {
@@ -12,11 +13,12 @@ export class GameService {
   private usedCards: ICard[] = [];
   private currentRound: number = 1;
   private currentPlayerIndex: number = 0;
+  private gameState: GameState = GameState.LOBBY;
 
-  startGame() {
+  startRound() {
     this.currentRound = 1;
+    this.gameState = GameState.PLAYING;
     this.generateCards(this.currentRound);
-    console.log(this.cards);
   }
 
   addPlayer(name: string) {
@@ -84,5 +86,9 @@ export class GameService {
     this.usedCards.push(card);
 
     return card;
+  }
+
+  getGameState() {
+    return this.gameState;
   }
 }

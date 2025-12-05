@@ -1,9 +1,15 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { GameService } from '../services/game.service';
+import { GameState } from '@patpanic/shared';
 
 @Controller('game')
 export class GameController {
   constructor(private readonly gameService: GameService) {}
+
+  @Get('state')
+  getGameState(): GameState {
+    return this.gameService.getGameState();
+  }
 
   @Get('players')
   getAllPlayers() {
@@ -20,8 +26,8 @@ export class GameController {
     return this.gameService.addPlayer(player);
   }
 
-  @Post('start')
+  @Post('startRound')
   startGame() {
-    return this.gameService.startGame();
+    return this.gameService.startRound();
   }
 }
