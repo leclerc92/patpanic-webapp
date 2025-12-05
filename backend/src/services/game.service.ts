@@ -21,6 +21,10 @@ export class GameService {
     this.generateCards(this.currentRound);
   }
 
+  startTurn() {
+    this.gameState = GameState.PLAYING;
+  }
+
   addPlayer(name: string) {
     if (name === '' || name.length < 2) {
       throw new Error('Invalid game player name');

@@ -18,6 +18,13 @@ export const useGame = () => {
         .catch(err => console.error(err));
     }, []);
 
+    const startTurn = async () =>  {
+        const res = await fetch('http://localhost:3000/game/startTurn', { method: 'POST' });
+        if (res.ok) {
+            setGameState(GameState.PLAYING);
+        }
+    }
+
     const addPlayer = async (name: string) => {
         const res = await fetch('http://localhost:3000/game/addplayer', {
             method: 'POST',
@@ -27,9 +34,10 @@ export const useGame = () => {
         if (res.ok) {
             const newPlayer = await res.json();
             setPlayers([...players, newPlayer]);
-            return true; // Succès
+            console.log(newPlayer);
+            return newPlayer;
         }
-        return false;
+        return null;
     };
 
 
@@ -41,7 +49,7 @@ export const useGame = () => {
         }
     };
 
-    return { players, currentCard, gameState, addPlayer, drawCard };
+    return { players, currentCard, gameState, addPlayer, drawCard, startTurn };
 };
 
 export type UseGame = ReturnType<typeof useGame>;

@@ -26,6 +26,11 @@ export class GameController {
     return this.gameService.addPlayer(player);
   }
 
+  @Post('startTurn')
+  startTurn() {
+    return this.gameService.startTurn();
+  }
+
   @Post('startRound')
   startGame() {
     return this.gameService.startRound();
