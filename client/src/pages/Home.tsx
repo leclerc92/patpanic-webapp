@@ -29,7 +29,7 @@ function Home({ gameManager }: HomeProps) {
                     onChange={(e) => setPlayerName(e.target.value)}
                     type="text"
                     placeholder="Nom du joueur"
-                    onKeyDown={(e) => e.key === 'Enter' && handleAddPlayer()} // Petit bonus UX
+                    onKeyDown={(e) => e.key === 'Enter' && handleAddPlayer()}
                 />
                 <Button onClick={handleAddPlayer} variant="outline" size="icon">
                     <Plus className="h-4 w-4" />
