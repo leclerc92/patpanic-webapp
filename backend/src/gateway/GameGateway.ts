@@ -9,6 +9,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { GameService } from '../services/game.service';
+import { UUID } from 'node:crypto';
 
 // cors: true est CRUCIAL pour que ton React (port 5173) puisse parler au Nest (port 3000)
 @WebSocketGateway({ cors: true })
@@ -32,6 +33,14 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('addPlayer')
   handleAddPlayer(@MessageBody() data: { name: string }) {
     this.gameService.addPlayer(data.name);
+    this.server.emit('gameStatus', this.gameService.getGameStatus());
+  }
+
+  @SubscribeMessage('getPersonnalCard')
+  handleGeneratePersonalCard(
+    @MessageBody() data: { playerId: string; theme: string },
+  ) {
+    this.gameService.generatePlayerPersonnalCard(data.playerId, data.theme);
     this.server.emit('gameStatus', this.gameService.getGameStatus());
   }
 

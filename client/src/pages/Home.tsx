@@ -45,6 +45,7 @@ function Home({ gameManager }: HomeProps) {
                     <div key={p.id} className="flex items-center gap-2 p-3 border rounded-lg bg-card text-card-foreground shadow-sm">
                         <span className="text-2xl">{p.icon}</span>
                         <span className="font-medium">{p.name}</span>
+                        <span className="font-medium">{p.personnalCard?.category} :{p.personnalCard?.title} </span>
                     </div>
                 ))}
             </div>

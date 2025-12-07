@@ -10,6 +10,7 @@ import { Server } from 'socket.io';
 import { BaseRoundLogic } from '../logics/baseRoundLogic';
 import { RoundOneLogic } from '../logics/roundOneLogic';
 import { RoundTwoLogic } from '../logics/roundTwoLogic';
+import { UUID } from 'node:crypto';
 
 @Injectable()
 export class GameService {
@@ -19,7 +20,7 @@ export class GameService {
   private cards: ICard[] = [];
   private usedCards: ICard[] = [];
   private currentCard: ICard | undefined;
-  private currentRound: number = 1;
+  private currentRound: number = 2;
   private currentPlayerIndex: number = 0;
   private gameState: GameState = GameState.LOBBY;
   private timer: number = 0;
@@ -32,16 +33,76 @@ export class GameService {
     return this.players[this.currentPlayerIndex];
   }
 
+  getUsedCards(): ICard[] {
+    return this.usedCards;
+  }
+  getPlayers(): IPlayer[] {
+    return this.players;
+  }
+  getAllCardsData() {
+    return this.jsonImporterService.getAllCards();
+  }
+
+  getCurrentRound(): number {
+    return this.currentRound;
+  }
+
+  getTimer(): number {
+    return this.timer;
+  }
+
+  setCard(cards: ICard[]) {
+    this.cards.push(...cards);
+  }
+
   allPlayerPlayed(): boolean {
     for (const player of this.players) {
-      if (player.remainingTurns == 0) return true;
+      if (player.remainingTurns > 0) return false;
     }
-    return false;
+    return true;
   }
 
   allPlayerEliminated(): boolean {
     const players = this.players.filter((p) => p.isActive);
     return players.length <= 1;
+  }
+
+  generatePlayerPersonnalCard(playerId: string, theme: string) {
+    const randomCards = this.jsonImporterService
+      .getThemeCard(theme)
+      .filter((c) => !this.usedCards.includes(c))
+      .filter((c) => !c.excludedRounds.includes(3))
+      .sort(() => Math.random() - 0.5)
+      .shift();
+
+    if (!randomCards) {
+      this.logger.warn(
+        'generatePlayerPersonnalCard - No card found for personnal theme ' +
+          theme,
+      );
+      return;
+    }
+
+    const player: IPlayer | undefined = this.players.find(
+      (p) => p.id === playerId,
+    );
+    if (player) {
+      if (player.personnalCard != undefined) {
+        const index = this.usedCards.indexOf(player.personnalCard);
+        if (index > -1) {
+          this.usedCards.splice(index, 1);
+        }
+      }
+      player.personnalCard = randomCards;
+      this.usedCards.push(randomCards);
+      this.logger.log(
+        'generatePlayerPersonnalCard - personnal card added for' + player.name,
+      );
+    } else {
+      this.logger.log(
+        'generatePlayerPersonnalCard - no player found with id ' + playerId,
+      );
+    }
   }
 
   initializeRound() {
@@ -69,10 +130,10 @@ export class GameService {
 
   startTurn(server: Server) {
     this.logger.log('Starting Turn');
-    this.timer = 3;
+    this.timer = this.roundLogic.getRoundDuration();
     this.startTimer(server);
     this.gameState = GameState.PLAYING;
-    this.generateCards(this.currentRound);
+    this.roundLogic.generateRoundCards();
     this.getNextCard();
   }
 
@@ -110,7 +171,9 @@ export class GameService {
 
   addPlayer(name: string) {
     if (name === '' || name.length < 2) {
-      this.logger.warn(`add Player whith name : ${name} is invalid`);
+      this.logger.warn(
+        `ADDPLAYER - add Player whith name : ${name} is invalid`,
+      );
       throw new Error('Invalid game player name');
     }
 
@@ -127,47 +190,15 @@ export class GameService {
       personnalCard: undefined,
       remainingTurns: 0,
     };
-
     this.players.push(player);
-    this.logger.log('Added player name', player.name);
+    this.generatePlayerPersonnalCard(player.id, 'Alimentation');
+    this.logger.log('ADDPLAYER - Added player name', player.name);
     return player;
-  }
-
-  private generateCards(round: number) {
-    if (this.players.length < 2) {
-      this.logger.warn(
-        `generateCards - invalide player count to generateCards`,
-      );
-      throw new Error('Invalid game player count');
-    }
-
-    if (round < 3) {
-      const countCard: number =
-        this.players.length * 30 - this.usedCards.length;
-      const randomCards = this.jsonImporterService
-        .getAllCards()
-        .filter((c) => !this.usedCards.includes(c))
-        .filter((c) => !c.excludedRounds.includes(round))
-        .sort(() => Math.random() - 0.5)
-        .slice(0, countCard);
-      this.cards.push(...randomCards);
-
-      this.logger.log('number of cards added', countCard);
-    } else {
-      if (this.players[this.currentPlayerIndex].personnalCard == undefined) {
-        throw new Error('Invalid game player personnalCard');
-      }
-      this.cards = [this.players[this.currentPlayerIndex].personnalCard!];
-      this.logger.log('personnal card added : ', this.cards[0].title);
-      this.logger.log('deck lenght : ', this.cards.length);
-    }
-
-    this.logger.log('Added card for round', round);
   }
 
   getNextCard(): ICard {
     if (this.cards.length < 1) {
-      this.generateCards(this.currentRound);
+      this.roundLogic.generateRoundCards();
     }
     const card: ICard | undefined = this.cards.shift();
     this.currentCard = card;
@@ -213,35 +244,50 @@ export class GameService {
       player.remainingTurns = remainingTurns;
     });
     this.currentPlayerIndex = -1;
-    this.logger.log('currentPlayerIndex: ', this.currentPlayerIndex);
+    this.logger.log(
+      'INITIALISE_PLAYERS_FOR_ROUND - currentPlayerIndex: ',
+      this.currentPlayerIndex,
+    );
   }
 
   setupNextPlayerTurn() {
-    this.getNextPlayer();
-    this.getCurrentPlayer().isCurrentPlayer = true;
-    this.getCurrentPlayer().isMainPlayer = true;
-    this.logger.log('currentPlayerIndex: ', this.currentPlayerIndex);
-    this.gameState = GameState.PLAYER_INSTRUCTION;
-  }
-
-  getNextPlayer() {
-    if (this.allPlayerPlayed() || this.allPlayerEliminated()) {
+    if (this.getNextPlayer()) {
+      this.getCurrentPlayer().isCurrentPlayer = true;
+      this.getCurrentPlayer().isMainPlayer = true;
+      this.gameState = GameState.PLAYER_INSTRUCTION;
+      this.logger.log(
+        'SETUP-NEXT_PLAYER_TURN - currentPlayerIndex: ',
+        this.currentPlayerIndex,
+      );
+    } else {
+      this.logger.log('SETUP-NEXT_PLAYER_TURN - end round ');
       this.endRound();
     }
+  }
 
-    if (this.currentPlayerIndex < 0) {
-      this.currentPlayerIndex =
-        (this.currentPlayerIndex + 1) % this.players.length;
-      this.logger.log('currentPLayerIndex < 0: ');
+  getNextPlayer(): boolean {
+    if (this.roundLogic.checkEndRound()) {
+      this.logger.log('GET_NEXT_PLAYER - checkEndRound true');
+      return false;
     }
 
-    if (
-      !this.getCurrentPlayer().isActive ||
-      this.getCurrentPlayer().remainingTurns == 0
-    ) {
+    let nbPlayer = this.players.length - 1;
+    while (nbPlayer > 0) {
       this.currentPlayerIndex =
         (this.currentPlayerIndex + 1) % this.players.length;
-      this.logger.log('current player !active || remainingTurns = 0');
+      if (
+        this.getCurrentPlayer().isActive &&
+        this.getCurrentPlayer().remainingTurns > 0
+      ) {
+        this.logger.log(
+          'GET_NEXT_PLAYER - nextPlayerIndex: ',
+          this.currentPlayerIndex,
+        );
+        return true;
+      }
+      nbPlayer--;
     }
+    this.logger.log('GET_NEXT_PLAYER - no players found for next turn');
+    return false;
   }
 }

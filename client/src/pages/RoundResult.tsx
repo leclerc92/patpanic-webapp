@@ -31,7 +31,7 @@ function RoundResult({ gameManager }: RoundResultProps) {
                 className="w-full mt-4"
                 size="lg"
             >
-                <Cross className="mr-2 h-4 w-4" /> vers instruction Joueur suivant
+                <Cross className="mr-2 h-4 w-4" /> vers instruction round suivant
             </Button>
         </>
     )

@@ -7,4 +7,7 @@ export abstract class BaseRoundLogic {
   abstract passCard(): void;
   abstract initializeRound(): void;
   abstract handleTimerEnd(): void;
+  abstract checkEndRound(): boolean;
+  abstract generateRoundCards(): void;
+  abstract getRoundDuration(): number;
 }
