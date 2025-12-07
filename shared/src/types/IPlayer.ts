@@ -11,4 +11,5 @@ export interface IPlayer {
   isCurrentPlayer: boolean;
   isActive: boolean;
   personnalCard: ICard | undefined;
+  remainingTurns:number;
 }

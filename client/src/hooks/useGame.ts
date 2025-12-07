@@ -1,5 +1,6 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {GameState, type ICard, type IGameStatus, type IPlayer} from '@patpanic/shared';
+import {io, type Socket} from "socket.io-client";
 
 export const useGame = () => {
 
@@ -8,85 +9,9 @@ export const useGame = () => {
     const [currentPlayer, setCurrentPlayer] = useState<IPlayer>();
     const [currentCard, setCurrentCard] = useState<ICard | undefined >(undefined);
     const [currentRound, setCurrentRound] = useState<number>(1);
+    const socketRef = useRef<Socket | null>(null);
+    const [timer, setTimer] = useState<number>(45);
 
-    useEffect(() => {
-        fetch('http://localhost:3000/game/players')
-            .then(res => res.json())
-            .then(data => setPlayers(data))
-            .catch(err => console.error(err));
-        fetch('http://localhost:3000/game/state')
-        .then(res => res.json())
-        .then(data => setGameState(data))
-        .catch(err => console.error(err));
-    }, []);
-
-    const startTurn = async () =>  {
-        const res = await fetch('http://localhost:3000/game/startTurn', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        });
-        if (res.ok) {
-            const gameStatus = await res.json();
-            updateGameStatus(gameStatus);
-        }
-    }
-
-    const addPlayer = async (name: string) => {
-        const res = await fetch('http://localhost:3000/game/addplayer', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name }),
-        });
-        if (res.ok) {
-            const newPlayer = await res.json();
-            setPlayers([...players, newPlayer]);
-            console.log(newPlayer);
-            return newPlayer;
-        }
-        return null;
-    };
-
-
-    const drawCard = async () => {
-        const res = await fetch('http://localhost:3000/game/card');
-        if (res.ok) {
-            const card = await res.json();
-            setCurrentCard(card);
-        }
-    };
-
-    const validateCard = async () => {
-        const res = await fetch('http://localhost:3000/game/validateCard', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        });
-        if (res.ok) {
-            const gameStatus = await res.json();
-            updateGameStatus(gameStatus);
-        }
-    };
-
-    const passCard = async () => {
-        const res = await fetch('http://localhost:3000/game/passCard', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        });
-        if (res.ok) {
-            const gameStatus = await res.json();
-            updateGameStatus(gameStatus);
-        }
-    };
-
-    const endTurn = async () =>  {
-        const res = await fetch('http://localhost:3000/game/endTurn', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        });
-        if (res.ok) {
-            const gameStatus = await res.json();
-            updateGameStatus(gameStatus);
-        }
-    }
 
     const updateGameStatus =  (gameStatus:IGameStatus) => {
         setPlayers(gameStatus.players);
@@ -96,7 +21,42 @@ export const useGame = () => {
         setGameState(gameStatus.gameState);
     };
 
-    return { players, currentCard, currentPlayer, gameState, addPlayer, drawCard, startTurn , validateCard, passCard, endTurn};
+    useEffect(() => {
+        const newSocket = io('http://localhost:3000');
+        socketRef.current = newSocket;
+
+        // 👂 ÉCOUTE PASSIVE : C'est la seule façon de mettre à jour le jeu !
+        newSocket.on('gameStatus', (status) => {
+            console.log("Mise à jour reçue du serveur !", status);
+            updateGameStatus(status); // Ta fonction magique qui setPlayers, setCard, etc.
+        });
+
+        //TIMER LISTENER
+        newSocket.on('timerUpdate', (time: number) => {
+            setTimer(time);
+        });
+
+        return () => { newSocket.disconnect(); };
+    }, []);
+
+    const addPlayer = (name: string) => {
+        socketRef.current?.emit('addPlayer', { name });
+    };
+
+    const startTurn = () => {
+        socketRef.current?.emit('startGame');
+    };
+
+    const validateCard = () => {
+        socketRef.current?.emit('validate');
+    };
+
+    const passCard = () => {
+        socketRef.current?.emit('pass');
+    };
+
+
+    return { players, currentCard, currentPlayer, gameState, addPlayer, startTurn , validateCard, passCard, timer,currentRound};
 };
 
 export type UseGame = ReturnType<typeof useGame>;

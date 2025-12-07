@@ -12,6 +12,7 @@ function Playing({ gameManager }: PlayingProps) {
     return (
         <>
             <div className="flex-col">
+                <p>Round actuel = {gameManager.currentRound}</p>
                 <p>joueur actuel = { gameManager.currentPlayer?.name } </p>
                 <p>Score du tour = { gameManager.currentPlayer?.turnScore }</p>
                 <p>Score du round = { gameManager.currentPlayer?.roundScore }</p>
@@ -32,13 +33,7 @@ function Playing({ gameManager }: PlayingProps) {
                     <Cross className="mr-2 h-4 w-4" /> Passer
                 </Button>
 
-                <Button
-                    onClick={gameManager.endTurn} // Appel direct
-                    className="w-full mt-4"
-                    size="lg"
-                >
-                    <Cross className="mr-2 h-4 w-4" /> fin de tour
-                </Button>
+                <h1>{gameManager.timer}</h1>
 
             </div>
         </>
