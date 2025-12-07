@@ -13,14 +13,14 @@ function RoundInstructions({ gameManager }: RoundInstructionsProps) {
         <>
             <h1>RoundInstructions pour le round {gameManager.currentRound}</h1>
             <Button
-                onClick={gameManager.passCard}
+                onClick={gameManager.goToRoundInstructions}
                 className="w-full mt-4"
                 size="lg"
             >
                 <Cross className="mr-2 h-4 w-4" /> retour à l'acceuil
             </Button>
             <Button
-                onClick={gameManager.passCard}
+                onClick={gameManager.gotToPlayerInstructions}
                 className="w-full mt-4"
                 size="lg"
             >

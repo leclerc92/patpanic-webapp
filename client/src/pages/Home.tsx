@@ -51,7 +51,7 @@ function Home({ gameManager }: HomeProps) {
 
             {gameManager.players.length >= 2 && (
                 <Button
-                    onClick={gameManager.startTurn} // Appel direct
+                    onClick={gameManager.goToRoundInstructions} // Appel direct
                     className="w-full mt-4"
                     size="lg"
                 >
