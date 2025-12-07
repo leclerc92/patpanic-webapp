@@ -10,5 +10,6 @@ export interface IPlayer {
     isCurrentPlayer: boolean;
     isActive: boolean;
     personnalCard: ICard | undefined;
+    remainingTurns: number;
 }
 //# sourceMappingURL=IPlayer.d.ts.map

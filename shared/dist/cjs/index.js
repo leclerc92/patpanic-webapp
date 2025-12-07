@@ -18,3 +18,4 @@ __exportStar(require("./types/ICard"), exports);
 __exportStar(require("./types/IPlayer"), exports);
 __exportStar(require("./types/ITheme"), exports);
 __exportStar(require("./types/GameState"), exports);
+__exportStar(require("./types/IGameStatus"), exports);
