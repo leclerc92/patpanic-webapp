@@ -10,19 +10,18 @@ export class RoundThreeLogic extends BaseRoundLogic {
   }
 
   validateCard() {
-    this.setNextPlayer();
+    this.getNextPlayerInTurn();
     this.gameService.setTimer(this.getRoundDuration());
   }
 
   passCard() {
     if (
-      this.gameService.getCurrentPlayer() == this.gameService.getMainPlayer()
+      this.gameService.getCurrentPlayer().isMainPlayer
     ) {
-      this.gameService.getCurrentPlayer().isActive = false;
       this.endTurn();
     } else {
       this.gameService.getMainPlayer().turnScore++;
-      this.checkEndRound();
+      this.checkEndturn();
     }
   }
 
@@ -61,17 +60,75 @@ export class RoundThreeLogic extends BaseRoundLogic {
   }
 
   checkEndturn() {
-    if (
-      this.gameService.allPlayerEliminated() &&
-      this.gameService.getMainPlayer().isActive
-    ) {
-      return true;
-    }
-    return false;
+    return ((this.gameService.allPlayerEliminated() &&
+            this.gameService.getMainPlayer().isActive) ||
+        !this.gameService.getMainPlayer().isActive);
+  }
+
+  getNextPlayerInTurn() {
+      if ( this.checkEndturn()) {
+          this.endTurn();
+      }
+      let nbPlayer = this.gameService.getPlayers().length - 1;
+      this.gameService.getCurrentPlayer().isCurrentPlayer = false;
+      while (nbPlayer > 0) {
+        this.gameService.setCurrentPlayerIndex(
+            (this.gameService.getCurrendPlayerIndex() + 1) %
+            this.gameService.getPlayers().length,
+        );
+        if (
+            this.gameService.getCurrentPlayer().isActive
+        ) {
+          this.logger.log(
+              'SET_NEXT_PLAYER - nextPlayerIndex: ',
+              this.gameService.getCurrendPlayerIndex(),
+          );
+          this.gameService.getCurrentPlayer().isCurrentPlayer = true;
+          this.logger.log(
+              'SET_NEXT_PLAYER- currentPlayerIndex: ',
+              this.gameService.getCurrendPlayerIndex(),
+          );
+          return;
+        }
+        nbPlayer--;
+      }
   }
 
   setNextPlayer() {
-    return;
+    if (this.checkEndRound()) {
+      this.logger.log('SET_NEXT_PLAYER - checkEndRound true');
+      this.gameService.endRound();
+      return;
+    }
+
+    let nbPlayer = this.gameService.getPlayers().length - 1;
+    this.gameService.initializePlayerProps();
+    while (nbPlayer > 0) {
+      this.gameService.setCurrentPlayerIndex(
+          (this.gameService.getCurrendPlayerIndex() + 1) %
+          this.gameService.getPlayers().length,
+      );
+      if (
+          this.gameService.getCurrentPlayer().isActive &&
+          this.gameService.getCurrentPlayer().remainingTurns > 0
+      ) {
+        this.logger.log(
+            'SET_NEXT_PLAYER - nextPlayerIndex: ',
+            this.gameService.getCurrendPlayerIndex(),
+        );
+        this.gameService.getCurrentPlayer().isCurrentPlayer = true;
+        this.gameService.getCurrentPlayer().isMainPlayer = true;
+        this.gameService.setGameState(GameState.PLAYER_INSTRUCTION);
+        this.logger.log(
+            'SET_NEXT_PLAYER- currentPlayerIndex: ',
+            this.gameService.getCurrendPlayerIndex(),
+        );
+        return;
+      }
+      nbPlayer--;
+    }
+    this.logger.log('GET_NEXT_PLAYER - no players found for next turn');
+    this.gameService.endRound();
   }
 
   endTurn() {
