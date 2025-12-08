@@ -7,6 +7,7 @@ export const useGame = () => {
     const [gameState, setGameState] = useState<GameState>(GameState.LOBBY);
     const [players, setPlayers] = useState<IPlayer[]>([]);
     const [currentPlayer, setCurrentPlayer] = useState<IPlayer>();
+    const [mainPlayer, setMainPlayer] = useState<IPlayer>();
     const [currentCard, setCurrentCard] = useState<ICard | undefined >(undefined);
     const [currentRound, setCurrentRound] = useState<number>(1);
     const socketRef = useRef<Socket | null>(null);
@@ -16,6 +17,7 @@ export const useGame = () => {
     const updateGameStatus =  (gameStatus:IGameStatus) => {
         setPlayers(gameStatus.players);
         setCurrentPlayer(gameStatus.currentPlayer);
+        setMainPlayer(gameStatus.mainPlayer);
         setCurrentCard(gameStatus.currentCard);
         setCurrentRound(gameStatus.currentRound);
         setGameState(gameStatus.gameState);
@@ -64,7 +66,7 @@ export const useGame = () => {
     };
 
 
-    return { players, currentCard, currentPlayer, gameState, addPlayer, startPlayerTurn , gotToPlayerInstructions,goToRoundInstructions, validateCard, passCard, timer,currentRound};
+    return { players, currentCard, currentPlayer,mainPlayer, gameState, addPlayer, startPlayerTurn , gotToPlayerInstructions,goToRoundInstructions, validateCard, passCard, timer,currentRound};
 };
 
 export type UseGame = ReturnType<typeof useGame>;

@@ -11,11 +11,11 @@ function PlayerResult({ gameManager }: PlayerResultProps) {
 
     return (
         <>
-            <h1>Player result pour le joueur {gameManager.currentPlayer?.name}</h1>
-            <p>Score du tour = { gameManager.currentPlayer?.turnScore }</p>
-            <p>Score du round = { gameManager.currentPlayer?.roundScore }</p>
-            <p>Score = { gameManager.currentPlayer?.score }</p>
-            <p>tours restants = { gameManager.currentPlayer?.remainingTurns }</p>
+            <h1>Player result pour le joueur {gameManager.mainPlayer?.name}</h1>
+            <p>Score du tour = { gameManager.mainPlayer?.turnScore }</p>
+            <p>Score du round = { gameManager.mainPlayer?.roundScore }</p>
+            <p>Score = { gameManager.mainPlayer?.score }</p>
+            <p>tours restants = { gameManager.mainPlayer?.remainingTurns }</p>
             <Button
                 onClick={gameManager.passCard}
                 className="w-full mt-4"
