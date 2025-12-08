@@ -10,7 +10,7 @@ import { Server } from 'socket.io';
 import { BaseRoundLogic } from '../logics/baseRoundLogic';
 import { RoundOneLogic } from '../logics/roundOneLogic';
 import { RoundTwoLogic } from '../logics/roundTwoLogic';
-import { UUID } from 'node:crypto';
+import { RoundThreeLogic } from '../logics/roundThreeLogic';
 
 @Injectable()
 export class GameService {
@@ -20,7 +20,7 @@ export class GameService {
   private cards: ICard[] = [];
   private usedCards: ICard[] = [];
   private currentCard: ICard | undefined;
-  private currentRound: number = 2;
+  private currentRound: number = 1;
   private currentPlayerIndex: number = 0;
   private gameState: GameState = GameState.LOBBY;
   private timer: number = 0;
@@ -33,12 +33,25 @@ export class GameService {
     return this.players[this.currentPlayerIndex];
   }
 
+  getMainPlayer(): IPlayer {
+    return this.players.find((p) => p.isMainPlayer)!;
+  }
+
   getUsedCards(): ICard[] {
     return this.usedCards;
   }
   getPlayers(): IPlayer[] {
     return this.players;
   }
+
+  getCurrendPlayerIndex(): number {
+    return this.currentPlayerIndex;
+  }
+
+  setCurrentPlayerIndex(index: number): void {
+    this.currentPlayerIndex = index;
+  }
+
   getAllCardsData() {
     return this.jsonImporterService.getAllCards();
   }
@@ -51,8 +64,20 @@ export class GameService {
     return this.timer;
   }
 
+  setTimer(time: number): void {
+    this.timer = time;
+  }
+
   setCard(cards: ICard[]) {
     this.cards.push(...cards);
+  }
+
+  setGameState(gameState: GameState) {
+    this.gameState = gameState;
+  }
+
+  removeCards() {
+    this.cards = [];
   }
 
   allPlayerPlayed(): boolean {
@@ -114,6 +139,9 @@ export class GameService {
       case 2:
         this.roundLogic = new RoundTwoLogic(this);
         break;
+      case 3:
+        this.roundLogic = new RoundThreeLogic(this);
+        break;
       default:
         this.roundLogic = new RoundOneLogic(this);
         break;
@@ -157,16 +185,6 @@ export class GameService {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
-  }
-
-  endTurn() {
-    this.logger.log('Ending Turn', this.getCurrentPlayer.name);
-    this.stopTimer();
-    this.getCurrentPlayer().isCurrentPlayer = false;
-    this.getCurrentPlayer().roundScore += this.getCurrentPlayer().turnScore;
-    this.getCurrentPlayer().score += this.getCurrentPlayer().turnScore;
-    this.getCurrentPlayer().remainingTurns--;
-    this.gameState = GameState.PLAYER_RESULT;
   }
 
   addPlayer(name: string) {
@@ -219,6 +237,7 @@ export class GameService {
       currentRound: this.currentRound,
       currentCard: this.currentCard,
       currentPlayer: this.getCurrentPlayer(),
+      mainPlayer: this.getMainPlayer(),
       players: this.players,
       gameState: this.gameState,
     };
@@ -250,44 +269,15 @@ export class GameService {
     );
   }
 
-  setupNextPlayerTurn() {
-    if (this.getNextPlayer()) {
-      this.getCurrentPlayer().isCurrentPlayer = true;
-      this.getCurrentPlayer().isMainPlayer = true;
-      this.gameState = GameState.PLAYER_INSTRUCTION;
-      this.logger.log(
-        'SETUP-NEXT_PLAYER_TURN - currentPlayerIndex: ',
-        this.currentPlayerIndex,
-      );
-    } else {
-      this.logger.log('SETUP-NEXT_PLAYER_TURN - end round ');
-      this.endRound();
-    }
+  initializePlayerProps() {
+    this.players.forEach((player: IPlayer) => {
+      player.isCurrentPlayer = false;
+      player.isActive = true;
+      player.isMainPlayer = false;
+    });
   }
 
-  getNextPlayer(): boolean {
-    if (this.roundLogic.checkEndRound()) {
-      this.logger.log('GET_NEXT_PLAYER - checkEndRound true');
-      return false;
-    }
-
-    let nbPlayer = this.players.length - 1;
-    while (nbPlayer > 0) {
-      this.currentPlayerIndex =
-        (this.currentPlayerIndex + 1) % this.players.length;
-      if (
-        this.getCurrentPlayer().isActive &&
-        this.getCurrentPlayer().remainingTurns > 0
-      ) {
-        this.logger.log(
-          'GET_NEXT_PLAYER - nextPlayerIndex: ',
-          this.currentPlayerIndex,
-        );
-        return true;
-      }
-      nbPlayer--;
-    }
-    this.logger.log('GET_NEXT_PLAYER - no players found for next turn');
-    return false;
+  setupNextPlayerTurn() {
+    this.roundLogic.setNextPlayer();
   }
 }

@@ -10,4 +10,6 @@ export abstract class BaseRoundLogic {
   abstract checkEndRound(): boolean;
   abstract generateRoundCards(): void;
   abstract getRoundDuration(): number;
+  abstract endTurn(): void;
+  abstract setNextPlayer(): void;
 }

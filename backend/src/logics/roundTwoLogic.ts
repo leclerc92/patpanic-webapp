@@ -1,5 +1,6 @@
 import { BaseRoundLogic } from './baseRoundLogic';
 import { Logger } from '@nestjs/common';
+import { GameState } from '@patpanic/shared';
 
 export class RoundTwoLogic extends BaseRoundLogic {
   private logger: Logger = new Logger('RoundTwoLogic');
@@ -11,7 +12,7 @@ export class RoundTwoLogic extends BaseRoundLogic {
   validateCard() {
     this.gameService.getCurrentPlayer().turnScore +=
       this.gameService.getTimer();
-    this.gameService.endTurn();
+    this.endTurn();
   }
 
   passCard() {
@@ -33,7 +34,7 @@ export class RoundTwoLogic extends BaseRoundLogic {
   }
 
   handleTimerEnd() {
-    this.gameService.endTurn();
+    this.endTurn();
   }
 
   generateRoundCards() {
@@ -55,6 +56,55 @@ export class RoundTwoLogic extends BaseRoundLogic {
 
   checkEndRound() {
     return this.gameService.allPlayerPlayed();
+  }
+
+  setNextPlayer() {
+    if (this.checkEndRound()) {
+      this.logger.log('SET_NEXT_PLAYER - checkEndRound true');
+      this.gameService.endRound();
+      return;
+    }
+
+    let nbPlayer = this.gameService.getPlayers().length - 1;
+    this.gameService.initializePlayerProps();
+    while (nbPlayer > 0) {
+      this.gameService.setCurrentPlayerIndex(
+        (this.gameService.getCurrendPlayerIndex() + 1) %
+          this.gameService.getPlayers().length,
+      );
+      if (
+        this.gameService.getCurrentPlayer().isActive &&
+        this.gameService.getCurrentPlayer().remainingTurns > 0
+      ) {
+        this.logger.log(
+          'SET_NEXT_PLAYER - nextPlayerIndex: ',
+          this.gameService.getCurrendPlayerIndex(),
+        );
+        this.gameService.getCurrentPlayer().isCurrentPlayer = true;
+        this.gameService.getCurrentPlayer().isMainPlayer = true;
+        this.gameService.setGameState(GameState.PLAYER_INSTRUCTION);
+        this.logger.log(
+          'SET_NEXT_PLAYER- currentPlayerIndex: ',
+          this.gameService.getCurrendPlayerIndex(),
+        );
+        return;
+      }
+      nbPlayer--;
+    }
+    this.logger.log('GET_NEXT_PLAYER - no players found for next turn');
+    this.gameService.endRound();
+  }
+
+  endTurn() {
+    this.logger.log('Ending Turn', this.gameService.getCurrentPlayer.name);
+    this.gameService.stopTimer();
+    this.gameService.getCurrentPlayer().isCurrentPlayer = false;
+    this.gameService.getCurrentPlayer().roundScore +=
+      this.gameService.getCurrentPlayer().turnScore;
+    this.gameService.getCurrentPlayer().score +=
+      this.gameService.getCurrentPlayer().turnScore;
+    this.gameService.getCurrentPlayer().remainingTurns--;
+    this.gameService.setGameState(GameState.PLAYER_RESULT);
   }
 
   getRoundDuration(): number {
