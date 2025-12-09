@@ -26,8 +26,8 @@ export const useGame = () => {
         setPlayers(gameStatus.players);
         setCurrentPlayer(gameStatus.currentPlayer);
         setMainPlayer(gameStatus.mainPlayer);
-        setMaster1Player(gameStatus.mainPlayer);
-        setMaster2Player(gameStatus.mainPlayer);
+        setMaster1Player(gameStatus.master1Player);
+        setMaster2Player(gameStatus.master2Player);
         setCurrentCard(gameStatus.currentCard);
         setCurrentRound(gameStatus.currentRound);
         setGameState(gameStatus.gameState);
@@ -55,12 +55,10 @@ export const useGame = () => {
         });
 
         newSocket.on('themeCapacities', (data: Record<string, number>) => {
-            console.log("Capacités reçues :", data);
             setThemeCapacities(data);
         });
 
         newSocket.on('themes', (data: string[]) => {
-            console.log("themes reçues :", data);
             setThemes(data);
         });
 
@@ -69,6 +67,10 @@ export const useGame = () => {
 
     const addPlayer = (name: string) => {
         socketRef.current?.emit('addPlayer', { name });
+    };
+
+    const setMasterPlayer = (playerId: string, type:number) => {
+        socketRef.current?.emit('setMasterPlayer', { playerId, type});
     };
 
     const gotToPlayerInstructions = () => {
@@ -109,6 +111,7 @@ export const useGame = () => {
         startPlayerTurn ,
         gotToPlayerInstructions ,
         goToRoundInstructions ,
+        setMasterPlayer,
         restartGame ,
         validateCard ,
         passCard ,

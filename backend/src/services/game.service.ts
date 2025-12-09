@@ -20,7 +20,7 @@ export class GameService {
   private cards: ICard[] = [];
   private usedCards: ICard[] = [];
   private currentCard: ICard | undefined;
-  private currentRound: number = 3;
+  private currentRound: number = 1;
   private currentPlayerIndex: number = 0;
   private gameState: GameState = GameState.LOBBY;
   private timer: number = 0;
@@ -38,11 +38,22 @@ export class GameService {
   }
 
   getMaster1Player(): IPlayer {
-    return this.players.find((p) => p.isMaster1)!;
+    return this.players.find((p) => p.masterNumber == 1)!;
   }
 
   getMaster2Player(): IPlayer {
-    return this.players.find((p) => p.isMaster2)!;
+    return this.players.find((p) => p.masterNumber == 2)!;
+  }
+
+  setMaster(playerId: string, type: number) {
+    const lastMaster = this.players.find((p) => p.masterNumber === type);
+    if (lastMaster) {
+      lastMaster.masterNumber = 0;
+    }
+    const p = this.players.find((p) => p.id == playerId);
+    if (p) {
+      p.masterNumber = type;
+    }
   }
 
   getUsedCards(): ICard[] {
@@ -205,8 +216,7 @@ export class GameService {
       isCurrentPlayer: false,
       isActive: true,
       isMainPlayer: false,
-      isMaster1: false,
-      isMaster2: false,
+      masterNumber: 0,
       socketId: socketId ?? 'invite',
       score: 0,
       turnScore: 0,

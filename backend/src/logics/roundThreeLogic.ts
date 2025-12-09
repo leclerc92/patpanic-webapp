@@ -1,10 +1,7 @@
 import { BaseRoundLogic } from './baseRoundLogic';
-import { Logger } from '@nestjs/common';
 import { GameState } from '@patpanic/shared';
 
 export class RoundThreeLogic extends BaseRoundLogic {
-  private logger: Logger = new Logger('RoundThreeLogic');
-
   initializeRound() {
     this.gameService.initialisePlayersForRound(1);
   }
@@ -53,10 +50,6 @@ export class RoundThreeLogic extends BaseRoundLogic {
     } else {
       this.logger.log('generateRoundCards - error');
     }
-  }
-
-  checkEndRound() {
-    return this.gameService.allPlayerPlayed();
   }
 
   checkEndturn() {

@@ -54,6 +54,14 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit('gameStatus', this.gameService.getGameStatus());
   }
 
+  @SubscribeMessage('setMasterPlayer')
+  handmeSetMasterPlayer(
+    @MessageBody() data: { playerId: string; type: number },
+  ) {
+    this.gameService.setMaster(data.playerId, data.type);
+    this.server.emit('gameStatus', this.gameService.getGameStatus());
+  }
+
   @SubscribeMessage('goToRoundInstructions')
   handleRoundInstructions() {
     this.gameService.initializeRound();

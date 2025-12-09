@@ -7,9 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
     Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
+    SelectContent, SelectGroup,
+    SelectItem, SelectLabel,
+    SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,9 +21,11 @@ interface HomeProps {
 function Home({ gameManager }: HomeProps) {
     const [playerName, setPlayerName] = useState("");
     const hasEnoughPlayers = gameManager.players.length >= 2;
+    const hasEnoughMasters = gameManager.players.filter(p=>p.masterNumber > 0).length == 2;
     // Vérifie si tous les joueurs inscrits ont choisi leur thème
     const allPlayersReady = gameManager.players.length > 0 && gameManager.players.every(p => p.personnalCard);
-    const canStart = hasEnoughPlayers && allPlayersReady;
+    const canStart = hasEnoughPlayers && allPlayersReady && hasEnoughMasters;
+
 
     const handleAddPlayer = () => {
         if (!playerName.trim()) return;
@@ -171,6 +173,25 @@ function Home({ gameManager }: HomeProps) {
                                             })}
                                         </SelectContent>
                                     </Select>
+
+                                    {/*Le Sélecteur de master */}
+                                    <Select
+                                        onValueChange={(val) => gameManager.setMasterPlayer(p.id,parseInt(val))}
+                                        value={p.masterNumber.toString()}
+                                    >
+                                        <SelectTrigger className="w-[180px]">
+                                            <SelectValue placeholder="Est-ce un master ?" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>Selection</SelectLabel>
+                                                <SelectItem value="0">Simple joueur</SelectItem>
+                                                <SelectItem value="1">Master 1</SelectItem>
+                                                <SelectItem value="2">Master 2</SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+
                                 </CardContent>
                             </Card>
                         )
@@ -197,7 +218,7 @@ function Home({ gameManager }: HomeProps) {
                             </>
                         ) : (
                             <span className="text-lg font-medium flex flex-col items-center leading-tight">
-                                {!hasEnoughPlayers ? "Attente de joueurs (min 2)..." : "Attente des thèmes..."}
+                                {!hasEnoughPlayers ? "Attente de joueurs (min 2)..." : !hasEnoughMasters ? "Attente des masters" : "Attente des thèmes..."}
                             </span>
                         )}
                     </Button>
