@@ -15,13 +15,12 @@ export class RoundThreeLogic extends BaseRoundLogic {
   }
 
   passCard() {
-    if (
-      this.gameService.getCurrentPlayer().isMainPlayer
-    ) {
+    this.gameService.getCurrentPlayer().isActive = false;
+    if (this.gameService.getCurrentPlayer().isMainPlayer) {
       this.endTurn();
     } else {
       this.gameService.getMainPlayer().turnScore++;
-      this.checkEndturn();
+      if (this.checkEndturn()) this.endTurn();
     }
   }
 
@@ -60,38 +59,39 @@ export class RoundThreeLogic extends BaseRoundLogic {
   }
 
   checkEndturn() {
-    return ((this.gameService.allPlayerEliminated() &&
-            this.gameService.getMainPlayer().isActive) ||
-        !this.gameService.getMainPlayer().isActive);
+    if (this.gameService.allPlayerEliminated()) {
+      this.logger.log('checkEndturn - end turn true');
+      return true;
+    }
+    this.logger.log('checkEndturn - end turn false');
+    return false;
   }
 
   getNextPlayerInTurn() {
-      if ( this.checkEndturn()) {
-          this.endTurn();
-      }
-      let nbPlayer = this.gameService.getPlayers().length - 1;
-      this.gameService.getCurrentPlayer().isCurrentPlayer = false;
-      while (nbPlayer > 0) {
-        this.gameService.setCurrentPlayerIndex(
-            (this.gameService.getCurrendPlayerIndex() + 1) %
-            this.gameService.getPlayers().length,
+    if (this.checkEndturn()) {
+      this.endTurn();
+    }
+    let nbPlayer = this.gameService.getPlayers().length - 1;
+    this.gameService.getCurrentPlayer().isCurrentPlayer = false;
+    while (nbPlayer > 0) {
+      this.gameService.setCurrentPlayerIndex(
+        (this.gameService.getCurrendPlayerIndex() + 1) %
+          this.gameService.getPlayers().length,
+      );
+      if (this.gameService.getCurrentPlayer().isActive) {
+        this.logger.log(
+          'SET_NEXT_PLAYER - nextPlayerIndex: ',
+          this.gameService.getCurrendPlayerIndex(),
         );
-        if (
-            this.gameService.getCurrentPlayer().isActive
-        ) {
-          this.logger.log(
-              'SET_NEXT_PLAYER - nextPlayerIndex: ',
-              this.gameService.getCurrendPlayerIndex(),
-          );
-          this.gameService.getCurrentPlayer().isCurrentPlayer = true;
-          this.logger.log(
-              'SET_NEXT_PLAYER- currentPlayerIndex: ',
-              this.gameService.getCurrendPlayerIndex(),
-          );
-          return;
-        }
-        nbPlayer--;
+        this.gameService.getCurrentPlayer().isCurrentPlayer = true;
+        this.logger.log(
+          'SET_NEXT_PLAYER- currentPlayerIndex: ',
+          this.gameService.getCurrendPlayerIndex(),
+        );
+        return;
       }
+      nbPlayer--;
+    }
   }
 
   setNextPlayer() {
@@ -103,31 +103,32 @@ export class RoundThreeLogic extends BaseRoundLogic {
 
     let nbPlayer = this.gameService.getPlayers().length - 1;
     this.gameService.initializePlayerProps();
-    while (nbPlayer > 0) {
+    console.log(this.gameService.getPlayers().length);
+    while (nbPlayer >= 0) {
       this.gameService.setCurrentPlayerIndex(
-          (this.gameService.getCurrendPlayerIndex() + 1) %
+        (this.gameService.getCurrendPlayerIndex() + 1) %
           this.gameService.getPlayers().length,
       );
       if (
-          this.gameService.getCurrentPlayer().isActive &&
-          this.gameService.getCurrentPlayer().remainingTurns > 0
+        this.gameService.getCurrentPlayer().isActive &&
+        this.gameService.getCurrentPlayer().remainingTurns > 0
       ) {
         this.logger.log(
-            'SET_NEXT_PLAYER - nextPlayerIndex: ',
-            this.gameService.getCurrendPlayerIndex(),
+          'SET_NEXT_PLAYER - nextPlayerIndex: ',
+          this.gameService.getCurrendPlayerIndex(),
         );
         this.gameService.getCurrentPlayer().isCurrentPlayer = true;
         this.gameService.getCurrentPlayer().isMainPlayer = true;
         this.gameService.setGameState(GameState.PLAYER_INSTRUCTION);
         this.logger.log(
-            'SET_NEXT_PLAYER- currentPlayerIndex: ',
-            this.gameService.getCurrendPlayerIndex(),
+          'SET_NEXT_PLAYER- currentPlayerIndex: ',
+          this.gameService.getCurrendPlayerIndex(),
         );
         return;
       }
       nbPlayer--;
     }
-    this.logger.log('GET_NEXT_PLAYER - no players found for next turn');
+    this.logger.log('SET_NEXT_PLAYER - no players found for next turn');
     this.gameService.endRound();
   }
 

@@ -7,6 +7,7 @@ import RoundInstructions from "@/pages/RoundInstructions.tsx";
 import PlayerInstructions from "@/pages/PlayerInstructions.tsx";
 import PlayerResult from "@/pages/PlayerResult.tsx";
 import RoundResult from "@/pages/RoundResult.tsx";
+import GameResult from "@/pages/GameResult.tsx";
 
 function App() {
 
@@ -25,6 +26,8 @@ function App() {
             return <PlayerResult gameManager={game}/>
         case GameState.ROUND_END:
             return <RoundResult gameManager={game}/>
+        case GameState.GAME_END:
+            return <GameResult gameManager={game}/>
         default:
             return <div>État inconnu : {game.gameState}</div>;
     }

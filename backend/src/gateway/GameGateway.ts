@@ -73,4 +73,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.gameService.passCard();
     this.server.emit('gameStatus', this.gameService.getGameStatus());
   }
+
+  @SubscribeMessage('restartGame')
+  handleRestartGame() {
+    this.gameService.restartGame();
+    this.server.emit('gameStatus', this.gameService.getGameStatus());
+  }
 }

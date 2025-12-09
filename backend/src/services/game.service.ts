@@ -142,8 +142,9 @@ export class GameService {
       case 3:
         this.roundLogic = new RoundThreeLogic(this);
         break;
-      default:
-        this.roundLogic = new RoundOneLogic(this);
+      case 4:
+        this.gameState = GameState.GAME_END;
+        return;
         break;
     }
 
@@ -275,6 +276,23 @@ export class GameService {
       player.isActive = true;
       player.isMainPlayer = false;
     });
+  }
+
+  restartGame() {
+    this.currentRound = 1;
+    this.players.forEach((player: IPlayer) => {
+      player.isCurrentPlayer = false;
+      player.isActive = true;
+      player.isMainPlayer = false;
+      player.score = 0;
+      player.roundScore = 0;
+      player.turnScore = 0;
+      player.personnalCard = undefined;
+    });
+    this.gameState = GameState.LOBBY;
+    this.usedCards = [];
+    this.cards = [];
+    this.currentPlayerIndex = 0;
   }
 
   setupNextPlayerTurn() {

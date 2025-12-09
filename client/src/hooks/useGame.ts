@@ -53,6 +53,10 @@ export const useGame = () => {
         socketRef.current?.emit('goToRoundInstructions');
     }
 
+    const restartGame = () => {
+        socketRef.current?.emit('restartGame');
+    }
+
     const startPlayerTurn = () => {
         socketRef.current?.emit('startPlayerTurn');
     };
@@ -66,7 +70,7 @@ export const useGame = () => {
     };
 
 
-    return { players, currentCard, currentPlayer,mainPlayer, gameState, addPlayer, startPlayerTurn , gotToPlayerInstructions,goToRoundInstructions, validateCard, passCard, timer,currentRound};
+    return { players, currentCard, currentPlayer,mainPlayer, gameState, addPlayer, startPlayerTurn , gotToPlayerInstructions,goToRoundInstructions,restartGame, validateCard, passCard, timer,currentRound};
 };
 
 export type UseGame = ReturnType<typeof useGame>;
