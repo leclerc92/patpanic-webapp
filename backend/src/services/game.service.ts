@@ -20,7 +20,7 @@ export class GameService {
   private cards: ICard[] = [];
   private usedCards: ICard[] = [];
   private currentCard: ICard | undefined;
-  private currentRound: number = 1;
+  private currentRound: number = 3;
   private currentPlayerIndex: number = 0;
   private gameState: GameState = GameState.LOBBY;
   private timer: number = 0;
@@ -286,12 +286,14 @@ export class GameService {
     );
   }
 
-  initializePlayerProps() {
+  initializeTurn() {
     this.players.forEach((player: IPlayer) => {
       player.isCurrentPlayer = false;
       player.isActive = true;
       player.isMainPlayer = false;
+      player.turnScore = 0;
     });
+    this.timer = this.roundLogic.getRoundDuration();
   }
 
   restartGame() {

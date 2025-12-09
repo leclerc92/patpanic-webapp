@@ -15,7 +15,7 @@ export const useGame = () => {
     const [themeCapacities, setThemeCapacities] = useState<Record<string, number>>({});
     const [themes, setThemes] = useState<string[]>([]);
     const socketRef = useRef<Socket | null>(null);
-    const [timer, setTimer] = useState<number>(45);
+    const [timer, setTimer] = useState<number>();
 
     const selectTheme = (playerId: string, theme: string) => {
         socketRef.current?.emit('getPersonnalCard', { playerId, theme });

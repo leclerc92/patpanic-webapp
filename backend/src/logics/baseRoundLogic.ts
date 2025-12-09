@@ -46,7 +46,7 @@ export abstract class BaseRoundLogic {
     }
 
     let nbPlayer = this.gameService.getPlayers().length - 1;
-    this.gameService.initializePlayerProps();
+    this.gameService.initializeTurn();
     while (nbPlayer > 0) {
       this.gameService.setCurrentPlayerIndex(
         (this.gameService.getCurrendPlayerIndex() + 1) %

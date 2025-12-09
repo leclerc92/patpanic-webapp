@@ -15,9 +15,13 @@ export class RoundThreeLogic extends BaseRoundLogic {
     this.gameService.getCurrentPlayer().isActive = false;
     if (this.gameService.getCurrentPlayer().isMainPlayer) {
       this.endTurn();
+      return;
     } else {
       this.gameService.getMainPlayer().turnScore++;
-      if (this.checkEndturn()) this.endTurn();
+      if (this.checkEndturn()) {
+        this.endTurn();
+        return;
+      }
       this.getNextPlayerInTurn();
     }
   }
@@ -33,6 +37,10 @@ export class RoundThreeLogic extends BaseRoundLogic {
 
     this.gameService.getCurrentPlayer().isActive = false;
     this.gameService.getMainPlayer().turnScore++;
+    if (this.checkEndturn()) {
+      this.endTurn();
+      return;
+    }
     this.setNextPlayer();
   }
 
@@ -64,6 +72,7 @@ export class RoundThreeLogic extends BaseRoundLogic {
   getNextPlayerInTurn() {
     if (this.checkEndturn()) {
       this.endTurn();
+      return;
     }
     let nbPlayer = this.gameService.getPlayers().length - 1;
     this.gameService.getCurrentPlayer().isCurrentPlayer = false;
@@ -96,7 +105,7 @@ export class RoundThreeLogic extends BaseRoundLogic {
     }
 
     let nbPlayer = this.gameService.getPlayers().length - 1;
-    this.gameService.initializePlayerProps();
+    this.gameService.initializeTurn();
     console.log(this.gameService.getPlayers().length);
     while (nbPlayer >= 0) {
       this.gameService.setCurrentPlayerIndex(
