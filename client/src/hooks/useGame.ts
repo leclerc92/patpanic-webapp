@@ -12,6 +12,7 @@ export const useGame = () => {
     const [master2Player, setMaster2Player] = useState<IPlayer>();
     const [currentCard, setCurrentCard] = useState<ICard | undefined >(undefined);
     const [currentRound, setCurrentRound] = useState<number>(1);
+    const [mySocketId, setMySocketId] = useState<string>();
     const [themeCapacities, setThemeCapacities] = useState<Record<string, number>>({});
     const [themes, setThemes] = useState<string[]>([]);
     const socketRef = useRef<Socket | null>(null);
@@ -37,6 +38,13 @@ export const useGame = () => {
         const newSocket = io('http://localhost:3000');
         socketRef.current = newSocket;
 
+        newSocket.on('connect', () => {
+            newSocket.emit('getThemeCapacities');
+            newSocket.emit('getAllThemes');
+            setMySocketId(newSocket.id);
+
+        });
+
         newSocket.on('gameStatus', (status) => {
             console.log("Mise à jour reçue du serveur !", status);
             updateGameStatus(status);
@@ -44,14 +52,6 @@ export const useGame = () => {
 
         newSocket.on('timerUpdate', (time: number) => {
             setTimer(time);
-        });
-
-        newSocket.on('connect', () => {
-            newSocket.emit('getThemeCapacities');
-        });
-
-        newSocket.on('connect', () => {
-            newSocket.emit('getAllThemes');
         });
 
         newSocket.on('themeCapacities', (data: Record<string, number>) => {
@@ -107,6 +107,7 @@ export const useGame = () => {
         master1Player ,
         master2Player ,
         gameState ,
+        mySocketId,
         addPlayer ,
         startPlayerTurn ,
         gotToPlayerInstructions ,

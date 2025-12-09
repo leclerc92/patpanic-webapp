@@ -20,9 +20,18 @@ interface HomeProps {
 
 function Home({ gameManager }: HomeProps) {
     const [playerName, setPlayerName] = useState("");
+
+    const myPlayer = gameManager.players.find(player => player.socketId === gameManager.mySocketId);
+    const amIRegistered = !!myPlayer;
+    let amIMaster = false
+    if (amIRegistered) {
+        amIMaster = myPlayer!.masterNumber == 1;
+    }
+
+    const showAddForm = !amIRegistered || amIMaster;
+
     const hasEnoughPlayers = gameManager.players.length >= 2;
     const hasEnoughMasters = gameManager.players.filter(p=>p.masterNumber > 0).length == 2;
-    // Vérifie si tous les joueurs inscrits ont choisi leur thème
     const allPlayersReady = gameManager.players.length > 0 && gameManager.players.every(p => p.personnalCard);
     const canStart = hasEnoughPlayers && allPlayersReady && hasEnoughMasters;
 
@@ -65,6 +74,7 @@ function Home({ gameManager }: HomeProps) {
                 </div>
 
                 {/* CARD D'AJOUT DE JOUEUR (Flottante) */}
+                {showAddForm &&
                 <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm mb-6 overflow-hidden relative">
                     {/* Petite barre de progression visuelle */}
                     <div className="absolute top-0 left-0 h-1 bg-gradient-to-r from-green-400 to-blue-500 transition-all duration-500" style={{ width: `${Math.min((gameManager.players.length / 8) * 100, 100)}%` }}></div>
@@ -88,6 +98,7 @@ function Home({ gameManager }: HomeProps) {
                         </Button>
                     </CardContent>
                 </Card>
+                }
 
                 {/* LISTE DES JOUEURS (Scrolling Area) */}
                 <div className="space-y-4">
@@ -175,6 +186,7 @@ function Home({ gameManager }: HomeProps) {
                                     </Select>
 
                                     {/*Le Sélecteur de master */}
+                                    {amIMaster &&
                                     <Select
                                         onValueChange={(val) => gameManager.setMasterPlayer(p.id,parseInt(val))}
                                         value={p.masterNumber.toString()}
@@ -191,6 +203,7 @@ function Home({ gameManager }: HomeProps) {
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
+                                    }
 
                                 </CardContent>
                             </Card>
