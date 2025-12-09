@@ -37,6 +37,14 @@ export class GameService {
     return this.players.find((p) => p.isMainPlayer)!;
   }
 
+  getMaster1Player(): IPlayer {
+    return this.players.find((p) => p.isMaster1)!;
+  }
+
+  getMaster2Player(): IPlayer {
+    return this.players.find((p) => p.isMaster2)!;
+  }
+
   getUsedCards(): ICard[] {
     return this.usedCards;
   }
@@ -93,41 +101,35 @@ export class GameService {
   }
 
   generatePlayerPersonnalCard(playerId: string, theme: string) {
-    const randomCards = this.jsonImporterService
+    // string suffit pour l'ID venant du socket
+    const player = this.players.find((p) => p.id === playerId);
+    if (!player) return;
+
+    if (player.personnalCard) {
+      this.usedCards = this.usedCards.filter(
+        (c) => c.title !== player.personnalCard?.title,
+      );
+      player.personnalCard = undefined;
+    }
+
+    const randomCard = this.jsonImporterService
       .getThemeCard(theme)
-      .filter((c) => !this.usedCards.includes(c))
-      .filter((c) => !c.excludedRounds.includes(3))
+      .filter((c) => !this.usedCards.includes(c)) // Pas déjà prise
+      .filter((c) => !c.excludedRounds.includes(3)) // ✅ IMPORTANT : Valide pour le Round 3
       .sort(() => Math.random() - 0.5)
       .shift();
 
-    if (!randomCards) {
-      this.logger.warn(
-        'generatePlayerPersonnalCard - No card found for personnal theme ' +
-          theme,
-      );
+    if (!randomCard) {
+      this.logger.warn(`Plus de carte disponible pour le thème ${theme}`);
       return;
     }
 
-    const player: IPlayer | undefined = this.players.find(
-      (p) => p.id === playerId,
+    player.personnalCard = randomCard;
+    this.usedCards.push(randomCard);
+
+    this.logger.log(
+      `Joueur ${player.name} a choisi : ${theme} -> ${randomCard.title}`,
     );
-    if (player) {
-      if (player.personnalCard != undefined) {
-        const index = this.usedCards.indexOf(player.personnalCard);
-        if (index > -1) {
-          this.usedCards.splice(index, 1);
-        }
-      }
-      player.personnalCard = randomCards;
-      this.usedCards.push(randomCards);
-      this.logger.log(
-        'generatePlayerPersonnalCard - personnal card added for' + player.name,
-      );
-    } else {
-      this.logger.log(
-        'generatePlayerPersonnalCard - no player found with id ' + playerId,
-      );
-    }
   }
 
   initializeRound() {
@@ -188,7 +190,7 @@ export class GameService {
     }
   }
 
-  addPlayer(name: string) {
+  addPlayer(name: string, socketId?: string) {
     if (name === '' || name.length < 2) {
       this.logger.warn(
         `ADDPLAYER - add Player whith name : ${name} is invalid`,
@@ -203,6 +205,9 @@ export class GameService {
       isCurrentPlayer: false,
       isActive: true,
       isMainPlayer: false,
+      isMaster1: false,
+      isMaster2: false,
+      socketId: socketId ?? 'invite',
       score: 0,
       turnScore: 0,
       roundScore: 0,
@@ -210,7 +215,6 @@ export class GameService {
       remainingTurns: 0,
     };
     this.players.push(player);
-    this.generatePlayerPersonnalCard(player.id, 'Alimentation');
     this.logger.log('ADDPLAYER - Added player name', player.name);
     return player;
   }
@@ -239,6 +243,8 @@ export class GameService {
       currentCard: this.currentCard,
       currentPlayer: this.getCurrentPlayer(),
       mainPlayer: this.getMainPlayer(),
+      master1Player: this.getMaster1Player(),
+      master2Player: this.getMaster2Player(),
       players: this.players,
       gameState: this.gameState,
     };

@@ -8,6 +8,8 @@ export const useGame = () => {
     const [players, setPlayers] = useState<IPlayer[]>([]);
     const [currentPlayer, setCurrentPlayer] = useState<IPlayer>();
     const [mainPlayer, setMainPlayer] = useState<IPlayer>();
+    const [master1Player, setMaster1Player] = useState<IPlayer>();
+    const [master2Player, setMaster2Player] = useState<IPlayer>();
     const [currentCard, setCurrentCard] = useState<ICard | undefined >(undefined);
     const [currentRound, setCurrentRound] = useState<number>(1);
     const [themeCapacities, setThemeCapacities] = useState<Record<string, number>>({});
@@ -15,11 +17,17 @@ export const useGame = () => {
     const socketRef = useRef<Socket | null>(null);
     const [timer, setTimer] = useState<number>(45);
 
+    const selectTheme = (playerId: string, theme: string) => {
+        socketRef.current?.emit('getPersonnalCard', { playerId, theme });
+    };
+
 
     const updateGameStatus =  (gameStatus:IGameStatus) => {
         setPlayers(gameStatus.players);
         setCurrentPlayer(gameStatus.currentPlayer);
         setMainPlayer(gameStatus.mainPlayer);
+        setMaster1Player(gameStatus.mainPlayer);
+        setMaster2Player(gameStatus.mainPlayer);
         setCurrentCard(gameStatus.currentCard);
         setCurrentRound(gameStatus.currentRound);
         setGameState(gameStatus.gameState);
@@ -88,7 +96,27 @@ export const useGame = () => {
     };
 
 
-    return { players,themes, currentCard, currentPlayer,mainPlayer, gameState, addPlayer, startPlayerTurn , gotToPlayerInstructions,goToRoundInstructions,restartGame, validateCard, passCard, timer,currentRound,themeCapacities};
+    return {
+        players ,
+        themes ,
+        currentCard ,
+        currentPlayer ,
+        mainPlayer ,
+        master1Player ,
+        master2Player ,
+        gameState ,
+        addPlayer ,
+        startPlayerTurn ,
+        gotToPlayerInstructions ,
+        goToRoundInstructions ,
+        restartGame ,
+        validateCard ,
+        passCard ,
+        timer ,
+        currentRound ,
+        themeCapacities ,
+        selectTheme
+    };
 };
 
 export type UseGame = ReturnType<typeof useGame>;

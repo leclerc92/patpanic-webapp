@@ -5,6 +5,7 @@ import {
   OnGatewayDisconnect,
   SubscribeMessage,
   MessageBody,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
@@ -31,7 +32,16 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('addPlayer')
-  handleAddPlayer(@MessageBody() data: { name: string }) {
+  handleAddPlayer(
+    @MessageBody() data: { name: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    this.gameService.addPlayer(data.name, client.id);
+    this.server.emit('gameStatus', this.gameService.getGameStatus());
+  }
+
+  @SubscribeMessage('addOfflinePlayer')
+  handleAddOfflinePlayer(@MessageBody() data: { name: string }) {
     this.gameService.addPlayer(data.name);
     this.server.emit('gameStatus', this.gameService.getGameStatus());
   }

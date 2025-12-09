@@ -21,6 +21,7 @@ export class RoundThreeLogic extends BaseRoundLogic {
     } else {
       this.gameService.getMainPlayer().turnScore++;
       if (this.checkEndturn()) this.endTurn();
+      this.getNextPlayerInTurn();
     }
   }
 
