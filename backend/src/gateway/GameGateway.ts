@@ -79,4 +79,16 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.gameService.restartGame();
     this.server.emit('gameStatus', this.gameService.getGameStatus());
   }
+
+  @SubscribeMessage('getThemeCapacities')
+  handleGetThemeCapacities(client: Socket) {
+    const capacities = this.gameService.getThemeCapacities();
+    client.emit('themeCapacities', capacities);
+  }
+
+  @SubscribeMessage('getAllThemes')
+  handleGetAllThemes(client: Socket) {
+    const themes = this.gameService.getAllThemes();
+    client.emit('themes', themes);
+  }
 }

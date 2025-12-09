@@ -59,4 +59,17 @@ export class JsonImporterService {
   getThemeCard(name: string) {
     return this.data[name]?.themes ?? [];
   }
+
+  getRound3Capacities(): Record<string, number> {
+    const capacities: Record<string, number> = {};
+
+    this.getAllCards().forEach((card) => {
+      if (!card.excludedRounds.includes(3)) {
+        const cat = card.category;
+        capacities[cat] = (capacities[cat] || 0) + 1;
+      }
+    });
+
+    return capacities;
+  }
 }

@@ -10,6 +10,8 @@ export const useGame = () => {
     const [mainPlayer, setMainPlayer] = useState<IPlayer>();
     const [currentCard, setCurrentCard] = useState<ICard | undefined >(undefined);
     const [currentRound, setCurrentRound] = useState<number>(1);
+    const [themeCapacities, setThemeCapacities] = useState<Record<string, number>>({});
+    const [themes, setThemes] = useState<string[]>([]);
     const socketRef = useRef<Socket | null>(null);
     const [timer, setTimer] = useState<number>(45);
 
@@ -27,15 +29,31 @@ export const useGame = () => {
         const newSocket = io('http://localhost:3000');
         socketRef.current = newSocket;
 
-        // 👂 ÉCOUTE PASSIVE : C'est la seule façon de mettre à jour le jeu !
         newSocket.on('gameStatus', (status) => {
             console.log("Mise à jour reçue du serveur !", status);
-            updateGameStatus(status); // Ta fonction magique qui setPlayers, setCard, etc.
+            updateGameStatus(status);
         });
 
-        //TIMER LISTENER
         newSocket.on('timerUpdate', (time: number) => {
             setTimer(time);
+        });
+
+        newSocket.on('connect', () => {
+            newSocket.emit('getThemeCapacities');
+        });
+
+        newSocket.on('connect', () => {
+            newSocket.emit('getAllThemes');
+        });
+
+        newSocket.on('themeCapacities', (data: Record<string, number>) => {
+            console.log("Capacités reçues :", data);
+            setThemeCapacities(data);
+        });
+
+        newSocket.on('themes', (data: string[]) => {
+            console.log("themes reçues :", data);
+            setThemes(data);
         });
 
         return () => { newSocket.disconnect(); };
@@ -70,7 +88,7 @@ export const useGame = () => {
     };
 
 
-    return { players, currentCard, currentPlayer,mainPlayer, gameState, addPlayer, startPlayerTurn , gotToPlayerInstructions,goToRoundInstructions,restartGame, validateCard, passCard, timer,currentRound};
+    return { players,themes, currentCard, currentPlayer,mainPlayer, gameState, addPlayer, startPlayerTurn , gotToPlayerInstructions,goToRoundInstructions,restartGame, validateCard, passCard, timer,currentRound,themeCapacities};
 };
 
 export type UseGame = ReturnType<typeof useGame>;

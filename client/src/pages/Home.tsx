@@ -1,8 +1,9 @@
 import { Input } from "../components/ui/input"; // Attention aux extensions .tsx dans les imports (pas nécessaire)
 import { Button } from "@/components/ui/button";
-import { Plus, StarIcon } from "lucide-react";
+import {Plus, StarIcon} from "lucide-react";
 import { useState } from "react";
 import type { UseGame } from "@/hooks/useGame";
+import {Select,SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 
 interface HomeProps {
     gameManager: UseGame;
@@ -12,12 +13,17 @@ function Home({ gameManager }: HomeProps) {
 
     const [playerName, setPlayerName] = useState("");
 
+
     const handleAddPlayer = () => {
         if (!playerName.trim()) return;
 
         gameManager.addPlayer(playerName);
         setPlayerName("");
     }
+
+    const getThemeUsage = (theme: string) => {
+        return gameManager.players.filter(p => p.personnalCard?.category === theme).length;
+    };
 
     return (
         <div className="flex flex-col items-center gap-6 p-4 w-full max-w-md mx-auto">
@@ -42,11 +48,45 @@ function Home({ gameManager }: HomeProps) {
                 )}
 
                 {gameManager.players.map((p) => (
-                    <div key={p.id} className="flex items-center gap-2 p-3 border rounded-lg bg-card text-card-foreground shadow-sm">
-                        <span className="text-2xl">{p.icon}</span>
-                        <span className="font-medium">{p.name}</span>
-                        <span className="font-medium">{p.personnalCard?.category} :{p.personnalCard?.title} </span>
+                    <div>
+                        <div key={p.id} className="flex items-center gap-2 p-3 border rounded-lg bg-card text-card-foreground shadow-sm">
+                            <span className="text-2xl">{p.icon}</span>
+                            <span className="text-2xl">{p.name}</span>
+
+
+                            <Select>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Select a category" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>categories</SelectLabel>
+                                        {gameManager.themes.map(theme => {
+                                            // On utilise les capacités reçues par socket
+                                            const max = gameManager.themeCapacities[theme] || 0;
+                                            const current = getThemeUsage(theme);
+
+                                            // Logique de désactivation (inchangée)
+                                            const isFull = current >= max;
+
+                                            return (
+                                                <SelectItem
+                                                    key={theme}
+                                                    value={theme}
+                                                    disabled={isFull}
+                                                >
+                                                    {theme} ({current}/{max})
+                                                </SelectItem>
+                                            );
+                                        })}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
                     </div>
+
+
                 ))}
             </div>
 

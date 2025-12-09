@@ -298,4 +298,12 @@ export class GameService {
   setupNextPlayerTurn() {
     this.roundLogic.setNextPlayer();
   }
+
+  getAllThemes() {
+    return this.jsonImporterService.getAllThemes();
+  }
+
+  getThemeCapacities() {
+    return this.jsonImporterService.getRound3Capacities();
+  }
 }
