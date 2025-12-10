@@ -45,9 +45,3 @@ launch_in_window() {
 
 # Lance le backend dans une nouvelle fenêtre
 launch_in_window "cd '$SCRIPT_DIR/backend' && npm run start:dev"
-
-# Petite pause pour éviter les conflits
-sleep 0.5
-
-# Lance le client dans une nouvelle fenêtre
-launch_in_window "cd '$SCRIPT_DIR/client' && npm run dev"

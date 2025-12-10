@@ -120,7 +120,7 @@ function Playing({ gameManager }: PlayingProps) {
             </div>
 
             {/* Header */}
-            <GameHeader round={currentRound} timer={timer} />
+            <GameHeader round={currentRound} timer={timer ?? 0} />
 
             {/* Zone Principale */}
             <div className="flex-1 flex flex-col items-center justify-center p-4 z-10 space-y-8 pb-32">

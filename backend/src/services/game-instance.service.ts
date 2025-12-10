@@ -141,7 +141,7 @@ export class GameInstanceService {
     const randomCard = this.jsonImporterService
       .getThemeCard(theme)
       .filter((c) => !this.usedCards.includes(c)) // Pas déjà prise
-      .filter((c) => !c.excludedRounds.includes(3)) // ✅ IMPORTANT : Valide pour le Round 3
+      .filter((c) => !c.excludedRounds.includes(3)) // Valide pour le Round 3
       .sort(() => Math.random() - 0.5)
       .shift();
 
@@ -243,6 +243,20 @@ export class GameInstanceService {
     };
     this.players.push(player);
     this.logger.log('ADDPLAYER - Added player name', player.name);
+    return player;
+  }
+
+  updatePlayerSocketId(playerId: string, newSocketId: string): IPlayer {
+    this.touch();
+    const player = this.players.find((p) => p.id === playerId);
+    if (!player) {
+      throw new Error('Joueur introuvable pour reconnexion');
+    }
+    const oldSocketId = player.socketId;
+    player.socketId = newSocketId;
+    this.logger.log(
+      `RECONNECT - Player ${player.name} socketId updated from ${oldSocketId} to ${newSocketId}`,
+    );
     return player;
   }
 

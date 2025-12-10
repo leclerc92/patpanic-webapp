@@ -12,8 +12,10 @@ import { Logger, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { GameService } from '../services/game.service';
 import { JoinGameDto } from '../dtos/joinGameDto';
 import { SelectThemeDto } from '../dtos/selectThemeDto';
+import { SetMasterPlayerDto } from '../dtos/setMasterPlayerDto';
+import { ReconnectPlayerDto } from '../dtos/reconnectPlayerDto';
 import { GameInstanceService } from '../services/game-instance.service';
-import { ThrottlerGuard } from '@nestjs/throttler';
+import { GameState } from '@patpanic/shared';
 
 // Interface pour typer le socket enrichi
 interface GameSocket extends Socket {
@@ -31,7 +33,6 @@ interface GameSocket extends Socket {
   },
 })
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
-@UseGuards(ThrottlerGuard)
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
@@ -71,6 +72,11 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const roomId = data.roomId.toUpperCase();
       const game = this.gameService.getGameInstance(roomId);
 
+      // Protection : on ne peut rejoindre que si la partie est en LOBBY
+      if (game.getGameState() !== GameState.LOBBY) {
+        throw new Error('La partie a déjà commencé, impossible de rejoindre');
+      }
+
       game.addPlayer(data.name, client.id);
 
       client.join(roomId);
@@ -83,13 +89,40 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
-  @SubscribeMessage('addOfflinePlayer')
-  handleAddOfflinePlayer(
+  @SubscribeMessage('reconnectPlayer')
+  handleReconnectPlayer(
+    @MessageBody() data: ReconnectPlayerDto,
+    @ConnectedSocket() client: GameSocket,
+  ) {
+    try {
+      const roomId = data.roomId.toUpperCase();
+      const game = this.gameService.getGameInstance(roomId);
+
+      // Mettre à jour le socketId du joueur existant
+      const player = game.updatePlayerSocketId(data.playerId, client.id);
+
+      client.join(roomId);
+      client.data.roomId = roomId;
+
+      this.logger.log(`${player.name} s'est reconnecté à ${roomId}`);
+      this.server.to(roomId).emit('gameStatus', game.getGameStatus());
+    } catch (e) {
+      client.emit('error', this.getErrorMessage(e));
+    }
+  }
+
+  @SubscribeMessage('addPlayer')
+  handleAddPlayer(
     @MessageBody() data: { name: string },
     @ConnectedSocket() client: GameSocket,
   ) {
     try {
       const game = this.getGameFromSocket(client);
+
+      // Protection : on ne peut ajouter que si la partie est en LOBBY
+      if (game.getGameState() !== GameState.LOBBY) {
+        throw new Error('La partie a déjà commencé, impossible d\'ajouter des joueurs');
+      }
 
       game.addPlayer(data.name);
       this.server.to(game.roomId).emit('gameStatus', game.getGameStatus());
@@ -151,6 +184,32 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handlePlayerInstructions(@ConnectedSocket() client: GameSocket) {
     this.handleGameAction(client, (game) => {
       game.setupNextPlayerTurn();
+    });
+  }
+
+  @SubscribeMessage('setMasterPlayer')
+  handleSetMasterPlayer(
+    @MessageBody() data: SetMasterPlayerDto,
+    @ConnectedSocket() client: GameSocket,
+  ) {
+    this.handleGameAction(client, (game) => {
+      const player = game.getPlayers().find((p) => p.id === data.playerId);
+      if (!player) {
+        throw new Error("Le joueur n'est pas trouvé pour le déclarer master");
+      }
+      if (player.socketId === 'invite') {
+        throw new Error(
+          'Le joueur est invité, il ne peut pas être déclaré master',
+        );
+      }
+      game.setMaster(data.playerId, data.type);
+    });
+  }
+
+  @SubscribeMessage('restartGame')
+  handleRestartGame(@ConnectedSocket() client: GameSocket) {
+    this.handleGameAction(client, (game) => {
+      game.restartGame();
     });
   }
 

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { GameInstanceService } from './game-instance.service';
 import { JsonImporterService } from './json-importer.service';
-import { GameState, ROOMS } from '@patpanic/shared';
+import { ROOMS } from '@patpanic/shared';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
