@@ -70,4 +70,12 @@ export class GameService {
     if (!game.lastActivity) return true;
     return Date.now() - game.lastActivity > threshold;
   }
+
+  getAllThemes() {
+    return this.jsonImporterService.getAllThemes();
+  }
+
+  getThemeCapacities() {
+    return this.jsonImporterService.getRound3Capacities();
+  }
 }

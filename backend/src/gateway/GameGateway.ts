@@ -8,7 +8,7 @@ import {
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Logger, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Logger, UsePipes, ValidationPipe } from '@nestjs/common';
 import { GameService } from '../services/game.service';
 import { JoinGameDto } from '../dtos/joinGameDto';
 import { SelectThemeDto } from '../dtos/selectThemeDto';
@@ -80,11 +80,12 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       game.addPlayer(data.name, client.id);
 
       client.join(roomId);
-      client.data.roomId = roomId; // Stockage persistant sur le socket
+      client.data.roomId = roomId;
 
       this.logger.log(`${data.name} a rejoint ${roomId}`);
       this.server.to(roomId).emit('gameStatus', game.getGameStatus());
     } catch (e) {
+      this.logger.error(this.getErrorMessage(e));
       client.emit('error', this.getErrorMessage(e));
     }
   }
@@ -107,6 +108,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.logger.log(`${player.name} s'est reconnecté à ${roomId}`);
       this.server.to(roomId).emit('gameStatus', game.getGameStatus());
     } catch (e) {
+      this.logger.error(this.getErrorMessage(e));
       client.emit('error', this.getErrorMessage(e));
     }
   }
@@ -121,12 +123,15 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       // Protection : on ne peut ajouter que si la partie est en LOBBY
       if (game.getGameState() !== GameState.LOBBY) {
-        throw new Error('La partie a déjà commencé, impossible d\'ajouter des joueurs');
+        throw new Error(
+          "La partie a déjà commencé, impossible d'ajouter des joueurs",
+        );
       }
 
       game.addPlayer(data.name);
       this.server.to(game.roomId).emit('gameStatus', game.getGameStatus());
     } catch (e) {
+      this.logger.error(this.getErrorMessage(e));
       client.emit('error', this.getErrorMessage(e));
     }
   }
@@ -197,7 +202,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       if (!player) {
         throw new Error("Le joueur n'est pas trouvé pour le déclarer master");
       }
-      if (player.socketId === 'invite') {
+      if (player.socketId === 'invite' && data.type == 1) {
         throw new Error(
           'Le joueur est invité, il ne peut pas être déclaré master',
         );
@@ -219,24 +224,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: GameSocket,
   ) {
     this.handleGameAction(client, (game) => {
-      const player = game.getPlayers().find((p) => p.socketId === client.id);
-      if (!player) {
-        throw new Error('Joueur introuvable pour ce socket');
-      }
-      game.generatePlayerPersonnalCard(player.id, data.theme);
+      game.generatePlayerPersonnalCard(data.playerId, data.theme);
     });
   }
 
-  // Infos globales (Pas besoin de broadcast state global ici)
   @SubscribeMessage('getThemeCapacities')
   handleGetThemeCapacities(@ConnectedSocket() client: GameSocket) {
     try {
-      const game = this.getGameFromSocket(client);
-      // On renvoie UNIQUEMENT à la salle concernée (ou au client seul)
-      const capacities = game.getThemeCapacities();
-      // client.emit est mieux ici que server.to(room) pour éviter de spammer tout le monde quand UN seul ouvre le menu
+      const capacities = this.gameService.getThemeCapacities();
       client.emit('themeCapacities', capacities);
     } catch (e) {
+      this.logger.error(`getThemeCapacities: ${this.getErrorMessage(e)}`);
       client.emit('error', this.getErrorMessage(e));
     }
   }
@@ -244,10 +242,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('getAllThemes')
   handleGetAllThemes(@ConnectedSocket() client: GameSocket) {
     try {
-      const game = this.getGameFromSocket(client);
-      const themes = game.getAllThemes();
+      const themes = this.gameService.getAllThemes();
       client.emit('themes', [...new Set(themes)]);
     } catch (e) {
+      this.logger.error(`getAllThemes: ${this.getErrorMessage(e)}`);
       client.emit('error', this.getErrorMessage(e));
     }
   }

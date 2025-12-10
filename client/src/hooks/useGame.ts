@@ -62,39 +62,14 @@ export const useGame = () => {
 
         newSocket.on('error', (msg: string) => {
             console.error('❌ Erreur WebSocket:', msg);
+            localStorage.removeItem(STORAGE_KEYS.ROOM_ID);
+            localStorage.removeItem(STORAGE_KEYS.PLAYER_ID);
+            localStorage.removeItem(STORAGE_KEYS.PLAYER_NAME);
             setError(msg);
-
-            // Si c'est une erreur de reconnexion, fallback : créer un nouveau joueur
-            if (isReconnecting.current) {
-                console.log('⚠️ Échec de reconnexion - tentative de création nouveau joueur...');
-                isReconnecting.current = false;
-
-                const savedRoomId = localStorage.getItem(STORAGE_KEYS.ROOM_ID);
-                const savedPlayerName = localStorage.getItem(STORAGE_KEYS.PLAYER_NAME);
-
-                if (savedRoomId && savedPlayerName && msg.includes('introuvable')) {
-                    console.log('🔄 Création automatique d\'un nouveau joueur avec le nom sauvegardé...');
-                    // Nettoyer l'ancien playerId
-                    localStorage.removeItem(STORAGE_KEYS.PLAYER_ID);
-                    // Rejoindre comme nouveau joueur
-                    newSocket.emit('joinGame', { roomId: savedRoomId, name: savedPlayerName });
-                    setError(null); // Effacer l'erreur car on tente un fallback
-                } else {
-                    // Autres erreurs → retour à HOME
-                    setCurrentRoomId(null);
-                }
-            } else {
-                // Erreur lors d'un joinGame normal → nettoyer
-                setCurrentRoomId(null);
-                localStorage.removeItem(STORAGE_KEYS.ROOM_ID);
-                localStorage.removeItem(STORAGE_KEYS.PLAYER_ID);
-                localStorage.removeItem(STORAGE_KEYS.PLAYER_NAME);
-            }
         });
 
         newSocket.on('connect', () => {
-            newSocket.emit('getThemeCapacities');
-            newSocket.emit('getAllThemes');
+
             setMySocketId(newSocket.id);
 
             // Tentative de reconnexion automatique
@@ -111,6 +86,11 @@ export const useGame = () => {
                 });
             } else {
                 console.log('ℹ️ Aucune session sauvegardée - affichage de HOME');
+            }
+
+            if (themes.length === 0 ) {
+                socketRef.current?.emit('getThemeCapacities');
+                socketRef.current?.emit('getAllThemes');
             }
         });
 
@@ -151,9 +131,14 @@ export const useGame = () => {
         // Stocker dans localStorage pour la reconnexion future
         localStorage.setItem(STORAGE_KEYS.ROOM_ID, roomId.toUpperCase());
         localStorage.setItem(STORAGE_KEYS.PLAYER_NAME, playerName);
-        // Note: PLAYER_ID sera stocké après réception du gameStatus
-        socketRef.current?.emit('joinGame', { roomId, name: playerName });
-        // Note: currentRoomId sera défini après réception du gameStatus
+        socketRef.current?.emit('joinGame', {roomId, name: playerName});
+
+        if (themes.length === 0 ) {
+            socketRef.current?.emit('getThemeCapacities');
+            socketRef.current?.emit('getAllThemes');
+        }
+
+
     };
 
     const addPlayer = (name: string) => {

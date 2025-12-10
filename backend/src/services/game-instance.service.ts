@@ -19,7 +19,7 @@ export class GameInstanceService {
   private cards: ICard[] = [];
   private usedCards: ICard[] = [];
   private currentCard: ICard | undefined;
-  private currentRound: number = 1;
+  private currentRound: number = 2;
   private currentPlayerIndex: number = 0;
   private gameState: GameState = GameState.LOBBY;
   private timer: number = 0;
@@ -129,7 +129,12 @@ export class GameInstanceService {
 
   generatePlayerPersonnalCard(playerId: string, theme: string) {
     const player = this.players.find((p) => p.id === playerId);
-    if (!player) return;
+    if (!player) {
+      this.logger.error(
+        `generatePlayerPersonnalCard - Game Player with id ${playerId} not found.`,
+      );
+      throw new Error(`Unable to generate player: ${playerId}`);
+    }
 
     if (player.personnalCard) {
       this.usedCards = this.usedCards.filter(
@@ -352,13 +357,5 @@ export class GameInstanceService {
 
   setupNextPlayerTurn() {
     this.roundLogic.setNextPlayer();
-  }
-
-  getAllThemes() {
-    return this.jsonImporterService.getAllThemes();
-  }
-
-  getThemeCapacities() {
-    return this.jsonImporterService.getRound3Capacities();
   }
 }
