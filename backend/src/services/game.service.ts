@@ -1,20 +1,20 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { GameInstance } from '../models/GameInstance';
 import { JsonImporterService } from './json-importer.service';
+import { ROOMS } from '../models/gameConstants';
 
 @Injectable()
 export class GameService {
   private logger: Logger = new Logger('GameService');
 
   private games: Map<string, GameInstance> = new Map();
-  private rooms: string[] = ['CLEMICHES'];
 
-  constructor(public readonly jsonImporterService: JsonImporterService) {
+  constructor(private readonly jsonImporterService: JsonImporterService) {
     this.getGameInstance('CLEMICHES');
   }
 
   getGameInstance(roomId: string): GameInstance {
-    if (!this.rooms.includes(roomId.toUpperCase())) {
+    if (!ROOMS.includes(roomId.toUpperCase())) {
       throw new Error('Salle invalide (utilisez CLEMICHES)');
     }
 
@@ -29,7 +29,7 @@ export class GameService {
   }
 
   getRoomsInfo() {
-    return this.rooms.map((id) => {
+    return ROOMS.map((id) => {
       const game = this.games.get(id);
       return {
         id,

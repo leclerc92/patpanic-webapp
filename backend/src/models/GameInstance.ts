@@ -38,11 +38,11 @@ export class GameInstance {
   }
 
   getMaster1Player(): IPlayer {
-    return this.players.find((p) => p.masterNumber == 1)!;
+    return this.players.find((p) => p.masterNumber === 1)!;
   }
 
   getMaster2Player(): IPlayer {
-    return this.players.find((p) => p.masterNumber == 2)!;
+    return this.players.find((p) => p.masterNumber === 2)!;
   }
 
   setMaster(playerId: string, type: number) {
@@ -50,7 +50,7 @@ export class GameInstance {
     if (lastMaster) {
       lastMaster.masterNumber = 0;
     }
-    const p = this.players.find((p) => p.id == playerId);
+    const p = this.players.find((p) => p.id === playerId);
     if (p) {
       p.masterNumber = type;
     }
@@ -63,7 +63,7 @@ export class GameInstance {
     return this.players;
   }
 
-  getCurrendPlayerIndex(): number {
+  getCurrentPlayerIndex(): number {
     return this.currentPlayerIndex;
   }
 
@@ -183,10 +183,11 @@ export class GameInstance {
   }
 
   startTimer(server: Server) {
+    this.stopTimer();
     this.intervalId = setInterval(() => {
       this.timer--;
 
-      server.emit('timerUpdate', this.timer);
+      server.to(this.roomId).emit('timerUpdate', this.timer);
 
       if (this.timer <= 0) {
         this.stopTimer();
@@ -218,7 +219,7 @@ export class GameInstance {
       isCurrentPlayer: false,
       isActive: true,
       isMainPlayer: false,
-      masterNumber: 0,
+      masterNumber: this.players.length === 0 ? 1 : 0,
       socketId: socketId ?? 'invite',
       score: 0,
       turnScore: 0,
@@ -250,13 +251,18 @@ export class GameInstance {
   }
 
   getGameStatus(): IGameStatus {
+    const currentPlayer = this.players[this.currentPlayerIndex];
+    const mainPlayer = this.players.find((p) => p.isMainPlayer);
+    const master1 = this.players.find((p) => p.masterNumber === 1);
+    const master2 = this.players.find((p) => p.masterNumber === 2);
+
     return {
       currentRound: this.currentRound,
       currentCard: this.currentCard,
-      currentPlayer: this.getCurrentPlayer(),
-      mainPlayer: this.getMainPlayer(),
-      master1Player: this.getMaster1Player(),
-      master2Player: this.getMaster2Player(),
+      currentPlayer: currentPlayer,
+      mainPlayer: mainPlayer!,
+      master1Player: master1!,
+      master2Player: master2!,
       players: this.players,
       gameState: this.gameState,
     };

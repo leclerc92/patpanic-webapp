@@ -78,18 +78,18 @@ export class RoundThreeLogic extends BaseRoundLogic {
     this.gameInstance.getCurrentPlayer().isCurrentPlayer = false;
     while (nbPlayer > 0) {
       this.gameInstance.setCurrentPlayerIndex(
-        (this.gameInstance.getCurrendPlayerIndex() + 1) %
+        (this.gameInstance.getCurrentPlayerIndex() + 1) %
           this.gameInstance.getPlayers().length,
       );
       if (this.gameInstance.getCurrentPlayer().isActive) {
         this.logger.log(
           'SET_NEXT_PLAYER - nextPlayerIndex: ',
-          this.gameInstance.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrentPlayerIndex(),
         );
         this.gameInstance.getCurrentPlayer().isCurrentPlayer = true;
         this.logger.log(
           'SET_NEXT_PLAYER- currentPlayerIndex: ',
-          this.gameInstance.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrentPlayerIndex(),
         );
         return;
       }
@@ -106,10 +106,9 @@ export class RoundThreeLogic extends BaseRoundLogic {
 
     let nbPlayer = this.gameInstance.getPlayers().length - 1;
     this.gameInstance.initializeTurn();
-    console.log(this.gameInstance.getPlayers().length);
     while (nbPlayer >= 0) {
       this.gameInstance.setCurrentPlayerIndex(
-        (this.gameInstance.getCurrendPlayerIndex() + 1) %
+        (this.gameInstance.getCurrentPlayerIndex() + 1) %
           this.gameInstance.getPlayers().length,
       );
       if (
@@ -118,14 +117,14 @@ export class RoundThreeLogic extends BaseRoundLogic {
       ) {
         this.logger.log(
           'SET_NEXT_PLAYER - nextPlayerIndex: ',
-          this.gameInstance.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrentPlayerIndex(),
         );
         this.gameInstance.getCurrentPlayer().isCurrentPlayer = true;
         this.gameInstance.getCurrentPlayer().isMainPlayer = true;
         this.gameInstance.setGameState(GameState.PLAYER_INSTRUCTION);
         this.logger.log(
           'SET_NEXT_PLAYER- currentPlayerIndex: ',
-          this.gameInstance.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrentPlayerIndex(),
         );
         return;
       }

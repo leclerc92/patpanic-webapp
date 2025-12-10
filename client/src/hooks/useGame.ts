@@ -73,8 +73,7 @@ export const useGame = () => {
     }, []);
 
     const joinGame = (roomId: string, playerName: string) => {
-        setError(null); // Reset erreur
-        // On stocke temporairement l'ID, la confirmation viendra du gameStatus
+        setError(null);
         setCurrentRoomId(roomId);
         socketRef.current?.emit('joinGame', { roomId, name: playerName });
     };

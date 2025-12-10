@@ -15,7 +15,6 @@ export default function Welcome({ gameManager }: WelcomeProps) {
 
     const handleJoin = () => {
         if (!pseudo.trim() || !roomCode.trim()) return;
-        // On envoie le code (ex: "SALLE1")
         gameManager.joinGame(roomCode.trim().toUpperCase(), pseudo);
     };
 
@@ -51,13 +50,12 @@ export default function Welcome({ gameManager }: WelcomeProps) {
                             />
                         </div>
 
-                        {/* 2. Code de la Salle (Nouveau !) */}
                         <div className="space-y-2">
                             <label className="text-sm font-bold text-slate-500 uppercase tracking-wider">Code de la partie</label>
                             <div className="relative">
                                 <Input
                                     value={roomCode}
-                                    onChange={(e) => setRoomCode(e.target.value.toUpperCase())} // Force majuscules
+                                    onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
                                     placeholder="Ex: SALLE1"
                                     className="h-14 text-lg font-black bg-slate-50 border-slate-200 focus-visible:ring-purple-500 pl-12 tracking-widest placeholder:tracking-normal placeholder:font-normal"
                                     maxLength={10}
