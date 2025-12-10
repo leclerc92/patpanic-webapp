@@ -1,10 +1,7 @@
 import { BaseRoundLogic } from './baseRoundLogic';
+import { GAME_RULES } from '@patpanic/shared';
 
 export class RoundTwoLogic extends BaseRoundLogic {
-  initializeRound() {
-    this.gameInstance.initialisePlayersForRound(3);
-  }
-
   validateCard() {
     this.gameInstance.getCurrentPlayer().turnScore +=
       this.gameInstance.getTimer();
@@ -17,19 +14,8 @@ export class RoundTwoLogic extends BaseRoundLogic {
   }
 
   getPenality() {
-    switch (this.gameInstance.getCurrentPlayer().remainingTurns) {
-      case 3:
-        return 2;
-      case 2:
-        return 3;
-      case 1:
-        return 4;
-      default:
-        return 0;
-    }
-  }
-
-  getRoundDuration(): number {
-    return 10;
+    return GAME_RULES[this.gameInstance.getCurrentRound()].responsesPerTurns[
+      this.gameInstance.getCurrentPlayer().remainingTurns - 1
+    ];
   }
 }

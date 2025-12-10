@@ -1,5 +1,5 @@
 import { IsString, Length, Matches, IsIn } from 'class-validator';
-import { ROOMS } from '../models/gameConstants';
+import { ROOMS } from '@patpanic/shared';
 
 export class JoinGameDto {
   @IsString()

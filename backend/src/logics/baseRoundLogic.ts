@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { GameState } from '@patpanic/shared';
+import { GAME_RULES, GameState } from '@patpanic/shared';
 import { GameInstance } from '../models/GameInstance';
 
 export abstract class BaseRoundLogic {
@@ -9,9 +9,10 @@ export abstract class BaseRoundLogic {
 
   abstract validateCard(): void;
   abstract passCard(): void;
-  abstract initializeRound(): void;
 
-  abstract getRoundDuration(): number;
+  getRoundDuration() {
+    return GAME_RULES[this.gameInstance.getCurrentRound()].duration;
+  }
 
   handleTimerEnd() {
     this.endTurn();

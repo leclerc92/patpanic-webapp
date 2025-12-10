@@ -2,10 +2,6 @@ import { BaseRoundLogic } from './baseRoundLogic';
 import { GameState } from '@patpanic/shared';
 
 export class RoundThreeLogic extends BaseRoundLogic {
-  initializeRound() {
-    this.gameInstance.initialisePlayersForRound(1);
-  }
-
   validateCard() {
     this.getNextPlayerInTurn();
     this.gameInstance.setTimer(this.getRoundDuration());
@@ -151,9 +147,5 @@ export class RoundThreeLogic extends BaseRoundLogic {
     this.gameInstance.getMainPlayer().remainingTurns--;
 
     this.gameInstance.setGameState(GameState.PLAYER_RESULT);
-  }
-
-  getRoundDuration(): number {
-    return 20;
   }
 }

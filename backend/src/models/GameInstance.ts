@@ -1,5 +1,11 @@
 import { Logger } from '@nestjs/common';
-import { GameState, ICard, IGameStatus, IPlayer } from '@patpanic/shared';
+import {
+  GAME_RULES,
+  GameState,
+  ICard,
+  IGameStatus,
+  IPlayer,
+} from '@patpanic/shared';
 import { Server } from 'socket.io';
 import { BaseRoundLogic } from '../logics/baseRoundLogic';
 import { RoundOneLogic } from '../logics/roundOneLogic';
@@ -164,7 +170,7 @@ export class GameInstance {
         break;
     }
 
-    this.roundLogic.initializeRound();
+    this.initialisePlayersForRound();
     this.gameState = GameState.ROUND_INSTRUCTION;
   }
 
@@ -278,14 +284,14 @@ export class GameInstance {
     this.roundLogic.passCard();
   }
 
-  initialisePlayersForRound(remainingTurns: number) {
+  initialisePlayersForRound() {
     this.players.forEach((player: IPlayer) => {
       player.isCurrentPlayer = false;
       player.isActive = true;
       player.isMainPlayer = false;
       player.turnScore = 0;
       player.roundScore = 0;
-      player.remainingTurns = remainingTurns;
+      player.remainingTurns = GAME_RULES[this.currentRound].maxTurnsPerPlayer;
     });
     this.currentPlayerIndex = -1;
     this.logger.log(

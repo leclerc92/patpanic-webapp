@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { GameInstance } from '../models/GameInstance';
 import { JsonImporterService } from './json-importer.service';
-import { ROOMS } from '../models/gameConstants';
+import { ROOMS } from '@patpanic/shared';
 
 @Injectable()
 export class GameService {
