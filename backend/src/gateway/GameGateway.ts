@@ -8,11 +8,12 @@ import {
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Logger, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Logger, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { GameService } from '../services/game.service';
 import { JoinGameDto } from '../dtos/joinGameDto';
 import { SelectThemeDto } from '../dtos/selectThemeDto';
 import { GameInstanceService } from '../services/game-instance.service';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 // Interface pour typer le socket enrichi
 interface GameSocket extends Socket {
@@ -30,6 +31,7 @@ interface GameSocket extends Socket {
   },
 })
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+@UseGuards(ThrottlerGuard)
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
