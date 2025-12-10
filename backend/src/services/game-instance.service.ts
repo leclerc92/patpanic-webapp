@@ -25,6 +25,7 @@ export class GameInstanceService {
   private timer: number = 0;
   private intervalId: NodeJS.Timeout | null = null;
   private roundLogic: BaseRoundLogic;
+  public lastActivity: number = Date.now();
 
   private logger: Logger = new Logger('GameService');
 
@@ -34,6 +35,10 @@ export class GameInstanceService {
   ) {
     this.logger = new Logger(`GameInstance-${roomId}`);
     this.roundLogic = new RoundOneLogic(this);
+  }
+
+  public touch() {
+    this.lastActivity = Date.now();
   }
 
   getCurrentPlayer(): IPlayer {
@@ -181,6 +186,7 @@ export class GameInstanceService {
   }
 
   startTurn(server: Server) {
+    this.touch();
     this.logger.log('Starting Turn');
     this.timer = this.roundLogic.getRoundDuration();
     this.startTimer(server);
@@ -212,6 +218,7 @@ export class GameInstanceService {
   }
 
   addPlayer(name: string, socketId?: string) {
+    this.touch();
     if (name === '' || name.length < 2) {
       this.logger.warn(
         `ADDPLAYER - add Player whith name : ${name} is invalid`,
@@ -302,6 +309,7 @@ export class GameInstanceService {
   }
 
   initializeTurn() {
+    this.touch();
     this.players.forEach((player: IPlayer) => {
       player.isCurrentPlayer = false;
       player.isActive = true;
