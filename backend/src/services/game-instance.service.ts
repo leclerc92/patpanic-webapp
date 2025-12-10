@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   GAME_RULES,
   GameState,
@@ -11,14 +11,15 @@ import { BaseRoundLogic } from '../logics/baseRoundLogic';
 import { RoundOneLogic } from '../logics/roundOneLogic';
 import { RoundTwoLogic } from '../logics/roundTwoLogic';
 import { RoundThreeLogic } from '../logics/roundThreeLogic';
-import { JsonImporterService } from '../services/json-importer.service';
+import { JsonImporterService } from './json-importer.service';
 
-export class GameInstance {
+@Injectable()
+export class GameInstanceService {
   private players: IPlayer[] = [];
   private cards: ICard[] = [];
   private usedCards: ICard[] = [];
   private currentCard: ICard | undefined;
-  private currentRound: number = 3;
+  private currentRound: number = 1;
   private currentPlayerIndex: number = 0;
   private gameState: GameState = GameState.LOBBY;
   private timer: number = 0;

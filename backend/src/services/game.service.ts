@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { GameInstance } from '../models/GameInstance';
+import { GameInstanceService } from './game-instance.service';
 import { JsonImporterService } from './json-importer.service';
 import { ROOMS } from '@patpanic/shared';
 
@@ -7,13 +7,13 @@ import { ROOMS } from '@patpanic/shared';
 export class GameService {
   private logger: Logger = new Logger('GameService');
 
-  private games: Map<string, GameInstance> = new Map();
+  private games: Map<string, GameInstanceService> = new Map();
 
   constructor(private readonly jsonImporterService: JsonImporterService) {
     this.getGameInstance('CLEMICHES');
   }
 
-  getGameInstance(roomId: string): GameInstance {
+  getGameInstance(roomId: string): GameInstanceService {
     if (!ROOMS.includes(roomId.toUpperCase())) {
       throw new Error('Salle invalide (utilisez CLEMICHES)');
     }
@@ -22,7 +22,7 @@ export class GameService {
 
     if (!this.games.has(id)) {
       this.logger.log(`Création de l'instance de jeu : ${id}`);
-      this.games.set(id, new GameInstance(id, this.jsonImporterService));
+      this.games.set(id, new GameInstanceService(id, this.jsonImporterService));
     }
 
     return this.games.get(id)!;

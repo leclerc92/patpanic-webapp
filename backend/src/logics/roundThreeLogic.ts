@@ -24,7 +24,7 @@ export class RoundThreeLogic extends BaseRoundLogic {
 
   handleTimerEnd() {
     if (
-      this.gameInstance.getCurrentPlayer() == this.gameInstance.getMainPlayer()
+      this.gameInstance.getCurrentPlayer() === this.gameInstance.getMainPlayer()
     ) {
       this.gameInstance.getCurrentPlayer().isActive = false;
       this.endTurn();
@@ -131,7 +131,7 @@ export class RoundThreeLogic extends BaseRoundLogic {
   }
 
   endTurn() {
-    this.logger.log('Ending Turn', this.gameInstance.getCurrentPlayer.name);
+    this.logger.log('Ending Turn', this.gameInstance.getCurrentPlayer().name);
     this.gameInstance.stopTimer();
 
     if (this.gameInstance.getMainPlayer().isActive) {

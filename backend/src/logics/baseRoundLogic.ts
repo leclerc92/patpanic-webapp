@@ -1,9 +1,9 @@
 import { Logger } from '@nestjs/common';
 import { GAME_RULES, GameState } from '@patpanic/shared';
-import { GameInstance } from '../models/GameInstance';
+import { GameInstanceService } from '../services/game-instance.service';
 
 export abstract class BaseRoundLogic {
-  constructor(protected gameInstance: GameInstance) {}
+  constructor(protected gameInstance: GameInstanceService) {}
 
   public logger: Logger = new Logger('BaseRoundLogic');
 

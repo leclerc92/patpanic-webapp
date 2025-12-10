@@ -12,7 +12,7 @@ import { Logger, UsePipes, ValidationPipe } from '@nestjs/common';
 import { GameService } from '../services/game.service';
 import { JoinGameDto } from '../dtos/joinGameDto';
 import { SelectThemeDto } from '../dtos/selectThemeDto';
-import { GameInstance } from '../models/GameInstance';
+import { GameInstanceService } from '../services/game-instance.service';
 
 // Interface pour typer le socket enrichi
 interface GameSocket extends Socket {
@@ -21,7 +21,14 @@ interface GameSocket extends Socket {
   };
 }
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({
+  cors: {
+    origin: process.env.ALLOWED_ORIGINS?.split(',') ?? [
+      'http://localhost:5173',
+    ],
+    credentials: true,
+  },
+})
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
@@ -89,7 +96,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
-  private getGameFromSocket(client: GameSocket): GameInstance {
+  private getGameFromSocket(client: GameSocket): GameInstanceService {
     const roomId = client.data.roomId;
     if (!roomId) throw new Error("Vous n'êtes pas connecté à une salle !");
     return this.gameService.getGameInstance(roomId);
@@ -98,7 +105,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   // Wrapper pour éviter la répétition du try/catch (Design Pattern)
   private handleGameAction(
     client: GameSocket,
-    action: (game: GameInstance) => void,
+    action: (game: GameInstanceService) => void,
   ) {
     try {
       const game = this.getGameFromSocket(client);

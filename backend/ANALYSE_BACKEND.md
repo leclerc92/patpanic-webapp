@@ -28,7 +28,7 @@
 - **Modules:** 3 (AppModule, GameModule, RessourcesModule)
 - **Services:** 3 (AppService, GameService, JsonImporterService)
 - **Gateways:** 1 (GameGateway - WebSocket)
-- **Modèles:** 1 (GameInstance)
+- **Modèles:** 1 (GameInstanceService)
 - **Logiques:** 4 (BaseRoundLogic + 3 implémentations)
 
 ### Stack Technique
@@ -65,10 +65,10 @@
 
 ### Points Négatifs ❌
 
-1. **GameInstance n'est pas à sa place**
+1. **GameInstanceService n'est pas à sa place**
    ```typescript
    // Actuellement dans /models/
-   export class GameInstance { ... }
+   export class GameInstanceService { ... }
    ```
    - ❌ Ce n'est PAS un modèle de données
    - ❌ C'est un service avec état et logique métier
@@ -80,8 +80,8 @@
    - Pas de repositories (même si pas de DB)
 
 3. **Couplage fort**
-   - GameInstance dépend directement de JsonImporterService
-   - BaseRoundLogic dépend directement de GameInstance
+   - GameInstanceService dépend directement de JsonImporterService
+   - BaseRoundLogic dépend directement de GameInstanceService
    - Difficile à tester et à mocker
 
 ---
@@ -111,7 +111,7 @@ this.logger.log('Ending Turn', this.gameInstance.getCurrentPlayer().name);
 
 ### 🔴 Bug #2: currentRound initialisé à 3 au lieu de 1
 
-**Fichier:** `src/models/GameInstance.ts:15`
+**Fichier:** `src/models/game-instance.service.ts:15`
 
 ```typescript
 private currentRound: number = 3; // ❌ Devrait être 1
@@ -128,8 +128,8 @@ private currentRound: number = 1;
 ### 🟡 Bug #3: Utilisation de == au lieu de ===
 
 **Fichiers multiples:**
-- `GameInstance.ts:41` - `p.masterNumber == 1`
-- `GameInstance.ts:53` - `p.id == playerId`
+- `game-instance.service.ts:41` - `p.masterNumber == 1`
+- `GameInstanceService.ts:53` - `p.id == playerId`
 
 **Impact:** Risque de comparaison de types incorrecte
 **Solution:** Remplacer tous les `==` par `===`
@@ -153,7 +153,7 @@ this.logger.log('Players count:', this.gameInstance.getPlayers().length);
 
 ### 🟡 Bug #5: Typo dans le nom de méthode
 
-**Fichier:** `GameInstance.ts:66`
+**Fichier:** `GameInstanceService.ts:66`
 
 ```typescript
 getCurrendPlayerIndex(): number { // ❌ "Currend" au lieu de "Current"
@@ -168,7 +168,7 @@ getCurrendPlayerIndex(): number { // ❌ "Currend" au lieu de "Current"
 
 ### 🟠 Bug #6: Pas de nettoyage du timer
 
-**Fichier:** `GameInstance.ts:186-196`
+**Fichier:** `GameInstanceService.ts:186-196`
 
 ```typescript
 startTimer(server: Server) {
@@ -229,7 +229,7 @@ handleDisconnect(client: Socket) {
 
 ### 🟠 Bug #8: getGameStatus() peut crasher
 
-**Fichier:** `GameInstance.ts:252-263`
+**Fichier:** `GameInstanceService.ts:252-263`
 
 ```typescript
 getGameStatus(): IGameStatus {
@@ -442,7 +442,7 @@ catch (e) {
 
 ### 🟠 Timer émet à tous les clients chaque seconde
 
-**Fichier:** `GameInstance.ts:189`
+**Fichier:** `game-instance.service.ts:189`
 
 ```typescript
 startTimer(server: Server) {
@@ -514,7 +514,7 @@ generateRoundCards() {
 **Fichier:** `GameService.ts:9`
 
 ```typescript
-private games: Map<string, GameInstance> = new Map();
+private games: Map<string, GameInstanceService> = new Map();
 ```
 
 **Problème:** Les instances ne sont jamais supprimées, même si:
@@ -558,12 +558,12 @@ cleanupInactiveGames() {
 
 ## Problèmes d'Architecture
 
-### 1. GameInstance devrait être un service
+### 1. GameInstanceService devrait être un service
 
 **Problème actuel:**
 ```typescript
-// /models/GameInstance.ts
-export class GameInstance {
+// /models/game-instance.service.ts
+export class GameInstanceService {
   private players: IPlayer[] = [];
   // ... 329 lignes de logique métier
 }
@@ -954,7 +954,7 @@ CARDS_PER_PLAYER=30
 ### Priorité 2 (Élevée) 🟠
 
 4. **Refactoring architectural**
-   - Déplacer GameInstance vers services
+   - Déplacer GameInstanceService vers services
    - Créer des DTOs pour tous les événements
    - Séparer état et logique métier
 
@@ -1026,7 +1026,7 @@ CARDS_PER_PLAYER=30
 
 3. **Déconnexions**
    - [ ] Implémenter `handleDisconnect()` complète
-   - [ ] Ajouter `removePlayer()` dans GameInstance
+   - [ ] Ajouter `removePlayer()` dans GameInstanceService
    - [ ] Notifier les autres joueurs
 
 ---
@@ -1047,8 +1047,8 @@ CARDS_PER_PLAYER=30
    - [ ] Ajouter `ValidationPipe` global
    - [ ] Valider tous les événements WebSocket
 
-6. **Refactoring GameInstance**
-   - [ ] Renommer `GameInstance` → `GameState` (données pures)
+6. **Refactoring GameInstanceService**
+   - [ ] Renommer `GameInstanceService` → `GameState` (données pures)
    - [ ] Créer `GameInstanceService` (logique)
    - [ ] Séparer état et comportements
 
@@ -1060,7 +1060,7 @@ CARDS_PER_PLAYER=30
 
 7. **Tests**
    - [ ] Tests unitaires GameService
-   - [ ] Tests unitaires GameInstance
+   - [ ] Tests unitaires GameInstanceService
    - [ ] Tests unitaires RoundLogics
    - [ ] Tests intégration GameGateway
    - [ ] Target: 70%+ coverage
