@@ -1,9 +1,9 @@
-import { GameService } from '../services/game.service';
 import { Logger } from '@nestjs/common';
 import { GameState } from '@patpanic/shared';
+import { GameInstance } from '../models/GameInstance';
 
 export abstract class BaseRoundLogic {
-  constructor(protected gameService: GameService) {}
+  constructor(protected gameInstance: GameInstance) {}
 
   public logger: Logger = new Logger('BaseRoundLogic');
 
@@ -18,22 +18,22 @@ export abstract class BaseRoundLogic {
   }
 
   checkEndRound() {
-    return this.gameService.allPlayerPlayed();
+    return this.gameInstance.allPlayerPlayed();
   }
 
   generateRoundCards() {
     const countCard: number =
-      this.gameService.getPlayers().length * 30 -
-      this.gameService.getUsedCards().length;
-    const randomCards = this.gameService
+      this.gameInstance.getPlayers().length * 30 -
+      this.gameInstance.getUsedCards().length;
+    const randomCards = this.gameInstance
       .getAllCardsData()
-      .filter((c) => !this.gameService.getUsedCards().includes(c))
+      .filter((c) => !this.gameInstance.getUsedCards().includes(c))
       .filter(
-        (c) => !c.excludedRounds.includes(this.gameService.getCurrentRound()),
+        (c) => !c.excludedRounds.includes(this.gameInstance.getCurrentRound()),
       )
       .sort(() => Math.random() - 0.5)
       .slice(0, countCard);
-    this.gameService.setCard(randomCards);
+    this.gameInstance.setCard(randomCards);
 
     this.logger.log('number of cards added', countCard);
   }
@@ -41,49 +41,49 @@ export abstract class BaseRoundLogic {
   setNextPlayer() {
     if (this.checkEndRound()) {
       this.logger.log('SET_NEXT_PLAYER - checkEndRound true');
-      this.gameService.endRound();
+      this.gameInstance.endRound();
       return;
     }
 
-    let nbPlayer = this.gameService.getPlayers().length - 1;
-    this.gameService.initializeTurn();
+    let nbPlayer = this.gameInstance.getPlayers().length - 1;
+    this.gameInstance.initializeTurn();
     while (nbPlayer > 0) {
-      this.gameService.setCurrentPlayerIndex(
-        (this.gameService.getCurrendPlayerIndex() + 1) %
-          this.gameService.getPlayers().length,
+      this.gameInstance.setCurrentPlayerIndex(
+        (this.gameInstance.getCurrendPlayerIndex() + 1) %
+          this.gameInstance.getPlayers().length,
       );
       if (
-        this.gameService.getCurrentPlayer().isActive &&
-        this.gameService.getCurrentPlayer().remainingTurns > 0
+        this.gameInstance.getCurrentPlayer().isActive &&
+        this.gameInstance.getCurrentPlayer().remainingTurns > 0
       ) {
         this.logger.log(
           'SET_NEXT_PLAYER - nextPlayerIndex: ',
-          this.gameService.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrendPlayerIndex(),
         );
-        this.gameService.getCurrentPlayer().isCurrentPlayer = true;
-        this.gameService.getCurrentPlayer().isMainPlayer = true;
-        this.gameService.setGameState(GameState.PLAYER_INSTRUCTION);
+        this.gameInstance.getCurrentPlayer().isCurrentPlayer = true;
+        this.gameInstance.getCurrentPlayer().isMainPlayer = true;
+        this.gameInstance.setGameState(GameState.PLAYER_INSTRUCTION);
         this.logger.log(
           'SET_NEXT_PLAYER- currentPlayerIndex: ',
-          this.gameService.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrendPlayerIndex(),
         );
         return;
       }
       nbPlayer--;
     }
     this.logger.log('GET_NEXT_PLAYER - no players found for next turn');
-    this.gameService.endRound();
+    this.gameInstance.endRound();
   }
 
   endTurn() {
-    this.logger.log('Ending Turn', this.gameService.getCurrentPlayer.name);
-    this.gameService.stopTimer();
-    this.gameService.getCurrentPlayer().isCurrentPlayer = false;
-    this.gameService.getCurrentPlayer().roundScore +=
-      this.gameService.getCurrentPlayer().turnScore;
-    this.gameService.getCurrentPlayer().score +=
-      this.gameService.getCurrentPlayer().turnScore;
-    this.gameService.getCurrentPlayer().remainingTurns--;
-    this.gameService.setGameState(GameState.PLAYER_RESULT);
+    this.logger.log('Ending Turn', this.gameInstance.getCurrentPlayer.name);
+    this.gameInstance.stopTimer();
+    this.gameInstance.getCurrentPlayer().isCurrentPlayer = false;
+    this.gameInstance.getCurrentPlayer().roundScore +=
+      this.gameInstance.getCurrentPlayer().turnScore;
+    this.gameInstance.getCurrentPlayer().score +=
+      this.gameInstance.getCurrentPlayer().turnScore;
+    this.gameInstance.getCurrentPlayer().remainingTurns--;
+    this.gameInstance.setGameState(GameState.PLAYER_RESULT);
   }
 }

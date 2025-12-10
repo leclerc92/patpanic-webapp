@@ -10,9 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { GameService } from '../services/game.service';
-import { UUID } from 'node:crypto';
 
-// cors: true est CRUCIAL pour que ton React (port 5173) puisse parler au Nest (port 3000)
 @WebSocketGateway({ cors: true })
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
@@ -24,89 +22,109 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleConnection(client: Socket) {
     this.logger.log(`Client connecté : ${client.id}`);
-    client.emit('gameStatus', this.gameService.getGameStatus());
   }
 
   handleDisconnect(client: Socket) {
     this.logger.log(`Client déconnecté : ${client.id}`);
+    // Note : Socket.io gère automatiquement la sortie des rooms,
+    // mais tu pourrais ajouter ici une logique pour prévenir le jeu si besoin.
   }
 
-  @SubscribeMessage('addPlayer')
-  handleAddPlayer(
-    @MessageBody() data: { name: string },
+  // --- GESTION DES SALLES ---
+  @SubscribeMessage('getRoomsInfo')
+  handleGetRoomsInfo(client: Socket) {
+    client.emit('roomsInfo', this.gameService.getRoomsInfo());
+  }
+
+  @SubscribeMessage('joinGame')
+  handleJoinGame(
+    @MessageBody() data: { roomId: string; name: string },
     @ConnectedSocket() client: Socket,
   ) {
-    this.gameService.addPlayer(data.name, client.id);
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
+    try {
+      const roomId = data.roomId.toUpperCase();
+      const game = this.gameService.getGameInstance(roomId);
+
+      game.addPlayer(data.name, client.id);
+
+      client.join(roomId);
+
+      // On stocke la roomId dans le socket pour les futures requêtes
+      client.data.roomId = roomId;
+
+      this.logger.log(`${data.name} a rejoint ${roomId}`);
+
+      this.server.to(roomId).emit('gameStatus', game.getGameStatus());
+    } catch (e) {
+      client.emit('error', e.message);
+    }
   }
 
-  @SubscribeMessage('addOfflinePlayer')
-  handleAddOfflinePlayer(@MessageBody() data: { name: string }) {
-    this.gameService.addPlayer(data.name);
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
-  }
-
-  @SubscribeMessage('getPersonnalCard')
-  handleGeneratePersonalCard(
-    @MessageBody() data: { playerId: string; theme: string },
-  ) {
-    this.gameService.generatePlayerPersonnalCard(data.playerId, data.theme);
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
-  }
-
-  @SubscribeMessage('setMasterPlayer')
-  handmeSetMasterPlayer(
-    @MessageBody() data: { playerId: string; type: number },
-  ) {
-    this.gameService.setMaster(data.playerId, data.type);
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
-  }
-
-  @SubscribeMessage('goToRoundInstructions')
-  handleRoundInstructions() {
-    this.gameService.initializeRound();
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
-  }
-
-  @SubscribeMessage('gotToPlayerInstructions')
-  handlePlayerInstructions() {
-    this.gameService.setupNextPlayerTurn();
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
+  // Helper pour récupérer l'instance du joueur actuel
+  private getGameFromSocket(client: Socket) {
+    // TypeScript ne connait pas 'roomId' sur data par défaut, on peut caster ou laisser tel quel si ça passe
+    const roomId = client.data.roomId;
+    if (!roomId) throw new Error("Vous n'êtes pas dans une salle !");
+    return this.gameService.getGameInstance(roomId);
   }
 
   @SubscribeMessage('startPlayerTurn')
-  handleStartPlayerTurn() {
-    this.gameService.startTurn(this.server);
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
+  handleStartPlayerTurn(@ConnectedSocket() client: Socket) {
+    const game = this.getGameFromSocket(client);
+    // On passe 'this.server' pour que l'instance puisse émettre à sa room spécifique
+    game.startTurn(this.server);
+    this.server.to(game.roomId).emit('gameStatus', game.getGameStatus());
   }
 
   @SubscribeMessage('validate')
-  handleValidate() {
-    this.gameService.validateCard();
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
+  handleValidate(@ConnectedSocket() client: Socket) {
+    const game = this.getGameFromSocket(client);
+    game.validateCard();
+    this.server.to(game.roomId).emit('gameStatus', game.getGameStatus());
   }
 
   @SubscribeMessage('pass')
-  handlePass() {
-    this.gameService.passCard();
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
+  handlePass(@ConnectedSocket() client: Socket) {
+    const game = this.getGameFromSocket(client);
+    game.passCard();
+    this.server.to(game.roomId).emit('gameStatus', game.getGameStatus());
   }
 
-  @SubscribeMessage('restartGame')
-  handleRestartGame() {
-    this.gameService.restartGame();
-    this.server.emit('gameStatus', this.gameService.getGameStatus());
+  @SubscribeMessage('goToRoundInstructions')
+  handleRoundInstructions(@ConnectedSocket() client: Socket) {
+    const game = this.getGameFromSocket(client);
+    game.initializeRound();
+    this.server.to(game.roomId).emit('gameStatus', game.getGameStatus());
+  }
+
+  @SubscribeMessage('gotToPlayerInstructions')
+  handlePlayerInstructions(@ConnectedSocket() client: Socket) {
+    const game = this.getGameFromSocket(client);
+    game.setupNextPlayerTurn();
+    this.server.to(game.roomId).emit('gameStatus', game.getGameStatus());
+  }
+
+  @SubscribeMessage('getPersonnalCard')
+  handleSelectTheme(
+    @MessageBody() data: { playerId: string; theme: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const game = this.getGameFromSocket(client);
+    game.generatePlayerPersonnalCard(data.playerId, data.theme);
+    this.server.to(game.roomId).emit('gameStatus', game.getGameStatus());
   }
 
   @SubscribeMessage('getThemeCapacities')
   handleGetThemeCapacities(client: Socket) {
-    const capacities = this.gameService.getThemeCapacities();
-    client.emit('themeCapacities', capacities);
+    const game = this.getGameFromSocket(client);
+    const capacities = game.getThemeCapacities();
+    this.server.to(game.roomId).emit('themeCapacities', capacities);
   }
 
   @SubscribeMessage('getAllThemes')
   handleGetAllThemes(client: Socket) {
-    const themes = this.gameService.getAllThemes();
-    client.emit('themes', themes);
+    const game = this.getGameFromSocket(client);
+    const themes = game.getAllThemes();
+    this.server.to(game.roomId).emit('themes', [...new Set(themes)]);
   }
 }

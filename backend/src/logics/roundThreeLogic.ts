@@ -3,21 +3,21 @@ import { GameState } from '@patpanic/shared';
 
 export class RoundThreeLogic extends BaseRoundLogic {
   initializeRound() {
-    this.gameService.initialisePlayersForRound(1);
+    this.gameInstance.initialisePlayersForRound(1);
   }
 
   validateCard() {
     this.getNextPlayerInTurn();
-    this.gameService.setTimer(this.getRoundDuration());
+    this.gameInstance.setTimer(this.getRoundDuration());
   }
 
   passCard() {
-    this.gameService.getCurrentPlayer().isActive = false;
-    if (this.gameService.getCurrentPlayer().isMainPlayer) {
+    this.gameInstance.getCurrentPlayer().isActive = false;
+    if (this.gameInstance.getCurrentPlayer().isMainPlayer) {
       this.endTurn();
       return;
     } else {
-      this.gameService.getMainPlayer().turnScore++;
+      this.gameInstance.getMainPlayer().turnScore++;
       if (this.checkEndturn()) {
         this.endTurn();
         return;
@@ -28,15 +28,15 @@ export class RoundThreeLogic extends BaseRoundLogic {
 
   handleTimerEnd() {
     if (
-      this.gameService.getCurrentPlayer() == this.gameService.getMainPlayer()
+      this.gameInstance.getCurrentPlayer() == this.gameInstance.getMainPlayer()
     ) {
-      this.gameService.getCurrentPlayer().isActive = false;
+      this.gameInstance.getCurrentPlayer().isActive = false;
       this.endTurn();
       return;
     }
 
-    this.gameService.getCurrentPlayer().isActive = false;
-    this.gameService.getMainPlayer().turnScore++;
+    this.gameInstance.getCurrentPlayer().isActive = false;
+    this.gameInstance.getMainPlayer().turnScore++;
     if (this.checkEndturn()) {
       this.endTurn();
       return;
@@ -45,11 +45,11 @@ export class RoundThreeLogic extends BaseRoundLogic {
   }
 
   generateRoundCards() {
-    this.gameService.removeCards();
-    const mainPlayer = this.gameService.getMainPlayer();
+    this.gameInstance.removeCards();
+    const mainPlayer = this.gameInstance.getMainPlayer();
     if (mainPlayer) {
       if (mainPlayer.personnalCard) {
-        this.gameService.setCard([mainPlayer.personnalCard]);
+        this.gameInstance.setCard([mainPlayer.personnalCard]);
         this.logger.log(
           'generateRoundCards - personnal card added for : ',
           mainPlayer.name,
@@ -61,7 +61,7 @@ export class RoundThreeLogic extends BaseRoundLogic {
   }
 
   checkEndturn() {
-    if (this.gameService.allPlayerEliminated()) {
+    if (this.gameInstance.allPlayerEliminated()) {
       this.logger.log('checkEndturn - end turn true');
       return true;
     }
@@ -74,22 +74,22 @@ export class RoundThreeLogic extends BaseRoundLogic {
       this.endTurn();
       return;
     }
-    let nbPlayer = this.gameService.getPlayers().length - 1;
-    this.gameService.getCurrentPlayer().isCurrentPlayer = false;
+    let nbPlayer = this.gameInstance.getPlayers().length - 1;
+    this.gameInstance.getCurrentPlayer().isCurrentPlayer = false;
     while (nbPlayer > 0) {
-      this.gameService.setCurrentPlayerIndex(
-        (this.gameService.getCurrendPlayerIndex() + 1) %
-          this.gameService.getPlayers().length,
+      this.gameInstance.setCurrentPlayerIndex(
+        (this.gameInstance.getCurrendPlayerIndex() + 1) %
+          this.gameInstance.getPlayers().length,
       );
-      if (this.gameService.getCurrentPlayer().isActive) {
+      if (this.gameInstance.getCurrentPlayer().isActive) {
         this.logger.log(
           'SET_NEXT_PLAYER - nextPlayerIndex: ',
-          this.gameService.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrendPlayerIndex(),
         );
-        this.gameService.getCurrentPlayer().isCurrentPlayer = true;
+        this.gameInstance.getCurrentPlayer().isCurrentPlayer = true;
         this.logger.log(
           'SET_NEXT_PLAYER- currentPlayerIndex: ',
-          this.gameService.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrendPlayerIndex(),
         );
         return;
       }
@@ -100,58 +100,58 @@ export class RoundThreeLogic extends BaseRoundLogic {
   setNextPlayer() {
     if (this.checkEndRound()) {
       this.logger.log('SET_NEXT_PLAYER - checkEndRound true');
-      this.gameService.endRound();
+      this.gameInstance.endRound();
       return;
     }
 
-    let nbPlayer = this.gameService.getPlayers().length - 1;
-    this.gameService.initializeTurn();
-    console.log(this.gameService.getPlayers().length);
+    let nbPlayer = this.gameInstance.getPlayers().length - 1;
+    this.gameInstance.initializeTurn();
+    console.log(this.gameInstance.getPlayers().length);
     while (nbPlayer >= 0) {
-      this.gameService.setCurrentPlayerIndex(
-        (this.gameService.getCurrendPlayerIndex() + 1) %
-          this.gameService.getPlayers().length,
+      this.gameInstance.setCurrentPlayerIndex(
+        (this.gameInstance.getCurrendPlayerIndex() + 1) %
+          this.gameInstance.getPlayers().length,
       );
       if (
-        this.gameService.getCurrentPlayer().isActive &&
-        this.gameService.getCurrentPlayer().remainingTurns > 0
+        this.gameInstance.getCurrentPlayer().isActive &&
+        this.gameInstance.getCurrentPlayer().remainingTurns > 0
       ) {
         this.logger.log(
           'SET_NEXT_PLAYER - nextPlayerIndex: ',
-          this.gameService.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrendPlayerIndex(),
         );
-        this.gameService.getCurrentPlayer().isCurrentPlayer = true;
-        this.gameService.getCurrentPlayer().isMainPlayer = true;
-        this.gameService.setGameState(GameState.PLAYER_INSTRUCTION);
+        this.gameInstance.getCurrentPlayer().isCurrentPlayer = true;
+        this.gameInstance.getCurrentPlayer().isMainPlayer = true;
+        this.gameInstance.setGameState(GameState.PLAYER_INSTRUCTION);
         this.logger.log(
           'SET_NEXT_PLAYER- currentPlayerIndex: ',
-          this.gameService.getCurrendPlayerIndex(),
+          this.gameInstance.getCurrendPlayerIndex(),
         );
         return;
       }
       nbPlayer--;
     }
     this.logger.log('SET_NEXT_PLAYER - no players found for next turn');
-    this.gameService.endRound();
+    this.gameInstance.endRound();
   }
 
   endTurn() {
-    this.logger.log('Ending Turn', this.gameService.getCurrentPlayer.name);
-    this.gameService.stopTimer();
+    this.logger.log('Ending Turn', this.gameInstance.getCurrentPlayer.name);
+    this.gameInstance.stopTimer();
 
-    if (this.gameService.getMainPlayer().isActive) {
-      this.gameService.getMainPlayer().turnScore +=
-        this.gameService.getPlayers().length * 2;
+    if (this.gameInstance.getMainPlayer().isActive) {
+      this.gameInstance.getMainPlayer().turnScore +=
+        this.gameInstance.getPlayers().length * 2;
     }
-    this.gameService.getMainPlayer().isCurrentPlayer = false;
-    this.gameService.getMainPlayer().roundScore +=
-      this.gameService.getMainPlayer().turnScore;
-    this.gameService.getMainPlayer().score +=
-      this.gameService.getMainPlayer().turnScore;
+    this.gameInstance.getMainPlayer().isCurrentPlayer = false;
+    this.gameInstance.getMainPlayer().roundScore +=
+      this.gameInstance.getMainPlayer().turnScore;
+    this.gameInstance.getMainPlayer().score +=
+      this.gameInstance.getMainPlayer().turnScore;
 
-    this.gameService.getMainPlayer().remainingTurns--;
+    this.gameInstance.getMainPlayer().remainingTurns--;
 
-    this.gameService.setGameState(GameState.PLAYER_RESULT);
+    this.gameInstance.setGameState(GameState.PLAYER_RESULT);
   }
 
   getRoundDuration(): number {

@@ -1,21 +1,25 @@
 import './App.css'
 import {type UseGame, useGame} from "@/hooks/useGame.ts";
 import {GameState} from "@patpanic/shared";
-import Home from "@/pages/Home";
+import Lobby from "@/pages/Lobby.tsx";
 import Playing from "@/pages/Playing.tsx";
 import RoundInstructions from "@/pages/RoundInstructions.tsx";
 import PlayerInstructions from "@/pages/PlayerInstructions.tsx";
 import PlayerResult from "@/pages/PlayerResult.tsx";
 import RoundResult from "@/pages/RoundResult.tsx";
 import GameResult from "@/pages/GameResult.tsx";
-
+import Home from "@/pages/Home.tsx"
 function App() {
 
     const game:UseGame = useGame();
 
+    if (!game.currentRoomId) {
+        return <Home gameManager={game} />;
+    }
+
     switch (game.gameState) {
         case GameState.LOBBY:
-            return <Home gameManager={game} />;
+            return <Lobby gameManager={game} />;
         case GameState.ROUND_INSTRUCTION:
             return <RoundInstructions gameManager={game}/>
         case GameState.PLAYER_INSTRUCTION:

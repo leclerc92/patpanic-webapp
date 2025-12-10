@@ -2,16 +2,16 @@ import { BaseRoundLogic } from './baseRoundLogic';
 
 export class RoundOneLogic extends BaseRoundLogic {
   initializeRound() {
-    this.gameService.initialisePlayersForRound(1);
+    this.gameInstance.initialisePlayersForRound(1);
   }
 
   validateCard() {
-    this.gameService.getCurrentPlayer().turnScore++;
-    this.gameService.getNextCard();
+    this.gameInstance.getCurrentPlayer().turnScore++;
+    this.gameInstance.getNextCard();
   }
 
   passCard() {
-    this.gameService.getNextCard();
+    this.gameInstance.getNextCard();
   }
 
   getRoundDuration(): number {

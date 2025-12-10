@@ -2,22 +2,22 @@ import { BaseRoundLogic } from './baseRoundLogic';
 
 export class RoundTwoLogic extends BaseRoundLogic {
   initializeRound() {
-    this.gameService.initialisePlayersForRound(3);
+    this.gameInstance.initialisePlayersForRound(3);
   }
 
   validateCard() {
-    this.gameService.getCurrentPlayer().turnScore +=
-      this.gameService.getTimer();
+    this.gameInstance.getCurrentPlayer().turnScore +=
+      this.gameInstance.getTimer();
     this.endTurn();
   }
 
   passCard() {
-    this.gameService.getCurrentPlayer().turnScore -= this.getPenality();
-    this.gameService.getNextCard();
+    this.gameInstance.getCurrentPlayer().turnScore -= this.getPenality();
+    this.gameInstance.getNextCard();
   }
 
   getPenality() {
-    switch (this.gameService.getCurrentPlayer().remainingTurns) {
+    switch (this.gameInstance.getCurrentPlayer().remainingTurns) {
       case 3:
         return 2;
       case 2:

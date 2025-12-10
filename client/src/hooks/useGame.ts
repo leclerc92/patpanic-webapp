@@ -4,6 +4,8 @@ import {io, type Socket} from "socket.io-client";
 
 export const useGame = () => {
 
+    const [currentRoomId, setCurrentRoomId] = useState<string | null>(null); // 🆕 Pour savoir où on est
+    const [error, setError] = useState<string | null>(null); // 🆕 Pour gérer les erreurs (salle pleine...)
     const [gameState, setGameState] = useState<GameState>(GameState.LOBBY);
     const [players, setPlayers] = useState<IPlayer[]>([]);
     const [currentPlayer, setCurrentPlayer] = useState<IPlayer>();
@@ -38,6 +40,11 @@ export const useGame = () => {
         const newSocket = io('http://localhost:3000');
         socketRef.current = newSocket;
 
+        newSocket.on('error', (msg: string) => {
+            setError(msg);
+            setCurrentRoomId(null);
+        });
+
         newSocket.on('connect', () => {
             newSocket.emit('getThemeCapacities');
             newSocket.emit('getAllThemes');
@@ -64,6 +71,13 @@ export const useGame = () => {
 
         return () => { newSocket.disconnect(); };
     }, []);
+
+    const joinGame = (roomId: string, playerName: string) => {
+        setError(null); // Reset erreur
+        // On stocke temporairement l'ID, la confirmation viendra du gameStatus
+        setCurrentRoomId(roomId);
+        socketRef.current?.emit('joinGame', { roomId, name: playerName });
+    };
 
     const addPlayer = (name: string) => {
         socketRef.current?.emit('addPlayer', { name });
@@ -99,6 +113,9 @@ export const useGame = () => {
 
 
     return {
+        joinGame,
+        currentRoomId,
+        error,
         players ,
         themes ,
         currentCard ,
