@@ -7,19 +7,33 @@ interface Props {
     onClicked: () => void;
 }
 
+const COLOR_MAP: Record<string, string> = {
+    brown: "from-amber-700 via-amber-600 to-yellow-700",
+    blue: "from-blue-500 via-blue-600 to-indigo-600",
+    red: "from-red-500 via-red-600 to-rose-600",
+    green: "from-green-500 via-green-600 to-emerald-600",
+    yellow: "from-yellow-400 via-yellow-500 to-orange-500",
+    purple: "from-purple-500 via-purple-600 to-indigo-600",
+    pink: "from-pink-500 via-pink-600 to-rose-600",
+    orange: "from-orange-500 via-orange-600 to-amber-600",
+    cyan: "from-cyan-500 via-cyan-600 to-blue-600",
+    teal: "from-teal-500 via-teal-600 to-emerald-600",
+    lime: "from-lime-500 via-lime-600 to-green-600",
+    indigo: "from-indigo-500 via-indigo-600 to-purple-600",
+};
+
 export const Card = ({ title, category, color, onClicked }: Props) => {
 
     const handlePause = () => {
         onClicked();
     };
 
-    console.log(color);
-
+    const gradientClass = COLOR_MAP[color.toLowerCase()] || "from-purple-500 via-purple-600 to-indigo-600";
 
     return (
         <div onClick={handlePause} className="relative w-full aspect-[3/4] max-w-sm mx-auto group perspective">
             {/* Glow Effect */}
-            <div className="absolute -inset-2 bg-gradient-to-r from-{color}-500 via-purple-500 to-indigo-500 rounded-[2.5rem] blur-lg opacity-60 animate-pulse"></div>
+            <div className={`absolute -inset-2 bg-gradient-to-r ${gradientClass} rounded-[2.5rem] blur-lg opacity-60 animate-pulse`}></div>
 
             <GameCard className="relative h-full flex flex-col items-center justify-between p-8 !rounded-[2rem] border-4 border-white/50 text-slate-900">
                 <div className="w-full flex justify-between items-start opacity-50">

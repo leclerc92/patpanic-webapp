@@ -13,8 +13,8 @@ function PlayerInstructions({ gameManager }: { gameManager: UseGame }) {
 
     const displayButton = () => {
         return  ( gameManager.isMaster1Turn && gameManager.amImaster2) ||
-            ( gameManager.amImaster1 && !gameManager.isMyTurn)
-
+            ( gameManager.amImaster1 && !gameManager.isMyTurn) ||
+            ( gameManager.amImaster1 && gameManager.isMyTurn && gameManager.isMaster2Invite);
     }
 
     return (

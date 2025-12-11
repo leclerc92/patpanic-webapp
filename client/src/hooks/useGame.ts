@@ -35,6 +35,7 @@ export const useGame = () => {
     const isMyTurn = !!(currentPlayer && mySocketId === currentPlayer.socketId);
     const isMaster1Turn = !!(master1Player && currentPlayer && master1Player.id === currentPlayer.id);
     const isMaster2Turn = !!(master2Player && currentPlayer && master2Player.id === currentPlayer.id);
+    const isMaster2Invite = master2Player?.socketId == 'invite';
 
     const selectTheme = (playerId: string, theme: string) => {
         socketRef.current?.emit('getPersonnalCard', { playerId, theme });
@@ -262,6 +263,7 @@ export const useGame = () => {
         isMaster1Turn,
         isMaster2Turn,
         closeRoom,
+        isMaster2Invite
     };
 };
 
