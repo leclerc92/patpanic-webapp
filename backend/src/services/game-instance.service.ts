@@ -19,7 +19,7 @@ export class GameInstanceService {
   private cards: ICard[] = [];
   private usedCards: ICard[] = [];
   private currentCard: ICard | undefined;
-  private currentRound: number = 2;
+  private currentRound: number = 1;
   private currentPlayerIndex: number = 0;
   private gameState: GameState = GameState.LOBBY;
   private timer: number = 0;
@@ -382,6 +382,7 @@ export class GameInstanceService {
     this.usedCards = [];
     this.cards = [];
     this.currentPlayerIndex = 0;
+    this.isPaused = false;
   }
 
   setupNextPlayerTurn() {

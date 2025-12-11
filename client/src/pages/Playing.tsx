@@ -94,7 +94,6 @@ function Playing({ gameManager }: { gameManager: UseGame }) {
                 isOpen={gameManager.gamePaused}
                 onResume={() => togglePause()}
                 onQuit={() => {
-                    togglePause();
                     gameManager.restartGame();
                 }}
             />
