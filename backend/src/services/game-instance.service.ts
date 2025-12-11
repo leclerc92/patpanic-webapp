@@ -115,6 +115,15 @@ export class GameInstanceService {
     this.cards = [];
   }
 
+  updatePlayerConfig(playerId: string, newName?: string, newIcon?: string) {
+    const p = this.players.find((p) => p.id === playerId);
+    if (p) {
+      p.name = newName || p.name;
+      p.icon = newIcon || p.icon;
+    }
+    console.log('updatePlayerConfig', playerId, newName, newIcon);
+  }
+
   allPlayerPlayed(): boolean {
     for (const player of this.players) {
       if (player.remainingTurns > 0) return false;

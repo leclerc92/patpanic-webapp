@@ -16,6 +16,7 @@ import { SetMasterPlayerDto } from '../dtos/setMasterPlayerDto';
 import { ReconnectPlayerDto } from '../dtos/reconnectPlayerDto';
 import { GameInstanceService } from '../services/game-instance.service';
 import { GameState } from '@patpanic/shared';
+import { UpdatePlayerConfigDto } from '../dtos/updatePlayerConfigDto';
 
 // Interface pour typer le socket enrichi
 interface GameSocket extends Socket {
@@ -32,7 +33,25 @@ interface GameSocket extends Socket {
     credentials: true,
   },
 })
-@UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+@UsePipes(
+  new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    exceptionFactory: (errors) => {
+      // Logger les erreurs de validation
+      const logger = new Logger('ValidationPipe');
+      logger.error(
+        `❌ Validation échouée: ${JSON.stringify(
+          errors.map((e) => ({
+            property: e.property,
+            constraints: e.constraints,
+          })),
+        )}`,
+      );
+      return errors;
+    },
+  }),
+)
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
@@ -208,6 +227,21 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
         );
       }
       game.setMaster(data.playerId, data.type);
+    });
+  }
+
+  @SubscribeMessage('updatePlayerConfig')
+  handleUpdatePlayerConfig(
+    @MessageBody() data: UpdatePlayerConfigDto,
+    @ConnectedSocket() client: GameSocket,
+  ) {
+    this.handleGameAction(client, (game) => {
+      console.log('update player');
+      game.updatePlayerConfig(data.playerId, data.newName, data.newIcon);
+      this.server.to(game.roomId).emit('updatedPlayerConfig', {
+        name: data.newName,
+        icon: data.newIcon,
+      });
     });
   }
 

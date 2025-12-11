@@ -1,165 +1,90 @@
 import type { UseGame } from "@/hooks/useGame.ts";
-import { Cat, X, Trophy, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button.tsx";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import type {ICard} from "@patpanic/shared";
+import { Check, X, Trophy } from "lucide-react"; // J'utilise Check/X pour la clarté, tu peux remettre Cat si tu préfères !
 
-// --- SOUS-COMPOSANT 1 : LE HEADER (Temps & Round) ---
-const GameHeader = ({ round, timer }: { round: number, timer: number }) => {
-    // Le timer devient rouge et pulse sous les 10 secondes
-    const isUrgent = timer <= 10;
+// UI Components
+import { GameLayout } from "@/components/layout/GameLayout";
+import {GameBadge} from "@/components/game/GameBadge.tsx";
+import {PlayerAvatar} from "@/components/game/PlayerAvatar.tsx";
+import {GameTimer} from "@/components/game/GameTimer.tsx";
+import {StickyFooter} from "@/components/layout/StickyFooter.tsx";
+import {GameButton} from "@/components/game/GameButton.tsx";
+import {Card} from "@/components/game/Card.tsx";
+
+
+function Playing({ gameManager }: { gameManager: UseGame }) {
+    const { currentPlayer, timer, currentRound, currentCard, passCard, validateCard } = gameManager;
 
     return (
-        <div className="fixed top-0 left-0 w-full p-4 z-50 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent pt-safe">
-            {/* Badge Round */}
-            <Badge variant="outline" className="bg-white/10 text-white backdrop-blur-md border-white/20 px-3 py-1">
-                Manche {round} / 3
-            </Badge>
+        <GameLayout variant="game" className="flex flex-col">
 
-            {/* Le Timer Géant */}
-            <div className={`flex flex-col items-center transition-all duration-300 ${isUrgent ? 'scale-110' : ''}`}>
-                <div className={`relative flex items-center justify-center w-16 h-16 rounded-full border-4 shadow-lg backdrop-blur-md font-black text-2xl
-                    ${isUrgent
-                    ? 'border-red-500 bg-red-500/20 text-red-100 animate-pulse'
-                    : 'border-white/30 bg-black/20 text-white'
-                }`}
-                >
-                    {timer}
-                    {isUrgent && <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                    </span>}
+            {/* --- HEADER (Info & Timer) --- */}
+            <div className="flex justify-between items-start mt-4 mb-6 z-20 relative">
+                <div className="flex flex-col gap-2 items-start">
+                    <GameBadge variant="outline" className="text-xs bg-black/20 border-white/10 backdrop-blur-md">
+                        Manche {currentRound} / 3
+                    </GameBadge>
+
+                    {/* Info Joueur Actif (Mini carte identité) */}
+                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full pr-4 pl-1 py-1 border border-white/10 shadow-lg">
+                        <PlayerAvatar icon={currentPlayer?.icon || "?"} size="sm" className="w-8 h-8 text-lg border-2" />
+                        <div className="flex flex-col leading-none">
+                            <span className="text-white font-bold text-sm">{currentPlayer?.name}</span>
+                            <div className="flex items-center gap-1 text-[10px] text-yellow-300 font-bold uppercase">
+                                <Trophy className="w-3 h-3" /> +{currentPlayer?.turnScore} pts
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <GameTimer seconds={timer || 0} />
             </div>
-        </div>
+
+            {/* --- ZONE CENTRALE (La Carte) --- */}
+            <div className="flex-1 flex flex-col justify-center items-center pb-8 animate-in zoom-in duration-300">
+                {currentCard ? (
+                    <Card
+                        title={currentCard.title}
+                        category={currentCard.category}
+                    />
+                ) : (
+                    // État de chargement ou transition
+                    <div className="text-white/50 animate-pulse font-bold">Chargement de la carte...</div>
+                )}
+            </div>
+
+            {/* --- FOOTER DE CONTROLE (Passer / Valider) --- */}
+            <StickyFooter>
+                <div className="grid grid-cols-2 gap-4 h-full">
+                    {/* Bouton PASSER */}
+                    <GameButton
+                        variant="danger"
+                        size="lg" // On garde la hauteur standard
+                        onClick={passCard}
+                        className="h-20 rounded-2xl border-b-4 border-red-700 active:border-b-0 active:translate-y-1"
+                    >
+                        <div className="flex flex-col items-center leading-none gap-1">
+                            <X className="w-8 h-8" />
+                            <span className="text-sm font-black uppercase tracking-wide opacity-90">Passer</span>
+                        </div>
+                    </GameButton>
+
+                    {/* Bouton GAGNÉ */}
+                    <GameButton
+                        variant="success"
+                        size="lg"
+                        onClick={validateCard}
+                        className="h-20 rounded-2xl border-b-4 border-emerald-700 active:border-b-0 active:translate-y-1 shadow-emerald-900/20"
+                    >
+                        <div className="flex flex-col items-center leading-none gap-1">
+                            <Check className="w-8 h-8 stroke-[3]" />
+                            <span className="text-lg font-black uppercase tracking-wide">Gagné !</span>
+                        </div>
+                    </GameButton>
+                </div>
+            </StickyFooter>
+
+        </GameLayout>
     );
-};
-
-// --- SOUS-COMPOSANT 2 : LA CARTE (Hero) ---
-const GameCard = ({ card }: { card: ICard, playerName?: string }) => {
-
-    return (
-        <div className="relative w-full max-w-sm group perspective">
-            {/* Effet Glow derrière la carte */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-[2rem] blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-
-            <Card className="relative w-full aspect-[3/4] flex flex-col items-center justify-between p-8 rounded-[1.8rem] shadow-2xl border-0 bg-white text-slate-900 overflow-hidden">
-
-                {/* Header de la carte */}
-                <div className="w-full flex justify-between items-start opacity-50">
-                    <Badge variant="secondary" className="uppercase tracking-wider text-[10px]">
-                        {card?.category || "Divers"}
-                    </Badge>
-                    <Sparkles className="w-5 h-5 text-yellow-500" />
-                </div>
-
-                {/* Le Mot Principal */}
-                <div className="flex-1 flex items-center justify-center w-full">
-                    <span className="text-4xl md:text-5xl font-black text-center leading-tight break-words bg-clip-text text-transparent bg-gradient-to-br from-slate-900 to-slate-600 drop-shadow-sm">
-                        {card?.title || "Chargement..."}
-                    </span>
-                </div>
-
-                {/* Footer de la carte */}
-                <div className="w-full text-center border-t border-slate-100 pt-4 mt-4">
-
-                </div>
-            </Card>
-        </div>
-    );
-};
-
-// --- SOUS-COMPOSANT 3 : LES ACTIONS (Footer) ---
-const GameControls = ({ onPass, onValidate }: { onPass: () => void, onValidate: () => void }) => {
-    return (
-        <div className="fixed bottom-0 left-0 w-full p-4 pb-8 pt-6 bg-gradient-to-t from-black/80 to-transparent z-50">
-            <div className="container max-w-md mx-auto flex gap-4 h-24">
-                <Button
-                    onClick={onPass}
-                    className="flex-1 h-full rounded-2xl bg-red-500/90 hover:bg-red-600 text-white shadow-lg shadow-red-900/20 border-b-4 border-red-700 active:border-b-0 active:translate-y-1 transition-all"
-                >
-                    <div className="flex flex-col items-center gap-1">
-                        <X className="w-8 h-8" />
-                        <span className="font-bold text-lg uppercase tracking-wide">Passer</span>
-                    </div>
-                </Button>
-
-                <Button
-                    onClick={onValidate}
-                    className="flex-1 h-full rounded-2xl bg-emerald-500/90 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-900/20 border-b-4 border-emerald-700 active:border-b-0 active:translate-y-1 transition-all"
-                >
-                    <div className="flex flex-col items-center gap-1">
-                        <Cat className="w-8 h-8" />
-                        <span className="font-bold text-lg uppercase tracking-wide">Gagné !</span>
-                    </div>
-                </Button>
-            </div>
-        </div>
-    );
-};
-
-
-// --- COMPOSANT PRINCIPAL ---
-interface PlayingProps {
-    gameManager: UseGame;
-}
-
-function Playing({ gameManager }: PlayingProps) {
-    const { currentPlayer, timer, currentRound, currentCard } = gameManager;
-
-    return (
-        // Fond d'écran immersif
-        <div className="min-h-screen bg-slate-900 relative overflow-hidden flex flex-col">
-
-            {/* Background animé abstrait */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-blob"></div>
-                <div className="absolute top-[20%] right-[-10%] w-80 h-80 bg-blue-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-blob animation-delay-2000"></div>
-                <div className="absolute bottom-[-10%] left-[20%] w-80 h-80 bg-pink-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-blob animation-delay-4000"></div>
-            </div>
-
-            {/* Header */}
-            <GameHeader round={currentRound} timer={timer ?? 0} />
-
-            {/* Zone Principale */}
-            <div className="flex-1 flex flex-col items-center justify-center p-4 z-10 space-y-8 pb-32">
-
-                {/* Info Joueur Actif */}
-                <div className="text-center space-y-2 animate-in slide-in-from-top fade-in duration-500">
-                    <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full pl-2 pr-4 py-1 border border-white/10">
-                        <span className="text-2xl bg-white rounded-full p-1 shadow-sm">{currentPlayer?.icon}</span>
-                        <span className="font-bold text-white text-lg tracking-wide shadow-black drop-shadow-md">
-                            {currentPlayer?.name}
-                        </span>
-                    </div>
-
-                    {/* Score du tour */}
-                    <div className="flex items-center justify-center gap-2 text-white/80">
-                        <Trophy className="w-4 h-4 text-yellow-400" />
-                        <span className="font-mono font-bold text-yellow-400 text-lg">
-                            +{currentPlayer?.turnScore}
-                        </span>
-                    </div>
-                </div>
-
-                {/* La Carte */}
-                <GameCard
-                    card={currentCard!}
-                    playerName={currentPlayer?.name}
-                />
-
-            </div>
-
-            {/* Footer Actions (Seulement pour le validateur) */}
-
-                <GameControls
-                    onPass={gameManager.passCard}
-                    onValidate={gameManager.validateCard}
-                />
-
-        </div>
-    )
 }
 
 export default Playing;

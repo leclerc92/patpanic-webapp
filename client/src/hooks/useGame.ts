@@ -111,6 +111,11 @@ export const useGame = () => {
             }
         });
 
+        newSocket.on('updatedPlayerConfig', (status) => {
+            console.log("✅ Mise à jour reçue du serveur !", status);
+            localStorage.setItem(STORAGE_KEYS.PLAYER_NAME, status.name);
+        });
+
         newSocket.on('timerUpdate', (time: number) => {
             setTimer(time);
         });
@@ -173,6 +178,10 @@ export const useGame = () => {
         socketRef.current?.emit('pass');
     };
 
+    const updatePlayerConfig = (playerId: string, newName?: string, newIcon?: string)  => {
+        socketRef.current?.emit('updatePlayerConfig', { playerId, newName, newIcon });
+    };
+
 
     return {
         joinGame,
@@ -195,6 +204,7 @@ export const useGame = () => {
         restartGame ,
         validateCard ,
         passCard ,
+        updatePlayerConfig,
         timer ,
         currentRound ,
         themeCapacities ,
