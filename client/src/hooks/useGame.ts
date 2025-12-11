@@ -136,6 +136,30 @@ export const useGame = () => {
             setThemes(data);
         });
 
+        newSocket.on('roomClosed', () => {
+            console.log('🚪 La room a été fermée par le master');
+            // Nettoyer le localStorage
+            localStorage.removeItem(STORAGE_KEYS.ROOM_ID);
+            localStorage.removeItem(STORAGE_KEYS.PLAYER_ID);
+            localStorage.removeItem(STORAGE_KEYS.PLAYER_NAME);
+            // Réinitialiser l'état
+            setCurrentRoomId(null);
+            setError('La room a été fermée par le master');
+        });
+
+        newSocket.on('playerRemoved', () => {
+            console.log('🚫 Vous avez été supprimé de la room par le master');
+            // Nettoyer le localStorage
+            localStorage.removeItem(STORAGE_KEYS.ROOM_ID);
+            localStorage.removeItem(STORAGE_KEYS.PLAYER_ID);
+            localStorage.removeItem(STORAGE_KEYS.PLAYER_NAME);
+            // Réinitialiser tous les états
+            setCurrentRoomId(null);
+            setPlayers([]);
+            setGameState(GameState.LOBBY);
+            setError('Le master vous a supprimé de la room');
+        });
+
         return () => { newSocket.disconnect(); };
     }, []);
 
@@ -156,6 +180,10 @@ export const useGame = () => {
 
     const addPlayer = (name: string) => {
         socketRef.current?.emit('addPlayer', { name });
+    };
+
+    const removePlayer = (playerId: string) => {
+        socketRef.current?.emit('removePlayer', { playerId });
     };
 
     const setMasterPlayer = (playerId: string, type:number) => {
@@ -194,6 +222,10 @@ export const useGame = () => {
         socketRef.current?.emit('updatePlayerConfig', { playerId, newName, newIcon });
     };
 
+    const closeRoom = () => {
+        socketRef.current?.emit('closeRoom');
+    };
+
 
     return {
         joinGame,
@@ -209,6 +241,7 @@ export const useGame = () => {
         gameState ,
         mySocketId,
         addPlayer ,
+        removePlayer,
         startPlayerTurn ,
         gotToPlayerInstructions ,
         goToRoundInstructions ,
@@ -228,6 +261,7 @@ export const useGame = () => {
         isMyTurn,
         isMaster1Turn,
         isMaster2Turn,
+        closeRoom,
     };
 };
 

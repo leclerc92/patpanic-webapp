@@ -157,6 +157,47 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
+  @SubscribeMessage('removePlayer')
+  async handleRemovePlayer(
+    @MessageBody() data: { playerId: string },
+    @ConnectedSocket() client: GameSocket,
+  ) {
+    try {
+      const game = this.getGameFromSocket(client);
+
+      // Protection : on ne peut supprimer que si la partie est en LOBBY
+      if (game.getGameState() !== GameState.LOBBY) {
+        throw new Error(
+          'La partie a déjà commencé, impossible de supprimer des joueurs',
+        );
+      }
+
+      // Trouver le joueur avant de le supprimer
+      const playerToRemove = game
+        .getPlayers()
+        .find((p) => p.id === data.playerId);
+      if (playerToRemove && playerToRemove.socketId !== 'invite') {
+        // Notifier le joueur qu'il a été supprimé
+        this.server.to(playerToRemove.socketId!).emit('playerRemoved');
+
+        // Déconnecter le joueur de la room Socket.IO
+        const socketToRemove = await this.server.in(game.roomId).fetchSockets();
+        const targetSocket = socketToRemove.find(
+          (s) => s.id === playerToRemove.socketId,
+        );
+        if (targetSocket) {
+          targetSocket.leave(game.roomId);
+        }
+      }
+
+      game.removePlayer(data.playerId);
+      this.server.to(game.roomId).emit('gameStatus', game.getGameStatus());
+    } catch (e) {
+      this.logger.error(this.getErrorMessage(e));
+      client.emit('error', this.getErrorMessage(e));
+    }
+  }
+
   private getGameFromSocket(client: GameSocket): GameInstanceService {
     const roomId = client.data.roomId;
     if (!roomId) throw new Error("Vous n'êtes pas connecté à une salle !");
@@ -289,6 +330,30 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       client.emit('themes', [...new Set(themes)]);
     } catch (e) {
       this.logger.error(`getAllThemes: ${this.getErrorMessage(e)}`);
+      client.emit('error', this.getErrorMessage(e));
+    }
+  }
+
+  @SubscribeMessage('closeRoom')
+  handleCloseRoom(@ConnectedSocket() client: GameSocket) {
+    try {
+      const roomId = client.data.roomId;
+      if (!roomId) throw new Error("Vous n'êtes pas connecté à une salle !");
+
+      this.logger.log(`🚪 Fermeture de la room ${roomId} demandée`);
+
+      // Notifier tous les clients de la salle qu'elle ferme
+      this.server.to(roomId).emit('roomClosed');
+
+      // Déconnecter tous les clients de la room
+      this.server.in(roomId).socketsLeave(roomId);
+
+      // Réinitialiser l'instance de jeu
+      this.gameService.resetGameInstance(roomId);
+
+      this.logger.log(`✅ Room ${roomId} fermée et réinitialisée`);
+    } catch (e) {
+      this.logger.error(`closeRoom: ${this.getErrorMessage(e)}`);
       client.emit('error', this.getErrorMessage(e));
     }
   }

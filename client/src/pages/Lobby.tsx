@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Star } from "lucide-react";
+import { Plus, Star, X } from "lucide-react";
 import type { UseGame } from "@/hooks/useGame";
 import { GameLayout } from "@/components/layout/GameLayout";
 import { LobbyPlayerCard } from "@/components/game/LobbyPlayerCard";
@@ -33,11 +33,20 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                 <h1 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-500 transform -rotate-2">
                     Pat'Panic
                 </h1>
-                <div className="mt-4 flex justify-center">
+                <div className="mt-4 flex justify-center items-center gap-2">
                     <GameBadge variant="default">
                         <Star className="w-3 h-3 mr-1 text-yellow-300 fill-yellow-300" />
                         Code Salle: {gameManager.currentRoomId}
                     </GameBadge>
+                    {gameManager.amImaster1 && (
+                        <button
+                            onClick={gameManager.closeRoom}
+                            className="bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-full p-2 transition-colors"
+                            title="Fermer la room"
+                        >
+                            <X className="w-4 h-4" />
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -79,6 +88,7 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                         onUpdateProfile={gameManager.updatePlayerConfig}
                         onSelectTheme={gameManager.selectTheme}
                         onToggleMaster={()=>gameManager.setMasterPlayer(p.id, 2)}
+                        onRemovePlayer={gameManager.removePlayer}
                     />
                 ))}
             </div>

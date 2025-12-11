@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pencil, Save, X, CheckCircle, Clock, Star, Crown } from "lucide-react";
+import { Pencil, Save, X, CheckCircle, Clock, Star, Crown, Trash2 } from "lucide-react";
 import { PlayerAvatar } from "@/components/game/PlayerAvatar";
 import type { IPlayer } from "@patpanic/shared";
 import { GameCard } from "@/components/game/GameCard.tsx";
@@ -17,7 +17,8 @@ interface LobbyPlayerCardProps {
     players: IPlayer[];
     onUpdateProfile: (id: string, newName:string, newIcon:string) => void;
     onSelectTheme: (id: string, theme: string) => void;
-    onToggleMaster?: (id: string) => void; // Nouvelle fonction pour le switch
+    onToggleMaster?: (id: string) => void;
+    onRemovePlayer?: (id: string) => void;
 }
 
 export const LobbyPlayerCard = ({
@@ -29,7 +30,8 @@ export const LobbyPlayerCard = ({
                                     players,
                                     onUpdateProfile,
                                     onSelectTheme,
-                                    onToggleMaster
+                                    onToggleMaster,
+                                    onRemovePlayer
                                 }: LobbyPlayerCardProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [tempName, setTempName] = useState(player.name);
@@ -158,33 +160,48 @@ export const LobbyPlayerCard = ({
                     </div>
                 </div>
 
-                {/* --- ACTION MASTER 2 (Le bouton Toggle) --- */}
-                {/* Visible seulement si JE SUIS Master 1 et que la cible n'est pas moi-même (Master 1) */}
-                {canPromote && !isMaster1 && (
-                    <button
-                        onClick={() => onToggleMaster?.(player.id)}
-                        className={cn(
-                            "flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 transition-all duration-200 active:scale-95",
-                            isMaster2
-                                ? "bg-orange-50 border-orange-300 shadow-inner" // Style Actif
-                                : "bg-white border-slate-100 hover:border-orange-200 hover:bg-orange-50/50" // Style Inactif
-                        )}
-                        title={isMaster2 ? "Retirer Master 2" : "Nommer Master 2"}
-                    >
-                        <Star className={cn(
-                            "w-6 h-6 transition-all duration-300",
-                            isMaster2
-                                ? "fill-orange-400 text-orange-500 scale-110 drop-shadow-sm"
-                                : "text-slate-300"
-                        )} />
-                        <span className={cn(
-                            "text-[8px] font-bold uppercase mt-0.5 leading-none",
-                            isMaster2 ? "text-orange-600" : "text-slate-300"
-                        )}>
-                            {isMaster2 ? "M2" : "+M2"}
-                        </span>
-                    </button>
-                )}
+                {/* --- ACTIONS DU MASTER --- */}
+                <div className="flex gap-2">
+                    {/* ACTION MASTER 2 (Le bouton Toggle) */}
+                    {/* Visible seulement si JE SUIS Master 1 et que la cible n'est pas moi-même (Master 1) */}
+                    {canPromote && !isMaster1 && (
+                        <button
+                            onClick={() => onToggleMaster?.(player.id)}
+                            className={cn(
+                                "flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 transition-all duration-200 active:scale-95",
+                                isMaster2
+                                    ? "bg-orange-50 border-orange-300 shadow-inner"
+                                    : "bg-white border-slate-100 hover:border-orange-200 hover:bg-orange-50/50"
+                            )}
+                            title={isMaster2 ? "Retirer Master 2" : "Nommer Master 2"}
+                        >
+                            <Star className={cn(
+                                "w-6 h-6 transition-all duration-300",
+                                isMaster2
+                                    ? "fill-orange-400 text-orange-500 scale-110 drop-shadow-sm"
+                                    : "text-slate-300"
+                            )} />
+                            <span className={cn(
+                                "text-[8px] font-bold uppercase mt-0.5 leading-none",
+                                isMaster2 ? "text-orange-600" : "text-slate-300"
+                            )}>
+                                {isMaster2 ? "M2" : "+M2"}
+                            </span>
+                        </button>
+                    )}
+
+                    {/* BOUTON SUPPRIMER */}
+                    {/* Visible seulement si JE SUIS Master 1 et que la cible n'est pas Master 1 */}
+                    {canPromote && !isMaster1 && (
+                        <button
+                            onClick={() => onRemovePlayer?.(player.id)}
+                            className="flex items-center justify-center w-10 h-12 rounded-xl border-2 bg-white border-slate-100 hover:border-red-300 hover:bg-red-50 transition-all duration-200 active:scale-95"
+                            title="Supprimer le joueur"
+                        >
+                            <Trash2 className="w-5 h-5 text-slate-300 hover:text-red-500 transition-colors" />
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* --- SELECTION DU THEME --- */}

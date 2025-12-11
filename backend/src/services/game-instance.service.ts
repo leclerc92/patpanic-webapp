@@ -279,6 +279,24 @@ export class GameInstanceService {
     return player;
   }
 
+  removePlayer(playerId: string): void {
+    this.touch();
+    const playerIndex = this.players.findIndex((p) => p.id === playerId);
+    if (playerIndex === -1) {
+      throw new Error('Joueur introuvable');
+    }
+
+    const player = this.players[playerIndex];
+
+    // Empêcher la suppression du Master 1
+    if (player.masterNumber === 1) {
+      throw new Error('Impossible de supprimer le Master 1');
+    }
+
+    this.logger.log(`REMOVEPLAYER - Removing player ${player.name}`);
+    this.players.splice(playerIndex, 1);
+  }
+
   updatePlayerSocketId(playerId: string, newSocketId: string): IPlayer {
     this.touch();
     const player = this.players.find((p) => p.id === playerId);
