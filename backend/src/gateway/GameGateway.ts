@@ -197,6 +197,13 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
+  @SubscribeMessage('pause')
+  handlePause(@ConnectedSocket() client: GameSocket) {
+    this.handleGameAction(client, (game) => {
+      game.pauseGame(this.server);
+    });
+  }
+
   @SubscribeMessage('goToRoundInstructions')
   handleRoundInstructions(@ConnectedSocket() client: GameSocket) {
     this.handleGameAction(client, (game) => {

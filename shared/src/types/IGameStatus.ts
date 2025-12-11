@@ -11,4 +11,5 @@ export type IGameStatus = {
     currentCard: ICard | undefined;
     gameState: GameState;
     currentRound: number;
+    isPaused: boolean;
 }

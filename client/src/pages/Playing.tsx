@@ -9,10 +9,15 @@ import {GameTimer} from "@/components/game/GameTimer.tsx";
 import {StickyFooter} from "@/components/layout/StickyFooter.tsx";
 import {GameButton} from "@/components/game/GameButton.tsx";
 import {Card} from "@/components/game/Card.tsx";
+import {GamePauseModal} from "@/components/game/GamePauseModal.tsx";
 
 
 function Playing({ gameManager }: { gameManager: UseGame }) {
     const { currentPlayer, timer, currentRound, currentCard, passCard, validateCard } = gameManager;
+
+    const togglePause = () => {
+        gameManager.pause();
+    }
 
     return (
         <GameLayout variant="game" className="flex flex-col">
@@ -43,6 +48,8 @@ function Playing({ gameManager }: { gameManager: UseGame }) {
             <div className="flex-1 flex flex-col justify-center items-center pb-8 animate-in zoom-in duration-300">
                 {currentCard ? (
                     <Card
+                        color={currentCard.color}
+                        onClicked={togglePause}
                         title={currentCard.title}
                         category={currentCard.category}
                     />
@@ -82,6 +89,15 @@ function Playing({ gameManager }: { gameManager: UseGame }) {
                     </GameButton>
                 </div>
             </StickyFooter>
+
+            <GamePauseModal
+                isOpen={gameManager.gamePaused}
+                onResume={() => togglePause()}
+                onQuit={() => {
+                    togglePause();
+                    gameManager.restartGame();
+                }}
+            />
 
         </GameLayout>
     );

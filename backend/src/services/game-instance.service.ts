@@ -26,6 +26,7 @@ export class GameInstanceService {
   private intervalId: NodeJS.Timeout | null = null;
   private roundLogic: BaseRoundLogic;
   public lastActivity: number = Date.now();
+  private isPaused: boolean = false;
 
   private logger: Logger = new Logger('GameService');
 
@@ -231,6 +232,24 @@ export class GameInstanceService {
     }
   }
 
+  pauseGame(server: Server) {
+    if (this.gameState !== GameState.PLAYING && !this.isPaused) {
+      this.logger.warn("Tentative de pause hors d'une phase de jeu");
+      return;
+    }
+
+    this.isPaused = !this.isPaused;
+
+    if (this.isPaused) {
+      this.logger.log(`Game paused at ${this.timer}s`);
+      this.stopTimer();
+    } else {
+      this.logger.log(`Game resumed at ${this.timer}s`);
+      this.startTimer(server);
+    }
+    server.to(this.roomId).emit('gameStatus', this.getGameStatus());
+  }
+
   addPlayer(name: string, socketId?: string) {
     this.touch();
     if (name === '' || name.length < 2) {
@@ -307,6 +326,7 @@ export class GameInstanceService {
       master2Player: master2!,
       players: this.players,
       gameState: this.gameState,
+      isPaused: this.isPaused,
     };
   }
 

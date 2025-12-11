@@ -28,6 +28,7 @@ export const useGame = () => {
     const socketRef = useRef<Socket | null>(null);
     const [timer, setTimer] = useState<number>();
     const isReconnecting = useRef(false);
+    const [gamePaused, setGamePaused] = useState<boolean>(true);
 
     const selectTheme = (playerId: string, theme: string) => {
         socketRef.current?.emit('getPersonnalCard', { playerId, theme });
@@ -43,6 +44,7 @@ export const useGame = () => {
         setCurrentCard(gameStatus.currentCard);
         setCurrentRound(gameStatus.currentRound);
         setGameState(gameStatus.gameState);
+        setGamePaused(gameStatus.isPaused);
 
         // Trouver notre joueur par socketId et stocker son playerId
         const myPlayer = gameStatus.players.find(p => p.socketId === socketRef.current?.id);
@@ -178,6 +180,10 @@ export const useGame = () => {
         socketRef.current?.emit('pass');
     };
 
+    const pause = () => {
+        socketRef.current?.emit('pause');
+    };
+
     const updatePlayerConfig = (playerId: string, newName?: string, newIcon?: string)  => {
         socketRef.current?.emit('updatePlayerConfig', { playerId, newName, newIcon });
     };
@@ -205,10 +211,12 @@ export const useGame = () => {
         validateCard ,
         passCard ,
         updatePlayerConfig,
+        pause,
         timer ,
         currentRound ,
         themeCapacities ,
-        selectTheme
+        selectTheme,
+        gamePaused
     };
 };
 

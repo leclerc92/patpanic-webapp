@@ -1,10 +1,25 @@
 import { GameCard} from "@/components/game/GameCard.tsx";
 
-export const Card = ({ title, category }: { title: string, category: string }) => {
+interface Props {
+    title: string;
+    category: string;
+    color: string;
+    onClicked: () => void;
+}
+
+export const Card = ({ title, category, color, onClicked }: Props) => {
+
+    const handlePause = () => {
+        onClicked();
+    };
+
+    console.log(color);
+
+
     return (
-        <div className="relative w-full aspect-[3/4] max-w-sm mx-auto group perspective">
+        <div onClick={handlePause} className="relative w-full aspect-[3/4] max-w-sm mx-auto group perspective">
             {/* Glow Effect */}
-            <div className="absolute -inset-2 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-[2.5rem] blur-lg opacity-60 animate-pulse"></div>
+            <div className="absolute -inset-2 bg-gradient-to-r from-{color}-500 via-purple-500 to-indigo-500 rounded-[2.5rem] blur-lg opacity-60 animate-pulse"></div>
 
             <GameCard className="relative h-full flex flex-col items-center justify-between p-8 !rounded-[2rem] border-4 border-white/50 text-slate-900">
                 <div className="w-full flex justify-between items-start opacity-50">
