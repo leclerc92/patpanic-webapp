@@ -18,7 +18,8 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
 
     const hasEnoughPlayers = gameManager.players.length >= 2;
     const allPlayersReady = gameManager.players.length > 0 && gameManager.players.every(p => p.personnalCard);
-    const canStart = hasEnoughPlayers && allPlayersReady;
+    const hasEnoughMasters = gameManager.players.find((p)=>p.masterNumber == 2);
+    const canStart = hasEnoughPlayers && allPlayersReady && hasEnoughMasters;
 
     const handleAddPlayer = () => {
         if (!playerName.trim()) return;
@@ -95,7 +96,7 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                         <>🚀 LANCER LA PARTIE</>
                     ) : (
                         <span className="text-base font-medium">
-                            {!hasEnoughPlayers ? "Attente joueurs (min 2)..." : "Attente des thèmes..."}
+                            {!hasEnoughPlayers ? "Attente joueurs (min 2)..." : !hasEnoughMasters ? "Attente des masters " : "Attente des thèmes..."}
                         </span>
                     )}
                 </GameButton>
