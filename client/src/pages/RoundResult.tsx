@@ -91,6 +91,7 @@ function RoundResult({ gameManager }: { gameManager: UseGame }) {
             </GameCard>
 
             {/* ACTION */}
+            {gameManager.amImaster1 &&
             <StickyFooter>
                 <GameButton
                     onClick={gameManager.goToRoundInstructions}
@@ -110,6 +111,7 @@ function RoundResult({ gameManager }: { gameManager: UseGame }) {
                     </div>
                 </GameButton>
             </StickyFooter>
+            }
         </GameLayout>
     );
 }

@@ -30,6 +30,12 @@ export const useGame = () => {
     const isReconnecting = useRef(false);
     const [gamePaused, setGamePaused] = useState<boolean>(true);
 
+    const amImaster1 = !!(mySocketId && master1Player && mySocketId === master1Player.socketId);
+    const amImaster2 = !!(mySocketId && master2Player && mySocketId === master2Player.socketId);
+    const isMyTurn = !!(currentPlayer && mySocketId === currentPlayer.socketId);
+    const isMaster1Turn = !!(master1Player && currentPlayer && master1Player.id === currentPlayer.id);
+    const isMaster2Turn = !!(master2Player && currentPlayer && master2Player.id === currentPlayer.id);
+
     const selectTheme = (playerId: string, theme: string) => {
         socketRef.current?.emit('getPersonnalCard', { playerId, theme });
     };
@@ -59,7 +65,7 @@ export const useGame = () => {
     };
 
     useEffect(() => {
-        const newSocket = io('http://localhost:3000');
+        const newSocket = io(`http://${window.location.hostname}:3000`);
         socketRef.current = newSocket;
 
         newSocket.on('error', (msg: string) => {
@@ -216,7 +222,12 @@ export const useGame = () => {
         currentRound ,
         themeCapacities ,
         selectTheme,
-        gamePaused
+        gamePaused,
+        amImaster1,
+        amImaster2,
+        isMyTurn,
+        isMaster1Turn,
+        isMaster2Turn,
     };
 };
 

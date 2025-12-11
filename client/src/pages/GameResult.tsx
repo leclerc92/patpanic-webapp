@@ -73,6 +73,7 @@ function GameResult({ gameManager }: { gameManager: UseGame }) {
             </div>
 
             {/* ACTION : RETOUR ACCUEIL */}
+            {gameManager.amImaster1 &&
             <StickyFooter>
                 <GameButton
                     onClick={gameManager.restartGame}
@@ -83,6 +84,7 @@ function GameResult({ gameManager }: { gameManager: UseGame }) {
                     <RotateCcw className="mr-2 h-5 w-5" /> REJOUER UNE PARTIE
                 </GameButton>
             </StickyFooter>
+            }
 
         </GameLayout>
     );

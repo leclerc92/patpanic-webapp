@@ -11,6 +11,12 @@ import {StickyFooter} from "@/components/layout/StickyFooter.tsx";
 function PlayerInstructions({ gameManager }: { gameManager: UseGame }) {
     const player = gameManager.currentPlayer;
 
+    const displayButton = () => {
+        return  ( gameManager.isMaster1Turn && gameManager.amImaster2) ||
+            ( gameManager.amImaster1 && !gameManager.isMyTurn)
+
+    }
+
     return (
         <GameLayout variant="game"> {/* Fond un peu plus sombre pour la transition vers le jeu */}
 
@@ -72,6 +78,7 @@ function PlayerInstructions({ gameManager }: { gameManager: UseGame }) {
 
             {/* --- FOOTER START --- */}
             <StickyFooter>
+                {displayButton() &&
                 <GameButton
                     onClick={gameManager.startPlayerTurn}
                     size="xl" // Bouton extra large pour l'action principale
@@ -80,6 +87,7 @@ function PlayerInstructions({ gameManager }: { gameManager: UseGame }) {
                 >
                     <Play className="w-8 h-8 fill-current mr-3" /> C'EST PARTI !
                 </GameButton>
+                }
             </StickyFooter>
 
         </GameLayout>

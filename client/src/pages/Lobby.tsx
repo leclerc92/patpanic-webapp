@@ -14,7 +14,6 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
 
     const myPlayer = gameManager.players.find(p => p.socketId === gameManager.mySocketId);
     const amIRegistered = !!myPlayer;
-    const amImaster = myPlayer && myPlayer.masterNumber === 1;
 
     const hasEnoughPlayers = gameManager.players.length >= 2;
     const allPlayersReady = gameManager.players.length > 0 && gameManager.players.every(p => p.personnalCard);
@@ -43,7 +42,7 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
             </div>
 
             {/* FORMULAIRE INSCRIPTION (Si je ne suis pas encore inscrit) */}
-            {!amIRegistered || amImaster && (
+            {!amIRegistered || gameManager.amImaster1 && (
                 <GameCard className="mb-6 p-4 animate-in slide-in-from-top">
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-bold text-slate-500 uppercase">Rejoins la partie !</label>
@@ -72,8 +71,8 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                     <LobbyPlayerCard
                         key={p.id}
                         player={p}
-                        canPromote={amImaster || false}
-                        visibleEditing={amImaster && p.socketId === 'invite' || p.socketId === myPlayer?.socketId}
+                        canPromote={gameManager.amImaster1 || false}
+                        visibleEditing={gameManager.amImaster1 && p.socketId === 'invite' || p.socketId === myPlayer?.socketId}
                         players={gameManager.players}
                         themes={gameManager.themes}
                         themeCapacities={gameManager.themeCapacities}
@@ -86,6 +85,7 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
 
             {/* FOOTER ACTIONS */}
             <StickyFooter>
+                {gameManager.amImaster1 &&
                 <GameButton
                     size="lg"
                     onClick={gameManager.goToRoundInstructions}
@@ -100,6 +100,7 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                         </span>
                     )}
                 </GameButton>
+                }
             </StickyFooter>
         </GameLayout>
     );

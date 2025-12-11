@@ -73,6 +73,7 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
             </div>
 
             {/* ACTION SUIVANT */}
+            {gameManager.amImaster1 &&
             <StickyFooter>
                 <GameButton
                     onClick={gameManager.gotToPlayerInstructions}
@@ -82,6 +83,7 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
                     JOUEUR SUIVANT <ArrowRight className="ml-2 h-6 w-6" />
                 </GameButton>
             </StickyFooter>
+            }
 
         </GameLayout>
     );

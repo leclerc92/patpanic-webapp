@@ -108,14 +108,15 @@ function RoundInstructions({ gameManager }: { gameManager: UseGame }) {
                 </div>
             </GameCard>
 
-            {/* --- BOUTON RETOUR DISCRET --- */}
+
+            { gameManager.amImaster1 && <>
+
             <div className="flex justify-center mb-8">
                 <GameButton variant="ghost" size="sm" onClick={gameManager.restartGame}>
                     <Home className="mr-2 h-4 w-4" /> Retour Accueil
                 </GameButton>
             </div>
 
-            {/* --- FOOTER ACTION --- */}
             <StickyFooter>
                 <GameButton
                     onClick={gameManager.gotToPlayerInstructions}
@@ -130,6 +131,7 @@ function RoundInstructions({ gameManager }: { gameManager: UseGame }) {
                     C'EST PARTI ! <ArrowRight className="ml-2 h-6 w-6 animate-pulse" />
                 </GameButton>
             </StickyFooter>
+            </>}
 
         </GameLayout>
     );
