@@ -15,7 +15,7 @@ export const GAME_RULES: Record<number, IRoundConfig> = {
             "Tu peux passer la carte sans pénalité",
             "Tu peux mettre pause en appuyant sur la carte pour débattre de la réponse !"
         ],
-        tips: "Soyez rapides, c'est le moment d'apprendre les cartes !",
+        tips: "soit rapide pour donner tes réponses !",
         color: "blue"
     },
     2: {
@@ -31,7 +31,7 @@ export const GAME_RULES: Record<number, IRoundConfig> = {
             "Si tu passes une carte, tu perds autant de points que de réponses que tu dois donner",
             "Tu peux mettre pause en appuyant sur la carte pour débattre de la réponse !"
         ],
-        tips: "Choisissez le mot clé le plus percutant.",
+        tips: "Panique pas et n'hésite pas passer rapidement si tu bug !",
         color: "purple"
     },
     3: {
@@ -47,7 +47,7 @@ export const GAME_RULES: Record<number, IRoundConfig> = {
             "Chaque adversaire qui passe ou répète est éliminé et tu gagnes 1 point",
             "Sois le dernier en liste pour gagner 2× le nombre de joueurs en points"
         ],
-        tips: "Utilisez tout votre corps !",
+        tips: "Elimine le plus de joueurs bro !",
         color: "orange"
     }
 };

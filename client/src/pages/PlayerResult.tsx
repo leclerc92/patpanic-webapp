@@ -44,8 +44,8 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
                 <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-[2.5rem] blur opacity-60 animate-pulse"></div>
                 <GameCard className="relative flex flex-col items-center justify-center py-10 !rounded-[2rem] border-0 bg-white/95">
                     <span className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">Score du tour</span>
-                    <div className="flex items-baseline gap-2">
-                        <span className="text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-yellow-500 to-orange-600 drop-shadow-sm">
+                    <div className="flex items-baseline gap-2 justify-center min-w-[280px]">
+                        <span className="text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-yellow-500 to-orange-600 drop-shadow-sm tabular-nums">
                             +{turnScore}
                         </span>
                         <span className="text-2xl font-bold text-slate-400">pts</span>
@@ -53,15 +53,15 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
 
                     {/* Boutons d'ajustement pour le master1 */}
                     {gameManager.amImaster1 && player && (
-                        <div className="flex items-center gap-3 mt-6">
+                        <div className="flex items-center justify-center gap-3 mt-6 w-full">
                             <button
                                 onClick={() => gameManager.adjustTurnScore(player.id, -1)}
-                                className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors shadow-lg"
+                                className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                                 disabled={turnScore === 0}
                             >
                                 <Minus className="w-6 h-6" />
                             </button>
-                            <span className="text-slate-600 text-sm font-semibold">Ajuster</span>
+                            <span className="text-slate-600 text-sm font-semibold min-w-[60px] text-center">Ajuster</span>
                             <button
                                 onClick={() => gameManager.adjustTurnScore(player.id, 1)}
                                 className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 text-white transition-colors shadow-lg"

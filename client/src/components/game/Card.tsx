@@ -35,21 +35,27 @@ export const Card = ({ title, category, color, onClicked }: Props) => {
             {/* Glow Effect */}
             <div className={`absolute -inset-2 bg-gradient-to-r ${gradientClass} rounded-[2.5rem] blur-lg opacity-60 animate-pulse`}></div>
 
-            <GameCard className="relative h-full flex flex-col items-center justify-between p-8 !rounded-[2rem] border-4 border-white/50 text-slate-900">
-                <div className="w-full flex justify-between items-start opacity-50">
+            <GameCard className="relative h-full flex items-center justify-center px-8 !rounded-[2rem] border-4 border-white/50 text-slate-900">
+                {/* Catégorie en haut */}
+                <div className="absolute top-4 left-0 right-0 w-full flex justify-center items-center opacity-50">
           <span className="uppercase tracking-wider text-[10px] bg-slate-100 px-2 py-1 rounded-md font-bold">
             {category}
           </span>
-                    <span>✨</span>
                 </div>
 
-                <div className="flex-1 flex items-center justify-center">
-          <span className="text-5xl font-black text-center leading-tight break-words bg-clip-text text-transparent bg-gradient-to-br from-slate-900 to-slate-600">
+                {/* Titre au centre */}
+                <div className="flex items-center justify-center px-4 overflow-hidden w-full">
+          <span className="text-4xl font-black text-center leading-tight bg-clip-text text-transparent bg-gradient-to-br from-slate-900 to-slate-600 max-w-full" style={{ wordWrap: 'break-word', hyphens: 'auto' }}>
             {title}
           </span>
                 </div>
 
-                <div className="w-12 h-1.5 bg-slate-100 rounded-full opacity-50" />
+                {/* Catégorie en bas (miroir) */}
+                <div className="absolute bottom-4 left-0 right-0 w-full flex justify-center items-center opacity-50 rotate-180">
+          <span className="uppercase tracking-wider text-[10px] bg-slate-100 px-2 py-1 rounded-md font-bold">
+            {category}
+          </span>
+                </div>
             </GameCard>
         </div>
     );
