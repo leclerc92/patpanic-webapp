@@ -5,50 +5,12 @@ import {GameBadge} from "@/components/game/GameBadge.tsx";
 import {GameCard} from "@/components/game/GameCard.tsx";
 import {GameButton} from "@/components/game/GameButton.tsx";
 import {StickyFooter} from "@/components/layout/StickyFooter.tsx";
+import {GAME_RULES} from "@patpanic/shared";
 
-
-// Configuration du contenu (Inchangée, c'est de la data)
-const ROUND_CONFIG: Record<number, {
-    title: string;
-    icon: string;
-    bgColor: string; // On garde pour les puces, mais on adapte le style
-    rules: string[];
-    tips: string;
-}> = {
-    1: {
-        title: "L'Anguille",
-        icon: "🪱",
-        bgColor: "bg-blue-500",
-        rules: ["Décrivez les cartes librement.", "Tout dire sauf les mots de la carte.", "Pas de limite de mots !"],
-        tips: "Soyez rapides, c'est le moment d'apprendre les cartes !"
-    },
-    2: {
-        title: "Le Hibou",
-        icon: "🦉",
-        bgColor: "bg-purple-500",
-        rules: ["Un seul mot par carte !", "Le mot doit exister.", "Interdit de répéter un mot."],
-        tips: "Choisissez le mot clé le plus percutant."
-    },
-    3: {
-        title: "L'Abeille",
-        icon: "🐝",
-        bgColor: "bg-orange-500",
-        rules: ["Silence absolu !", "Mimez l'action ou l'objet.", "Bruitages interdits."],
-        tips: "Utilisez tout votre corps !"
-    }
-};
 
 function RoundInstructions({ gameManager }: { gameManager: UseGame }) {
     const roundNumber = gameManager.currentRound;
-
-    // Fallback sécurisé
-    const config = ROUND_CONFIG[roundNumber] || {
-        title: `Manche ${roundNumber}`,
-        icon: "📜",
-        bgColor: "bg-gray-500",
-        rules: ["Suivez les instructions du maître du jeu."],
-        tips: "Bonne chance !"
-    };
+    const roundConfig = GAME_RULES[roundNumber];
 
     return (
         <GameLayout variant="lobby"> {/* On garde le thème coloré "Lobby" pour les instructions */}
@@ -61,12 +23,12 @@ function RoundInstructions({ gameManager }: { gameManager: UseGame }) {
 
                 <div className="relative inline-block">
                     {/* Petit effet de glow derrière le titre */}
-                    <div className={`absolute inset-0 ${config.bgColor} blur-2xl opacity-40 rounded-full`}></div>
+                    <div className={`absolute inset-0 ${roundConfig.color} blur-2xl opacity-40 rounded-full`}></div>
                     <h1 className="relative text-6xl font-black text-white drop-shadow-xl">
-                        {config.title}
+                        {roundConfig.title}
                     </h1>
                     <div className="text-4xl absolute -top-4 -right-8 animate-bounce delay-700">
-                        {config.icon}
+                        {roundConfig.icon}
                     </div>
                 </div>
             </div>
@@ -83,9 +45,9 @@ function RoundInstructions({ gameManager }: { gameManager: UseGame }) {
                 <div className="p-6 space-y-6">
                     {/* Liste des règles */}
                     <ul className="space-y-4">
-                        {config.rules.map((rule, index) => (
+                        {roundConfig.rules.map((rule, index) => (
                             <li key={index} className="flex items-start gap-3 group">
-                                <div className={`mt-1 min-w-[24px] h-6 rounded-full ${config.bgColor} text-white flex items-center justify-center text-xs font-bold shadow-sm group-hover:scale-110 transition-transform`}>
+                                <div className={`mt-1 min-w-[24px] h-6 rounded-full ${roundConfig.color} text-white flex items-center justify-center text-xs font-bold shadow-sm group-hover:scale-110 transition-transform`}>
                                     {index + 1}
                                 </div>
                                 <span className="text-lg font-medium text-slate-700 leading-tight">
@@ -102,7 +64,7 @@ function RoundInstructions({ gameManager }: { gameManager: UseGame }) {
                             <span className="font-bold text-yellow-700 text-xs uppercase tracking-wider">Conseil Pro</span>
                         </div>
                         <p className="text-yellow-800 italic font-medium">
-                            "{config.tips}"
+                            "{roundConfig.tips}"
                         </p>
                     </div>
                 </div>
