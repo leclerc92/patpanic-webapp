@@ -1,5 +1,5 @@
 import type { UseGame } from "@/hooks/useGame.ts";
-import { ArrowRight, Trophy, TrendingUp, Zap } from "lucide-react";
+import { ArrowRight, Trophy, TrendingUp, Zap, Plus, Minus } from "lucide-react";
 import { GameLayout } from "@/components/layout/GameLayout";
 import { PlayerAvatar } from "@/components/game/PlayerAvatar";
 import {GameCard} from "@/components/game/GameCard.tsx";
@@ -50,6 +50,26 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
                         </span>
                         <span className="text-2xl font-bold text-slate-400">pts</span>
                     </div>
+
+                    {/* Boutons d'ajustement pour le master1 */}
+                    {gameManager.amImaster1 && player && (
+                        <div className="flex items-center gap-3 mt-6">
+                            <button
+                                onClick={() => gameManager.adjustTurnScore(player.id, -1)}
+                                className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors shadow-lg"
+                                disabled={turnScore === 0}
+                            >
+                                <Minus className="w-6 h-6" />
+                            </button>
+                            <span className="text-slate-600 text-sm font-semibold">Ajuster</span>
+                            <button
+                                onClick={() => gameManager.adjustTurnScore(player.id, 1)}
+                                className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 text-white transition-colors shadow-lg"
+                            >
+                                <Plus className="w-6 h-6" />
+                            </button>
+                        </div>
+                    )}
                 </GameCard>
             </div>
 

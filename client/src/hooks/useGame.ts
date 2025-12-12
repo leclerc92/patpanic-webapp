@@ -223,6 +223,10 @@ export const useGame = () => {
         socketRef.current?.emit('updatePlayerConfig', { playerId, newName, newIcon });
     };
 
+    const adjustTurnScore = (playerId: string, adjustment: number) => {
+        socketRef.current?.emit('adjustTurnScore', { playerId, adjustment });
+    };
+
     const closeRoom = () => {
         socketRef.current?.emit('closeRoom');
     };
@@ -251,6 +255,7 @@ export const useGame = () => {
         validateCard ,
         passCard ,
         updatePlayerConfig,
+        adjustTurnScore,
         pause,
         timer ,
         currentRound ,

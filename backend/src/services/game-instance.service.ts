@@ -125,6 +125,26 @@ export class GameInstanceService {
     console.log('updatePlayerConfig', playerId, newName, newIcon);
   }
 
+  adjustTurnScore(playerId: string, adjustment: number) {
+    const player = this.players.find((p) => p.id === playerId);
+    if (!player) {
+      this.logger.error(
+        `adjustTurnScore - Player with id ${playerId} not found.`,
+      );
+      throw new Error(`Unable to find player: ${playerId}`);
+    }
+
+    // Ajuster le turnScore
+    player.turnScore = Math.max(0, player.turnScore + adjustment);
+
+    // Ajuster également le roundScore
+    player.roundScore = Math.max(0, player.roundScore + adjustment);
+
+    this.logger.log(
+      `adjustTurnScore - Player ${player.name} turnScore adjusted by ${adjustment} to ${player.turnScore}`,
+    );
+  }
+
   allPlayerPlayed(): boolean {
     for (const player of this.players) {
       if (player.remainingTurns > 0) return false;

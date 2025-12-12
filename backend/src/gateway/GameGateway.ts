@@ -17,6 +17,7 @@ import { ReconnectPlayerDto } from '../dtos/reconnectPlayerDto';
 import { GameInstanceService } from '../services/game-instance.service';
 import { GameState } from '@patpanic/shared';
 import { UpdatePlayerConfigDto } from '../dtos/updatePlayerConfigDto';
+import { AdjustTurnScoreDto } from '../dtos/adjustTurnScoreDto';
 
 // Interface pour typer le socket enrichi
 interface GameSocket extends Socket {
@@ -292,6 +293,16 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
         name: data.newName,
         icon: data.newIcon,
       });
+    });
+  }
+
+  @SubscribeMessage('adjustTurnScore')
+  handleAdjustTurnScore(
+    @MessageBody() data: AdjustTurnScoreDto,
+    @ConnectedSocket() client: GameSocket,
+  ) {
+    this.handleGameAction(client, (game) => {
+      game.adjustTurnScore(data.playerId, data.adjustment);
     });
   }
 
