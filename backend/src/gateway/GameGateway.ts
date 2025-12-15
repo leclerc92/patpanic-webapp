@@ -9,7 +9,6 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { Logger, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
-import { ThrottlerGuard } from '@nestjs/throttler';
 import { GameService } from '../services/game.service';
 import { JoinGameDto } from '../dtos/joinGameDto';
 import { SelectThemeDto } from '../dtos/selectThemeDto';
@@ -19,6 +18,7 @@ import { GameState } from '@patpanic/shared';
 import { UpdatePlayerConfigDto } from '../dtos/updatePlayerConfigDto';
 import { AdjustTurnScoreDto } from '../dtos/adjustTurnScoreDto';
 import { SocketIOGameEventEmitter } from '../adapters/socket-io-game-event-emitter';
+import { WsThrottlerGuard } from '../guards/ws-throttler.guard';
 
 // Interface pour typer le socket enrichi
 interface GameSocket extends Socket {
@@ -58,7 +58,7 @@ interface GameSocket extends Socket {
     },
   }),
 )
-@UseGuards(ThrottlerGuard)
+@UseGuards(WsThrottlerGuard)
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;

@@ -2,11 +2,20 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
 import { WsExceptionFilter } from './filters/ws-exception.filter';
 import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
+import { EnvironmentVariables } from './config/configuration';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
+  const configService = app.get<ConfigService<EnvironmentVariables>>(ConfigService);
+
+  // Get validated environment variables
+  // Using getOrThrow ensures values exist (validated by Joi schema)
+  const nodeEnv = configService.getOrThrow('NODE_ENV', { infer: true });
+  const port = configService.getOrThrow('PORT', { infer: true });
+  const allowedOriginsEnv = configService.get('ALLOWED_ORIGINS', { infer: true });
 
   // Security headers with Helmet
   app.use(
@@ -29,8 +38,8 @@ async function bootstrap() {
   // CORS Configuration
   // SECURITY WARNING: In production, use ALLOWED_ORIGINS environment variable
   // with specific domains instead of regex patterns
-  const allowedOrigins = process.env.ALLOWED_ORIGINS
-    ? process.env.ALLOWED_ORIGINS.split(',')
+  const allowedOrigins = allowedOriginsEnv
+    ? allowedOriginsEnv.split(',')
     : [
         'http://localhost:5173',
         // Development only: Allow local network IPs
@@ -39,9 +48,9 @@ async function bootstrap() {
         /^http:\/\/10\.\d{1,3}\.\d{1,3}\.\d{1,3}:5173$/,
       ];
 
-  if (process.env.NODE_ENV === 'production') {
+  if (nodeEnv === 'production') {
     logger.warn(
-      'WARNING: Running in production mode. Ensure ALLOWED_ORIGINS is properly configured.',
+      'WARNING: Running in production mode. ALLOWED_ORIGINS is properly configured.',
     );
   }
 
@@ -50,9 +59,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  const port = process.env.PORT ?? 3000;
   await app.listen(port, '0.0.0.0');
   logger.log(`Application is running on: http://0.0.0.0:${port}`);
+  logger.log(`Environment: ${nodeEnv}`);
 }
 
 bootstrap().catch((err) => {

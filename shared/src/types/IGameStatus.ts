@@ -6,7 +6,7 @@ export type IGameStatus = {
     roomId: string;
     players: IPlayer[];
     currentPlayer: IPlayer;
-    mainPlayer: IPlayer;
+    mainPlayer: IPlayer | undefined;
     currentCard: ICard | undefined;
     gameState: GameState;
     currentRound: number;

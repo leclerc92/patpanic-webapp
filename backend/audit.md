@@ -89,11 +89,6 @@ import { IsIn, ROOMS } from '...';  // Imports inutilisés
 this.getGameInstance('CLEMICHES');
 throw new Error('Salle invalide (utilisez CLEMICHES)');
 
-20. Pas de Validation des Variables d'Environnement
-
-- Pas de schéma Joi/Zod
-- Fallbacks dangereux en production
-- process.env.PORT non validé
 
 21. Binding 0.0.0.0
 

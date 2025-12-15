@@ -337,10 +337,6 @@ export class GameInstanceService {
     const currentPlayer = this.players[this.currentPlayerIndex];
     const mainPlayer = this.players.find((p) => p.isMainPlayer);
 
-    if (!mainPlayer) {
-      throw new Error('No main player found in game status');
-    }
-
     return {
       roomId: this.roomId,
       currentRound: this.currentRound,

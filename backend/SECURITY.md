@@ -1,5 +1,51 @@
 # Configuration de Sécurité
 
+## Validation des Variables d'Environnement
+
+Le backend utilise `@nestjs/config` avec Joi pour valider toutes les variables d'environnement au démarrage.
+
+### Variables validées
+
+| Variable | Type | Requis | Défaut | Description |
+|----------|------|--------|--------|-------------|
+| `NODE_ENV` | `development`, `production`, `test` | Non | `development` | Environnement d'exécution |
+| `PORT` | `number` (1-65535) | Non | `3000` | Port du serveur |
+| `ALLOWED_ORIGINS` | `string` | **Oui en production** | - | Origines CORS autorisées (séparées par virgules) |
+
+### Comportement au démarrage
+
+- Si une variable est **invalide** : l'application **refuse de démarrer**
+- Si `ALLOWED_ORIGINS` est **manquante en production** : l'application **refuse de démarrer**
+- Tous les messages d'erreur de validation sont affichés (pas seulement le premier)
+
+### Exemples
+
+**Démarrage réussi (développement) :**
+```bash
+NODE_ENV=development
+PORT=3000
+# ALLOWED_ORIGINS est optionnel en développement
+```
+
+**Démarrage échoué (production sans ALLOWED_ORIGINS) :**
+```bash
+NODE_ENV=production
+PORT=3000
+# ❌ ERREUR: ALLOWED_ORIGINS est requis en production
+```
+
+**Démarrage réussi (production) :**
+```bash
+NODE_ENV=production
+PORT=3000
+ALLOWED_ORIGINS=https://example.com,https://www.example.com
+```
+
+**Démarrage échoué (port invalide) :**
+```bash
+PORT=99999  # ❌ ERREUR: Le port doit être entre 1 et 65535
+```
+
 ## Headers de Sécurité (Helmet)
 
 Le backend utilise Helmet pour ajouter automatiquement des headers de sécurité HTTP :
@@ -68,6 +114,15 @@ Le backend utilise `@nestjs/throttler` pour limiter les requêtes WebSocket :
 - S'applique à tous les événements WebSocket
 - Erreur retournée : `ThrottlerException: Too Many Requests`
 
+### Implementation WebSocket
+
+Un guard personnalisé `WsThrottlerGuard` a été créé pour adapter le `ThrottlerGuard` standard aux connexions WebSocket :
+
+- Extrait l'IP depuis le handshake Socket.IO (supporte `x-forwarded-for`, `x-real-ip`)
+- Crée un mock de l'objet response HTTP (WebSocket n'a pas de response HTTP)
+- Émet un événement `error` au client en cas de dépassement de limite
+- Protège tous les événements WebSocket du gateway
+
 ### Personnaliser les limites
 
 Pour ajuster les limites par événement, utilisez le décorateur `@Throttle()` :
@@ -125,12 +180,20 @@ Protection contre :
 
 ## Recommandations additionnelles
 
+### Implémenté ✅
+
+1. ✅ **Validation des variables d'environnement** : `@nestjs/config` avec Joi
+2. ✅ **Headers de sécurité** : Helmet configuré
+3. ✅ **Rate Limiting** : ThrottlerGuard activé
+4. ✅ **Exception Filter** : WsExceptionFilter global
+5. ✅ **Validation des entrées** : class-validator sur tous les DTOs
+
 ### À implémenter (non fait actuellement)
 
 1. **Authentification WebSocket** : Ajouter JWT ou session-based auth
-2. **Validation des variables d'environnement** : Utiliser `@nestjs/config` avec Joi
-3. **Persistance** : Migrer vers Redis pour l'état partagé
-4. **Monitoring** : Intégrer Sentry pour le tracking d'erreurs
-5. **Health checks** : Ajouter `@nestjs/terminus`
+2. **Persistance** : Migrer vers Redis pour l'état partagé
+3. **Monitoring** : Intégrer Sentry pour le tracking d'erreurs
+4. **Health checks** : Ajouter `@nestjs/terminus`
+5. **Tests** : Ajouter une couverture de tests complète
 
 Voir `audit.md` pour la liste complète des améliorations recommandées.
