@@ -91,6 +91,13 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {
     try {
       const roomId = data.roomId.toUpperCase();
+
+      // Vérifier si un client est déjà connecté à cette room
+      const roomClients = this.server.sockets.adapter.rooms.get(roomId);
+      if (roomClients && roomClients.size > 0) {
+        throw new Error(`La room ${roomId} a déjà un maître du jeu !`);
+      }
+
       const game = this.gameService.getGameInstance(roomId);
       client.join(roomId);
       client.data.roomId = roomId;
@@ -172,7 +179,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return this.gameService.getGameInstance(roomId);
   }
 
-  // Wrapper pour éviter la répétition du try/catch (Design Pattern)
   private handleGameAction(
     client: GameSocket,
     action: (game: GameInstanceService) => void,

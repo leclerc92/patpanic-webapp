@@ -114,10 +114,7 @@ export class GameInstanceService {
       throw new Error(`Unable to find player: ${playerId}`);
     }
 
-    // Ajuster le turnScore
     player.turnScore = Math.max(0, player.turnScore + adjustment);
-
-    // Ajuster également le roundScore
     player.roundScore = Math.max(0, player.roundScore + adjustment);
 
     this.logger.log(

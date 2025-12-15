@@ -83,6 +83,7 @@ export const useGame = () => {
 
         newSocket.on('roomClosed', () => {
             setError('La room a été fermée par le master');
+            setCurrentRoomId(null);
         });
 
         newSocket.on('playerRemoved', () => {

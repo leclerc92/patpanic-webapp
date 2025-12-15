@@ -84,7 +84,6 @@ export class GameService {
     if (this.games.has(id)) {
       this.logger.log(`🔄 Réinitialisation de la room : ${id}`);
       this.games.delete(id);
-      this.games.set(id, new GameInstanceService(id, this.jsonImporterService));
     }
   }
 }
