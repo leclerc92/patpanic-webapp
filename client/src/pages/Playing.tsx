@@ -19,12 +19,6 @@ function Playing({ gameManager }: { gameManager: UseGame }) {
         gameManager.pause();
     }
 
-    const displayButton = () => {
-        return  ( gameManager.isMaster1Turn && gameManager.amImaster2) ||
-            ( gameManager.amImaster1 && !gameManager.isMyTurn) ||
-            ( gameManager.amImaster1 && gameManager.isMyTurn && gameManager.isMaster2Invite);
-    }
-
     return (
         <GameLayout variant="game" className="flex flex-col">
 
@@ -66,7 +60,7 @@ function Playing({ gameManager }: { gameManager: UseGame }) {
             </div>
 
             {/* --- FOOTER DE CONTROLE (Passer / Valider) --- */}
-            {displayButton() &&
+
             <StickyFooter>
                 <div className="grid grid-cols-2 gap-4 h-full">
                     {/* Bouton PASSER */}
@@ -96,7 +90,7 @@ function Playing({ gameManager }: { gameManager: UseGame }) {
                     </GameButton>
                 </div>
             </StickyFooter>
-            }
+
 
             <GamePauseModal
                 isOpen={gameManager.gamePaused}

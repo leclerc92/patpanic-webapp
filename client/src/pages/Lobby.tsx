@@ -12,13 +12,9 @@ import {StickyFooter} from "@/components/layout/StickyFooter.tsx"; // Import du 
 export default function Lobby({ gameManager }: { gameManager: UseGame }) {
     const [playerName, setPlayerName] = useState("");
 
-    const myPlayer = gameManager.players.find(p => p.socketId === gameManager.mySocketId);
-    const amIRegistered = !!myPlayer;
-
     const hasEnoughPlayers = gameManager.players.length >= 2;
     const allPlayersReady = gameManager.players.length > 0 && gameManager.players.every(p => p.personnalCard);
-    const hasEnoughMasters = gameManager.players.find((p)=>p.masterNumber == 2);
-    const canStart = hasEnoughPlayers && allPlayersReady && hasEnoughMasters;
+    const canStart = hasEnoughPlayers && allPlayersReady;
 
     const handleAddPlayer = () => {
         if (!playerName.trim()) return;
@@ -38,7 +34,6 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                         <Star className="w-3 h-3 mr-1 text-yellow-300 fill-yellow-300" />
                         Code Salle: {gameManager.currentRoomId}
                     </GameBadge>
-                    {gameManager.amImaster1 && (
                         <button
                             onClick={gameManager.closeRoom}
                             className="bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-full p-2 transition-colors"
@@ -46,12 +41,12 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                         >
                             <X className="w-4 h-4" />
                         </button>
-                    )}
+
                 </div>
             </div>
 
             {/* FORMULAIRE INSCRIPTION (Si je ne suis pas encore inscrit) */}
-            {!amIRegistered || gameManager.amImaster1 && (
+            (
                 <GameCard className="mb-6 p-4 animate-in slide-in-from-top">
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-bold text-slate-500 uppercase">Rejoins la partie !</label>
@@ -68,7 +63,7 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                         </div>
                     </div>
                 </GameCard>
-            )}
+
 
             {/* LISTE DES JOUEURS */}
             <div className="space-y-3 pb-4">
@@ -80,14 +75,12 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                     <LobbyPlayerCard
                         key={p.id}
                         player={p}
-                        canPromote={gameManager.amImaster1 || false}
-                        visibleEditing={gameManager.amImaster1 && p.socketId === 'invite' || p.socketId === myPlayer?.socketId}
                         players={gameManager.players}
                         themes={gameManager.themes}
                         themeCapacities={gameManager.themeCapacities}
                         onUpdateProfile={gameManager.updatePlayerConfig}
                         onSelectTheme={gameManager.selectTheme}
-                        onToggleMaster={()=>gameManager.setMasterPlayer(p.id, 2)}
+                        onSetPlayerReady={gameManager.setPlayerReady}
                         onRemovePlayer={gameManager.removePlayer}
                     />
                 ))}
@@ -95,7 +88,6 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
 
             {/* FOOTER ACTIONS */}
             <StickyFooter>
-                {gameManager.amImaster1 &&
                 <GameButton
                     size="lg"
                     onClick={gameManager.goToRoundInstructions}
@@ -106,11 +98,11 @@ export default function Lobby({ gameManager }: { gameManager: UseGame }) {
                         <>🚀 LANCER LA PARTIE</>
                     ) : (
                         <span className="text-base font-medium">
-                            {!hasEnoughPlayers ? "Attente joueurs (min 2)..." : !hasEnoughMasters ? "Attente des masters " : "Attente des thèmes..."}
+                            {!hasEnoughPlayers ? "Attente joueurs (min 2)..." : !allPlayersReady ? "Attente de la config des joueurs" : "Attente des thèmes..."}
                         </span>
                     )}
                 </GameButton>
-                }
+
             </StickyFooter>
         </GameLayout>
     );

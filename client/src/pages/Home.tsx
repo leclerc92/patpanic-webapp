@@ -13,12 +13,10 @@ interface WelcomeProps {
 }
 
 export default function Home({ gameManager }: WelcomeProps) {
-    const [pseudo, setPseudo] = useState("");
-    const [roomCode, setRoomCode] = useState("");
+    const [roomCode, setRoomCode] = useState("CLEMICHES");
 
     const handleJoin = () => {
-        if (!pseudo.trim() || !roomCode.trim()) return;
-        gameManager.joinGame(roomCode.trim().toUpperCase(), pseudo);
+        gameManager.joinGame(roomCode.trim().toUpperCase());
     };
 
     return (
@@ -41,21 +39,6 @@ export default function Home({ gameManager }: WelcomeProps) {
             {/* --- CARTE DE CONNEXION --- */}
             <GameCard className="w-full max-w-sm mx-auto animate-in zoom-in duration-500 delay-150 shadow-2xl">
                 <div className="flex flex-col gap-6">
-
-                    {/* 1. Pseudo */}
-                    <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">
-                            Ton Pseudo
-                        </label>
-                        <GameInput
-                            value={pseudo}
-                            onChange={(e) => setPseudo(e.target.value)}
-                            placeholder="Ex: Michel le Rigolo"
-                            onKeyDown={(e) => e.key === 'Enter' && handleJoin()}
-                            autoFocus
-                        />
-                    </div>
-
                     {/* 2. Code de la partie */}
                     <div className="space-y-2">
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">
@@ -65,7 +48,7 @@ export default function Home({ gameManager }: WelcomeProps) {
                             <GameInput
                                 value={roomCode}
                                 onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-                                placeholder="Ex: SALLE1"
+                                placeholder="Ex: CLEMICHES"
                                 className="pl-12 tracking-widest font-black uppercase placeholder:normal-case placeholder:font-normal placeholder:tracking-normal"
                                 maxLength={10}
                                 onKeyDown={(e) => e.key === 'Enter' && handleJoin()}
@@ -76,7 +59,7 @@ export default function Home({ gameManager }: WelcomeProps) {
                             </div>
                         </div>
                         <p className="text-xs text-slate-400 text-center italic">
-                            Codes dispos : SALLE1, SALLE2, SALLE3
+                            Codes dispos : CLEMICHES
                         </p>
                     </div>
 
@@ -91,7 +74,7 @@ export default function Home({ gameManager }: WelcomeProps) {
                     {/* Bouton Action */}
                     <GameButton
                         onClick={handleJoin}
-                        disabled={!pseudo.trim() || !roomCode.trim()}
+                        disabled={!roomCode.trim()}
                         size="xl" // Bouton très large pour le mobile
                         variant="primary" // Jaune/Orange pour attirer l'attention
                         className="mt-2 shadow-orange-500/30"
@@ -104,7 +87,7 @@ export default function Home({ gameManager }: WelcomeProps) {
 
             {/* Footer Text */}
             <div className="text-center text-white/40 text-sm mt-8 animate-in fade-in duration-1000 delay-500">
-                <p>Rejoins tes amis et mets le bazar !</p>
+                <p>Lance une partie hasardeuse !</p>
             </div>
 
         </GameLayout>

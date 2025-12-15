@@ -50,25 +50,27 @@ export const GamePauseModal = ({ isOpen, onResume, onQuit }: GamePauseModalProps
                         </div>
 
                         {/* Actions */}
-                        <div className="flex flex-col gap-3 w-full mt-2">
-                            <GameButton
-                                onClick={onResume}
-                                variant="success"
-                                size="lg"
-                                className="w-full shadow-emerald-500/20"
-                            >
-                                <Play className="w-5 h-5 mr-2 fill-current" /> REPRENDRE
-                            </GameButton>
 
-                            <GameButton
-                                onClick={onQuit}
-                                variant="ghost"
-                                size="md"
-                                className="w-full text-red-400 hover:text-red-300 hover:bg-red-500/10"
-                            >
-                                <Home className="w-5 h-5 mr-2" /> Quitter la partie
-                            </GameButton>
-                        </div>
+                            <div className="flex flex-col gap-3 w-full mt-2">
+                                <GameButton
+                                    onClick={onResume}
+                                    variant="success"
+                                    size="lg"
+                                    className="w-full shadow-emerald-500/20"
+                                >
+                                    <Play className="w-5 h-5 mr-2 fill-current" /> REPRENDRE
+                                </GameButton>
+
+                                <GameButton
+                                    onClick={onQuit}
+                                    variant="ghost"
+                                    size="md"
+                                    className="w-full text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                                >
+                                    <Home className="w-5 h-5 mr-2" /> Quitter la partie
+                                </GameButton>
+                            </div>
+
                     </div>
                 </GameCard>
             </div>

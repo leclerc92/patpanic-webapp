@@ -9,7 +9,7 @@ import {GameButton} from "@/components/game/GameButton.tsx";
 
 
 function PlayerResult({ gameManager }: { gameManager: UseGame }) {
-    const player = gameManager.mainPlayer; // Le joueur dont on affiche le résultat
+    const player = gameManager.mainPlayer;
     const turnScore = player?.turnScore || 0;
 
     // Message contextuel fun
@@ -18,6 +18,12 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
     if (turnScore > 0) { feedback = "Pas mal !"; emoji = "👍"; }
     if (turnScore > 3) { feedback = "Bien joué !"; emoji = "🔥"; }
     if (turnScore > 6) { feedback = "INCROYABLE !"; emoji = "🚀"; }
+
+    if ( !gameManager.mainPlayer ) {
+        return (
+            <div>Error, le main player n'est pas definis</div>
+        )
+    }
 
     return (
         <GameLayout variant="result">
@@ -52,10 +58,10 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
                     </div>
 
                     {/* Boutons d'ajustement pour le master1 */}
-                    {gameManager.amImaster1 && player && (
+
                         <div className="flex items-center justify-center gap-3 mt-6 w-full">
                             <button
-                                onClick={() => gameManager.adjustTurnScore(player.id, -1)}
+                                onClick={() => gameManager.adjustTurnScore(player!.id, -1)}
                                 className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                                 disabled={turnScore === 0}
                             >
@@ -63,13 +69,13 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
                             </button>
                             <span className="text-slate-600 text-sm font-semibold min-w-[60px] text-center">Ajuster</span>
                             <button
-                                onClick={() => gameManager.adjustTurnScore(player.id, 1)}
+                                onClick={() => gameManager.adjustTurnScore(player!.id, 1)}
                                 className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 text-white transition-colors shadow-lg"
                             >
                                 <Plus className="w-6 h-6" />
                             </button>
                         </div>
-                    )}
+
                 </GameCard>
             </div>
 
@@ -93,7 +99,7 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
             </div>
 
             {/* ACTION SUIVANT */}
-            {gameManager.amImaster1 &&
+
             <StickyFooter>
                 <GameButton
                     onClick={gameManager.gotToPlayerInstructions}
@@ -103,7 +109,7 @@ function PlayerResult({ gameManager }: { gameManager: UseGame }) {
                     JOUEUR SUIVANT <ArrowRight className="ml-2 h-6 w-6" />
                 </GameButton>
             </StickyFooter>
-            }
+
 
         </GameLayout>
     );

@@ -2,7 +2,7 @@
 
 Phase 1 : Sécurité Critique (FAIRE EN PREMIER)
 
-[ ] Supprimer tous les console.log
+[X] Supprimer tous les console.log
 [ ] Implémenter authentification JWT/session
 [ ] Ajouter checks d'autorisation sur WebSocket
 [ ] Corriger CORS (whitelist domaines spécifiques)

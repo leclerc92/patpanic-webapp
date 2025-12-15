@@ -71,7 +71,7 @@ function RoundInstructions({ gameManager }: { gameManager: UseGame }) {
             </GameCard>
 
 
-            { gameManager.amImaster1 && <>
+
 
             <div className="flex justify-center mb-8">
                 <GameButton variant="ghost" size="sm" onClick={gameManager.restartGame}>
@@ -93,7 +93,7 @@ function RoundInstructions({ gameManager }: { gameManager: UseGame }) {
                     C'EST PARTI ! <ArrowRight className="ml-2 h-6 w-6 animate-pulse" />
                 </GameButton>
             </StickyFooter>
-            </>}
+
 
         </GameLayout>
     );

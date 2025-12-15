@@ -10,7 +10,6 @@ export interface IPlayer {
   isMainPlayer: boolean;
   isCurrentPlayer: boolean;
   isActive: boolean;
-  masterNumber: number;
   socketId: string | undefined;
   personnalCard: ICard | undefined;
   remainingTurns:number;

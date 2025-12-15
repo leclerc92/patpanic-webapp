@@ -50,25 +50,6 @@ export class GameInstanceService {
     return this.players.find((p) => p.isMainPlayer)!;
   }
 
-  getMaster1Player(): IPlayer {
-    return this.players.find((p) => p.masterNumber === 1)!;
-  }
-
-  getMaster2Player(): IPlayer {
-    return this.players.find((p) => p.masterNumber === 2)!;
-  }
-
-  setMaster(playerId: string, type: number) {
-    const lastMaster = this.players.find((p) => p.masterNumber === type);
-    if (lastMaster) {
-      lastMaster.masterNumber = 0;
-    }
-    const p = this.players.find((p) => p.id === playerId);
-    if (p) {
-      p.masterNumber = type;
-    }
-  }
-
   getUsedCards(): ICard[] {
     return this.usedCards;
   }
@@ -122,7 +103,6 @@ export class GameInstanceService {
       p.name = newName || p.name;
       p.icon = newIcon || p.icon;
     }
-    console.log('updatePlayerConfig', playerId, newName, newIcon);
   }
 
   adjustTurnScore(playerId: string, adjustment: number) {
@@ -166,6 +146,9 @@ export class GameInstanceService {
       throw new Error(`Unable to generate player: ${playerId}`);
     }
 
+    // Sauvegarder si le joueur avait déjà une carte
+    const hadPersonnalCard = !!player.personnalCard;
+
     if (player.personnalCard) {
       this.usedCards = this.usedCards.filter(
         (c) => c.title !== player.personnalCard?.title,
@@ -183,6 +166,12 @@ export class GameInstanceService {
     if (!randomCard) {
       this.logger.warn(`Plus de carte disponible pour le thème ${theme}`);
       return;
+    }
+
+    if (hadPersonnalCard) {
+      this.logger.log(
+        `Joueur ${player.name} isReady reset to false (changed theme)`,
+      );
     }
 
     player.personnalCard = randomCard;
@@ -286,7 +275,6 @@ export class GameInstanceService {
       isCurrentPlayer: false,
       isActive: true,
       isMainPlayer: false,
-      masterNumber: this.players.length === 0 ? 1 : 0,
       socketId: socketId ?? 'invite',
       score: 0,
       turnScore: 0,
@@ -307,11 +295,6 @@ export class GameInstanceService {
     }
 
     const player = this.players[playerIndex];
-
-    // Empêcher la suppression du Master 1
-    if (player.masterNumber === 1) {
-      throw new Error('Impossible de supprimer le Master 1');
-    }
 
     this.logger.log(`REMOVEPLAYER - Removing player ${player.name}`);
     this.players.splice(playerIndex, 1);
@@ -352,16 +335,13 @@ export class GameInstanceService {
   getGameStatus(): IGameStatus {
     const currentPlayer = this.players[this.currentPlayerIndex];
     const mainPlayer = this.players.find((p) => p.isMainPlayer);
-    const master1 = this.players.find((p) => p.masterNumber === 1);
-    const master2 = this.players.find((p) => p.masterNumber === 2);
 
     return {
+      roomId: this.roomId,
       currentRound: this.currentRound,
       currentCard: this.currentCard,
       currentPlayer: currentPlayer,
       mainPlayer: mainPlayer!,
-      master1Player: master1!,
-      master2Player: master2!,
       players: this.players,
       gameState: this.gameState,
       isPaused: this.isPaused,
