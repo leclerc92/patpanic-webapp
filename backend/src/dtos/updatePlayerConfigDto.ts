@@ -1,5 +1,4 @@
-import { IsString, Length, Matches, IsIn, IsOptional } from 'class-validator';
-import { ROOMS } from '@patpanic/shared';
+import { IsString, Length, Matches, IsOptional } from 'class-validator';
 
 export class UpdatePlayerConfigDto {
   @IsString()

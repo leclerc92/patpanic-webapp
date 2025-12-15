@@ -8,15 +8,17 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Logger, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Logger, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import { GameService } from '../services/game.service';
 import { JoinGameDto } from '../dtos/joinGameDto';
 import { SelectThemeDto } from '../dtos/selectThemeDto';
-import { ReconnectPlayerDto } from '../dtos/reconnectPlayerDto';
+import { AddPlayerDto } from '../dtos/addPlayerDto';
 import { GameInstanceService } from '../services/game-instance.service';
 import { GameState } from '@patpanic/shared';
 import { UpdatePlayerConfigDto } from '../dtos/updatePlayerConfigDto';
 import { AdjustTurnScoreDto } from '../dtos/adjustTurnScoreDto';
+import { SocketIOGameEventEmitter } from '../adapters/socket-io-game-event-emitter';
 
 // Interface pour typer le socket enrichi
 interface GameSocket extends Socket {
@@ -29,8 +31,10 @@ interface GameSocket extends Socket {
   cors: {
     origin: process.env.ALLOWED_ORIGINS?.split(',') ?? [
       'http://localhost:5173',
+      // Development only: Allow local network IPs (192.168.x.x and 10.x.x.x)
+      // TODO: Remove these regex in production and use ALLOWED_ORIGINS env var
       /^http:\/\/192\.168\.\d{1,3}\.\d{1,3}:5173$/,
-      /^http:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:5173$/,
+      /^http:\/\/10\.\d{1,3}\.\d{1,3}\.\d{1,3}:5173$/,
     ],
     credentials: true,
   },
@@ -40,10 +44,10 @@ interface GameSocket extends Socket {
     transform: true,
     whitelist: true,
     exceptionFactory: (errors) => {
-      // Logger les erreurs de validation
+      // Log validation errors
       const logger = new Logger('ValidationPipe');
       logger.error(
-        `❌ Validation échouée: ${JSON.stringify(
+        `Validation failed: ${JSON.stringify(
           errors.map((e) => ({
             property: e.property,
             constraints: e.constraints,
@@ -54,6 +58,7 @@ interface GameSocket extends Socket {
     },
   }),
 )
+@UseGuards(ThrottlerGuard)
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
@@ -69,15 +74,26 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return String(error);
   }
 
+  /**
+   * Crée une instance de l'event emitter Socket.IO.
+   * Permet de découpler la logique métier de l'implémentation Socket.IO.
+   */
+  private getEventEmitter() {
+    return new SocketIOGameEventEmitter(this.server);
+  }
+
   handleConnection(client: Socket) {
     this.logger.log(`Client connecté : ${client.id}`);
   }
 
   handleDisconnect(client: Socket) {
-    this.logger.log(`Client déconnecté : ${client.id}`);
+    this.handleGameAction(client, (game) => {
+      this.logger.log(`Client déconnecté : ${client.id}`);
+      if (game.getGameState() === GameState.PLAYING) {
+        game.pauseGame(this.getEventEmitter());
+      }
+    });
   }
-
-  // --- GESTION DES SALLES ---
 
   @SubscribeMessage('getRoomsInfo')
   handleGetRoomsInfo(client: Socket) {
@@ -85,23 +101,21 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('joinGame')
-  handleJoinGame(
+  async handleJoinGame(
     @MessageBody() data: JoinGameDto,
     @ConnectedSocket() client: GameSocket,
   ) {
     try {
       const roomId = data.roomId.toUpperCase();
 
-      // Vérifier si un client est déjà connecté à cette room
       const roomClients = this.server.sockets.adapter.rooms.get(roomId);
       if (roomClients && roomClients.size > 0) {
         throw new Error(`La room ${roomId} a déjà un maître du jeu !`);
       }
 
       const game = this.gameService.getGameInstance(roomId);
-      client.join(roomId);
+      await client.join(roomId);
       client.data.roomId = roomId;
-      game.setGameState(GameState.LOBBY);
       this.logger.log(`Un client à rejoint ${roomId}`);
       this.server.to(roomId).emit('gameStatus', game.getGameStatus());
     } catch (e) {
@@ -112,7 +126,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('addPlayer')
   handleAddPlayer(
-    @MessageBody() data: { name: string },
+    @MessageBody() data: AddPlayerDto,
     @ConnectedSocket() client: GameSocket,
   ) {
     try {
@@ -196,7 +210,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('startPlayerTurn')
   handleStartPlayerTurn(@ConnectedSocket() client: GameSocket) {
     this.handleGameAction(client, (game) => {
-      game.startTurn(this.server);
+      game.startTurn(this.getEventEmitter());
     });
   }
 
@@ -217,7 +231,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('pause')
   handlePause(@ConnectedSocket() client: GameSocket) {
     this.handleGameAction(client, (game) => {
-      game.pauseGame(this.server);
+      game.pauseGame(this.getEventEmitter());
     });
   }
 
@@ -278,24 +292,14 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('getThemeCapacities')
   handleGetThemeCapacities(@ConnectedSocket() client: GameSocket) {
-    try {
-      const capacities = this.gameService.getThemeCapacities();
-      client.emit('themeCapacities', capacities);
-    } catch (e) {
-      this.logger.error(`getThemeCapacities: ${this.getErrorMessage(e)}`);
-      client.emit('error', this.getErrorMessage(e));
-    }
+    const capacities = this.gameService.getThemeCapacities();
+    client.emit('themeCapacities', capacities);
   }
 
   @SubscribeMessage('getAllThemes')
   handleGetAllThemes(@ConnectedSocket() client: GameSocket) {
-    try {
-      const themes = this.gameService.getAllThemes();
-      client.emit('themes', [...new Set(themes)]);
-    } catch (e) {
-      this.logger.error(`getAllThemes: ${this.getErrorMessage(e)}`);
-      client.emit('error', this.getErrorMessage(e));
-    }
+    const themes = this.gameService.getAllThemes();
+    client.emit('themes', [...new Set(themes)]);
   }
 
   @SubscribeMessage('closeRoom')
@@ -304,18 +308,13 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const roomId = client.data.roomId;
       if (!roomId) throw new Error("Vous n'êtes pas connecté à une salle !");
 
-      this.logger.log(`🚪 Fermeture de la room ${roomId} demandée`);
+      this.logger.log(`Closing room ${roomId}`);
 
-      // Notifier tous les clients de la salle qu'elle ferme
       this.server.to(roomId).emit('roomClosed');
-
-      // Déconnecter tous les clients de la room
       this.server.in(roomId).socketsLeave(roomId);
-
-      // Réinitialiser l'instance de jeu
       this.gameService.resetGameInstance(roomId);
 
-      this.logger.log(`✅ Room ${roomId} fermée et réinitialisée`);
+      this.logger.log(`Room ${roomId} closed and reset`);
     } catch (e) {
       this.logger.error(`closeRoom: ${this.getErrorMessage(e)}`);
       client.emit('error', this.getErrorMessage(e));

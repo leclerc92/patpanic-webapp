@@ -6,12 +6,12 @@ import {
   IGameStatus,
   IPlayer,
 } from '@patpanic/shared';
-import { Server } from 'socket.io';
 import { BaseRoundLogic } from '../logics/baseRoundLogic';
 import { RoundOneLogic } from '../logics/roundOneLogic';
 import { RoundTwoLogic } from '../logics/roundTwoLogic';
 import { RoundThreeLogic } from '../logics/roundThreeLogic';
 import { JsonImporterService } from './json-importer.service';
+import { IGameEventEmitter } from '../interfaces/game-event-emitter.interface';
 
 @Injectable()
 export class GameInstanceService {
@@ -47,7 +47,11 @@ export class GameInstanceService {
   }
 
   getMainPlayer(): IPlayer {
-    return this.players.find((p) => p.isMainPlayer)!;
+    const mainPlayer = this.players.find((p) => p.isMainPlayer);
+    if (!mainPlayer) {
+      throw new Error('No main player found in game');
+    }
+    return mainPlayer;
   }
 
   getUsedCards(): ICard[] {
@@ -206,27 +210,27 @@ export class GameInstanceService {
     this.gameState = GameState.ROUND_END;
   }
 
-  startTurn(server: Server) {
+  startTurn(eventEmitter: IGameEventEmitter) {
     this.touch();
     this.logger.log('Starting Turn');
     this.timer = this.roundLogic.getRoundDuration();
-    this.startTimer(server);
+    this.startTimer(eventEmitter);
     this.gameState = GameState.PLAYING;
     this.roundLogic.generateRoundCards();
     this.getNextCard();
   }
 
-  startTimer(server: Server) {
+  startTimer(eventEmitter: IGameEventEmitter) {
     this.stopTimer();
     this.intervalId = setInterval(() => {
       this.timer--;
 
-      server.to(this.roomId).emit('timerUpdate', this.timer);
+      eventEmitter.emitTimerUpdate(this.roomId, this.timer);
 
       if (this.timer <= 0) {
         this.stopTimer();
         this.roundLogic.handleTimerEnd();
-        server.to(this.roomId).emit('gameStatus', this.getGameStatus());
+        eventEmitter.emitGameStatus(this.roomId, this.getGameStatus());
       }
     }, 1000);
   }
@@ -238,7 +242,7 @@ export class GameInstanceService {
     }
   }
 
-  pauseGame(server: Server) {
+  pauseGame(eventEmitter: IGameEventEmitter) {
     if (this.gameState !== GameState.PLAYING && !this.isPaused) {
       this.logger.warn("Tentative de pause hors d'une phase de jeu");
       return;
@@ -251,9 +255,9 @@ export class GameInstanceService {
       this.stopTimer();
     } else {
       this.logger.log(`Game resumed at ${this.timer}s`);
-      this.startTimer(server);
+      this.startTimer(eventEmitter);
     }
-    server.to(this.roomId).emit('gameStatus', this.getGameStatus());
+    eventEmitter.emitGameStatus(this.roomId, this.getGameStatus());
   }
 
   addPlayer(name: string, socketId?: string) {
@@ -333,12 +337,16 @@ export class GameInstanceService {
     const currentPlayer = this.players[this.currentPlayerIndex];
     const mainPlayer = this.players.find((p) => p.isMainPlayer);
 
+    if (!mainPlayer) {
+      throw new Error('No main player found in game status');
+    }
+
     return {
       roomId: this.roomId,
       currentRound: this.currentRound,
       currentCard: this.currentCard,
       currentPlayer: currentPlayer,
-      mainPlayer: mainPlayer!,
+      mainPlayer: mainPlayer,
       players: this.players,
       gameState: this.gameState,
       isPaused: this.isPaused,

@@ -26,7 +26,11 @@ export class GameService {
       this.games.set(id, new GameInstanceService(id, this.jsonImporterService));
     }
 
-    return this.games.get(id)!;
+    const game = this.games.get(id);
+    if (!game) {
+      throw new Error(`Failed to retrieve game instance for room: ${id}`);
+    }
+    return game;
   }
 
   getRoomsInfo() {
@@ -42,27 +46,26 @@ export class GameService {
 
   @Cron(CronExpression.EVERY_6_HOURS)
   cleanupInactiveGames() {
-    const inactiveThreshold = 6 * 60 * 60 * 1000; // 6 heures en ms
-    const now = Date.now();
+    const inactiveThreshold = 6 * 60 * 60 * 1000; // 6 hours in ms
     let cleanedCount = 0;
 
-    this.logger.log('🧹 Running cleanup check for inactive games...');
+    this.logger.log('Running cleanup check for inactive games');
 
     for (const [roomId, game] of this.games.entries()) {
-      // Condition de nettoyage :
-      // 1. Plus aucun joueur connecté (optionnel selon ta logique socket)
-      // 2. OU Jeu fini ET inactif depuis X temps
-      // 3. OU Jeu n'importe quel état mais TOTALEMENT inactif depuis X temps (anti-oubli)
+      // Cleanup conditions:
+      // 1. No players connected (optional depending on socket logic)
+      // 2. OR Game finished AND inactive for X time
+      // 3. OR Game in any state but COMPLETELY inactive for X time (anti-forget)
 
       if (this.isInactiveFor(game, inactiveThreshold)) {
         this.games.delete(roomId);
-        this.logger.log(`🗑️ Deleted inactive room: ${roomId}`);
+        this.logger.log(`Deleted inactive room: ${roomId}`);
         cleanedCount++;
       }
     }
 
     if (cleanedCount > 0) {
-      this.logger.log(`✨ Cleanup finished. Removed ${cleanedCount} games.`);
+      this.logger.log(`Cleanup finished - Removed ${cleanedCount} games`);
     }
   }
 
@@ -82,7 +85,7 @@ export class GameService {
   resetGameInstance(roomId: string): void {
     const id = roomId.toUpperCase();
     if (this.games.has(id)) {
-      this.logger.log(`🔄 Réinitialisation de la room : ${id}`);
+      this.logger.log(`Resetting room: ${id}`);
       this.games.delete(id);
     }
   }
