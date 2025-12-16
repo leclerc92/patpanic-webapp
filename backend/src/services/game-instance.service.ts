@@ -242,6 +242,15 @@ export class GameInstanceService {
     }
   }
 
+  /**
+   * Cleanup method to release resources when the game instance is destroyed.
+   * Stops all running timers to prevent memory leaks.
+   */
+  cleanup() {
+    this.logger.log(`Cleaning up game instance: ${this.roomId}`);
+    this.stopTimer();
+  }
+
   pauseGame(eventEmitter: IGameEventEmitter) {
     if (this.gameState !== GameState.PLAYING && !this.isPaused) {
       this.logger.warn("Tentative de pause hors d'une phase de jeu");

@@ -38,15 +38,6 @@ Impact: N'importe qui peut se connecter et manipuler les parties
 Fichier: src/gateway/GameGateway.ts:68-72 (handleConnection)
 
 
-6. Configuration TypeScript Trop Permissive
-
-Impact: Erreurs de type non détectées à la compilation
-
-Fichier: tsconfig.json
-"noImplicitAny": false,              // Devrait être true
-"strictBindCallApply": false,        // Devrait être true
-"noFallthroughCasesInSwitch": false  // Devrait être true
-
 
 
  ---
@@ -68,21 +59,6 @@ Fichier: src/services/game.service.ts:11
 📋 Problèmes MINEURS (Améliorations)
 
 
-16. Variables/Imports Inutilisés
-
-// src/services/game.service.ts:46
-const now = Date.now();  // Déclaré mais jamais utilisé
-
-// src/dtos/updatePlayerConfigDto.ts:1
-import { IsIn, ROOMS } from '...';  // Imports inutilisés
-
-
-18. Pas de Documentation JSDoc
-
-- Aucune méthode n'a de JSDoc
-- Difficile de comprendre les paramètres et retours
-- Pas de documentation générée automatiquement
-
 19. Hardcoded Magic Strings
 
 // src/services/game.service.ts:14, 19
@@ -96,13 +72,6 @@ throw new Error('Salle invalide (utilisez CLEMICHES)');
 await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 Expose sur toutes les interfaces réseau, risqué en production.
 
-22. Cleanup Cron Insuffisant
-
-// src/services/game.service.ts:43
-@Cron(CronExpression.EVERY_6_HOURS)
-- Attaquant peut saturer la mémoire avant 6h
-- Pas de configuration du seuil d'inactivité
-- Timer intervalId jamais nettoyé dans le destructeur
 
 23. Pas de Monitoring/Observabilité
 
@@ -110,15 +79,7 @@ Expose sur toutes les interfaces réseau, risqué en production.
 - Pas de métriques de santé
 - Pas de health checks (@nestjs/terminus)
 
-24. Limitation Stricte à 1 Client par Room
 
-// src/gateway/GameGateway.ts:98-100
-if (roomClients && roomClients.size > 0) {
-throw new Error(`La room ${roomId} a déjà un maître du jeu !`);
-}
-Empêche le multi-joueurs réel. Semble volontaire mais restrictif.
-
- ---
 📊 Analyse Détaillée
 
 Architecture (8/10)

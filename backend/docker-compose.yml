@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: patpanic-backend
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      # Override with your .env file or set here
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - GAME_INACTIVITY_THRESHOLD_MINUTES=${GAME_INACTIVITY_THRESHOLD_MINUTES:-60}
+    # Mount .env file if it exists (optional)
+    env_file:
+      - .env
+    networks:
+      - patpanic-network
+    # Resource limits (adjust based on needs)
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+networks:
+  patpanic-network:
+    driver: bridge

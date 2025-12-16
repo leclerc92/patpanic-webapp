@@ -3,15 +3,32 @@ import { GameInstanceService } from './game-instance.service';
 import { JsonImporterService } from './json-importer.service';
 import { ROOMS } from '@patpanic/shared';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { ConfigService } from '@nestjs/config';
+import { EnvironmentVariables } from '../config/configuration';
 
 @Injectable()
 export class GameService {
   private logger: Logger = new Logger('GameService');
 
   private games: Map<string, GameInstanceService> = new Map();
+  private inactivityThresholdMs: number;
 
-  constructor(private readonly jsonImporterService: JsonImporterService) {
+  constructor(
+    private readonly jsonImporterService: JsonImporterService,
+    private readonly configService: ConfigService<EnvironmentVariables>,
+  ) {
     this.getGameInstance('CLEMICHES');
+
+    // Get inactivity threshold from environment (in minutes, convert to ms)
+    const thresholdMinutes = this.configService.getOrThrow(
+      'GAME_INACTIVITY_THRESHOLD_MINUTES',
+      { infer: true },
+    );
+    this.inactivityThresholdMs = thresholdMinutes * 60 * 1000;
+
+    this.logger.log(
+      `Game cleanup configured: ${thresholdMinutes} minutes inactivity threshold`,
+    );
   }
 
   getGameInstance(roomId: string): GameInstanceService {
@@ -44,9 +61,8 @@ export class GameService {
     });
   }
 
-  @Cron(CronExpression.EVERY_6_HOURS)
+  @Cron(CronExpression.EVERY_HOUR)
   cleanupInactiveGames() {
-    const inactiveThreshold = 6 * 60 * 60 * 1000; // 6 hours in ms
     let cleanedCount = 0;
 
     this.logger.log('Running cleanup check for inactive games');
@@ -57,7 +73,9 @@ export class GameService {
       // 2. OR Game finished AND inactive for X time
       // 3. OR Game in any state but COMPLETELY inactive for X time (anti-forget)
 
-      if (this.isInactiveFor(game, inactiveThreshold)) {
+      if (this.isInactiveFor(game, this.inactivityThresholdMs)) {
+        // Clean up timers before deleting
+        game.cleanup();
         this.games.delete(roomId);
         this.logger.log(`Deleted inactive room: ${roomId}`);
         cleanedCount++;
@@ -84,8 +102,11 @@ export class GameService {
 
   resetGameInstance(roomId: string): void {
     const id = roomId.toUpperCase();
-    if (this.games.has(id)) {
+    const game = this.games.get(id);
+    if (game) {
       this.logger.log(`Resetting room: ${id}`);
+      // Clean up timers before deleting
+      game.cleanup();
       this.games.delete(id);
     }
   }

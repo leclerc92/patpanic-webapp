@@ -1,8 +1,8 @@
-import { IsString, Length, Matches, IsOptional } from 'class-validator';
+import { IsString, Length, Matches, IsOptional, IsUUID } from 'class-validator';
 
 export class UpdatePlayerConfigDto {
   @IsString()
-  @Length(1, 100)
+  @IsUUID('4', { message: 'Player ID must be a valid UUID' })
   playerId: string;
 
   @IsOptional()
@@ -11,10 +11,10 @@ export class UpdatePlayerConfigDto {
   @Matches(/^[a-zA-Z0-9\s\-_]+$/, {
     message: 'Le pseudo contient des caractères interdits',
   })
-  newName: string;
+  newName?: string;
 
   @IsOptional()
   @IsString()
   @Length(1, 1, { message: "L'icon doit etre une seul charactere" })
-  newIcon: string;
+  newIcon?: string;
 }

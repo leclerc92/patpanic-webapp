@@ -4,6 +4,7 @@ import { GameModule } from './game.module';
 import { RessourcesModule } from './ressources.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { validationSchema } from '../config/configuration';
+import { WsExceptionFilter } from '../filters/ws-exception.filter';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { validationSchema } from '../config/configuration';
     ScheduleModule.forRoot(),
   ],
   controllers: [],
-  providers: [],
+  providers: [WsExceptionFilter],
+  exports: [WsExceptionFilter],
 })
 export class AppModule {}

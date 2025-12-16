@@ -12,10 +12,7 @@ export const validationSchema = Joi.object({
     .description('Application environment'),
 
   // Server configuration
-  PORT: Joi.number()
-    .port()
-    .default(3000)
-    .description('Server port number'),
+  PORT: Joi.number().port().default(3000).description('Server port number'),
 
   // CORS configuration
   ALLOWED_ORIGINS: Joi.string()
@@ -28,6 +25,15 @@ export const validationSchema = Joi.object({
       then: Joi.required(),
       otherwise: Joi.optional(),
     }),
+
+  // Game cleanup configuration
+  GAME_INACTIVITY_THRESHOLD_MINUTES: Joi.number()
+    .min(5)
+    .max(1440)
+    .default(60)
+    .description(
+      'Inactivity threshold in minutes before game cleanup (5-1440)',
+    ),
 });
 
 /**
@@ -37,4 +43,5 @@ export interface EnvironmentVariables {
   NODE_ENV: 'development' | 'production' | 'test';
   PORT: number;
   ALLOWED_ORIGINS?: string;
+  GAME_INACTIVITY_THRESHOLD_MINUTES: number;
 }

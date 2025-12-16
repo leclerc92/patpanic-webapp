@@ -39,13 +39,17 @@ export abstract class BaseRoundLogic {
           !c.excludedRounds.includes(currentRound),
       );
 
-    const shuffled = [...availableCards];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    // Optimization: Only shuffle the portion we need (partial Fisher-Yates)
+    // This avoids shuffling thousands of unused cards
+    const cards = [...availableCards]; // Still need a copy to avoid mutating source
+    const n = Math.min(countCard, cards.length);
+
+    for (let i = 0; i < n; i++) {
+      const j = i + Math.floor(Math.random() * (cards.length - i));
+      [cards[i], cards[j]] = [cards[j], cards[i]];
     }
 
-    this.gameInstance.setCard(shuffled.slice(0, countCard));
+    this.gameInstance.setCard(cards.slice(0, countCard));
   }
 
   setNextPlayer() {

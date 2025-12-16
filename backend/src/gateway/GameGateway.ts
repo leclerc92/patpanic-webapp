@@ -19,6 +19,7 @@ import { UpdatePlayerConfigDto } from '../dtos/updatePlayerConfigDto';
 import { AdjustTurnScoreDto } from '../dtos/adjustTurnScoreDto';
 import { SocketIOGameEventEmitter } from '../adapters/socket-io-game-event-emitter';
 import { WsThrottlerGuard } from '../guards/ws-throttler.guard';
+import { getAllowedOrigins } from '../config/cors.config';
 
 // Interface pour typer le socket enrichi
 interface GameSocket extends Socket {
@@ -29,13 +30,10 @@ interface GameSocket extends Socket {
 
 @WebSocketGateway({
   cors: {
-    origin: process.env.ALLOWED_ORIGINS?.split(',') ?? [
-      'http://localhost:5173',
-      // Development only: Allow local network IPs (192.168.x.x and 10.x.x.x)
-      // TODO: Remove these regex in production and use ALLOWED_ORIGINS env var
-      /^http:\/\/192\.168\.\d{1,3}\.\d{1,3}:5173$/,
-      /^http:\/\/10\.\d{1,3}\.\d{1,3}\.\d{1,3}:5173$/,
-    ],
+    // Uses shared CORS configuration
+    // Note: Decorator is static, so we use process.env directly here
+    // but at least centralize the pattern logic in cors.config.ts
+    origin: getAllowedOrigins(process.env.ALLOWED_ORIGINS),
     credentials: true,
   },
 })
@@ -44,16 +42,15 @@ interface GameSocket extends Socket {
     transform: true,
     whitelist: true,
     exceptionFactory: (errors) => {
-      // Log validation errors
+      // Log validation errors without exposing sensitive data
       const logger = new Logger('ValidationPipe');
-      logger.error(
-        `Validation failed: ${JSON.stringify(
-          errors.map((e) => ({
-            property: e.property,
-            constraints: e.constraints,
-          })),
-        )}`,
-      );
+      const errorSummary = errors
+        .map(
+          (e) =>
+            `${e.property}: ${Object.keys(e.constraints || {}).join(', ')}`,
+        )
+        .join('; ');
+      logger.error(`Validation failed: ${errorSummary}`);
       return errors;
     },
   }),

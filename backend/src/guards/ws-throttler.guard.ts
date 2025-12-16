@@ -41,9 +41,7 @@ export class WsThrottlerGuard extends ThrottlerGuard {
       'unknown';
 
     // Extract first IP if x-forwarded-for contains multiple IPs
-    const tracker = Array.isArray(ip)
-      ? ip[0]
-      : (ip as string).split(',')[0].trim();
+    const tracker = Array.isArray(ip) ? ip[0] : ip.split(',')[0].trim();
 
     return Promise.resolve(tracker);
   }
@@ -57,12 +55,17 @@ export class WsThrottlerGuard extends ThrottlerGuard {
 
     // Create a mock response object with required methods for ThrottlerGuard
     // These methods accept parameters but do nothing since WebSocket doesn't use HTTP headers
+
     const mockResponse = {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       header: (_name: string, _value: string | number) => mockResponse,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       setHeader: (_name: string, _value: string | number) => mockResponse,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       getHeader: (_name: string) => undefined,
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     return { req: client as any, res: mockResponse as any };
   }
 }
