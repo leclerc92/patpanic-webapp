@@ -12,6 +12,7 @@ import { RoundTwoLogic } from '../logics/roundTwoLogic';
 import { RoundThreeLogic } from '../logics/roundThreeLogic';
 import { JsonImporterService } from './json-importer.service';
 import { IGameEventEmitter } from '../interfaces/game-event-emitter.interface';
+import { PersistenceService, GameSnapshot } from './persistence.service';
 
 @Injectable()
 export class GameInstanceService {
@@ -33,6 +34,7 @@ export class GameInstanceService {
   constructor(
     public readonly roomId: string,
     private readonly jsonImporterService: JsonImporterService,
+    private readonly persistenceService: PersistenceService,
   ) {
     this.logger = new Logger(`GameInstance-${roomId}`);
     this.roundLogic = new RoundOneLogic(this);
@@ -40,6 +42,25 @@ export class GameInstanceService {
 
   public touch() {
     this.lastActivity = Date.now();
+  }
+
+  /**
+   * Save current game state snapshot to database for crash recovery
+   */
+  private saveSnapshot(): void {
+    this.persistenceService.saveGameSnapshot({
+      roomId: this.roomId,
+      gameState: this.gameState,
+      currentRound: this.currentRound,
+      currentPlayerIndex: this.currentPlayerIndex,
+      isPaused: this.isPaused,
+      timer: this.timer,
+      players: this.players,
+      currentCard: this.currentCard,
+      usedCards: this.usedCards,
+      cards: this.cards,
+      lastActivity: this.lastActivity,
+    });
   }
 
   getCurrentPlayer(): IPlayer {
@@ -120,6 +141,7 @@ export class GameInstanceService {
 
     player.turnScore = Math.max(0, player.turnScore + adjustment);
     player.roundScore = Math.max(0, player.roundScore + adjustment);
+    player.score = Math.max(0, player.score + adjustment);
 
     this.logger.log(
       `adjustTurnScore - Player ${player.name} turnScore adjusted by ${adjustment} to ${player.turnScore}`,
@@ -197,17 +219,24 @@ export class GameInstanceService {
         break;
       case 4:
         this.gameState = GameState.GAME_END;
+        this.saveSnapshot();
         return;
         break;
     }
 
     this.initialisePlayersForRound();
     this.gameState = GameState.ROUND_INSTRUCTION;
+
+    // Save snapshot after round initialization
+    this.saveSnapshot();
   }
 
   endRound() {
     this.currentRound++;
     this.gameState = GameState.ROUND_END;
+
+    // Save snapshot after round end
+    this.saveSnapshot();
   }
 
   startTurn(eventEmitter: IGameEventEmitter) {
@@ -294,6 +323,10 @@ export class GameInstanceService {
     };
     this.players.push(player);
     this.logger.log('ADDPLAYER - Added player name', player.name);
+
+    // Save snapshot after adding player
+    this.saveSnapshot();
+
     return player;
   }
 
@@ -308,6 +341,9 @@ export class GameInstanceService {
 
     this.logger.log(`REMOVEPLAYER - Removing player ${player.name}`);
     this.players.splice(playerIndex, 1);
+
+    // Save snapshot after removing player
+    this.saveSnapshot();
   }
 
   updatePlayerSocketId(playerId: string, newSocketId: string): IPlayer {
@@ -360,12 +396,37 @@ export class GameInstanceService {
 
   validateCard() {
     this.logger.log('validateCard');
+    const startTime = this.getTimer();
     this.roundLogic.validateCard();
+
+    // Save snapshot after validation
+    this.saveSnapshot();
+
+    // Record analytics
+    if (this.currentCard) {
+      const timeElapsed = startTime - this.timer;
+      this.persistenceService.recordCardValidation(
+        this.currentCard,
+        this.currentRound,
+        timeElapsed,
+      );
+    }
   }
 
   passCard() {
     this.logger.log('passCard');
     this.roundLogic.passCard();
+
+    // Save snapshot after pass
+    this.saveSnapshot();
+
+    // Record analytics
+    if (this.currentCard) {
+      this.persistenceService.recordCardPass(
+        this.currentCard,
+        this.currentRound,
+      );
+    }
   }
 
   initialisePlayersForRound() {
@@ -411,9 +472,67 @@ export class GameInstanceService {
     this.cards = [];
     this.currentPlayerIndex = 0;
     this.isPaused = false;
+
+    // Save snapshot after restart
+    this.saveSnapshot();
   }
 
   setupNextPlayerTurn() {
     this.roundLogic.setNextPlayer();
+  }
+
+  /**
+   * Factory method to reconstruct a GameInstanceService from a database snapshot
+   * Used for crash recovery on server restart
+   */
+  static fromSnapshot(
+    snapshot: GameSnapshot,
+    jsonImporter: JsonImporterService,
+    persistenceService: PersistenceService,
+  ): GameInstanceService {
+    const game = new GameInstanceService(
+      snapshot.room_id,
+      jsonImporter,
+      persistenceService,
+    );
+
+    // Restore serialized state
+    game.players = JSON.parse(snapshot.players);
+    game.currentRound = snapshot.current_round;
+    game.gameState = snapshot.game_state as GameState;
+    game.currentPlayerIndex = snapshot.current_player_index;
+    game.usedCards = JSON.parse(snapshot.used_cards);
+    game.cards = JSON.parse(snapshot.cards);
+    game.timer = snapshot.timer;
+    game.isPaused = Boolean(snapshot.is_paused);
+    game.lastActivity = snapshot.last_activity;
+
+    // Restore current card if exists
+    if (snapshot.current_card) {
+      game.currentCard = JSON.parse(snapshot.current_card);
+    }
+
+    // Restore appropriate round logic based on current round
+    switch (game.currentRound) {
+      case 1:
+        game.roundLogic = new RoundOneLogic(game);
+        break;
+      case 2:
+        game.roundLogic = new RoundTwoLogic(game);
+        break;
+      case 3:
+        game.roundLogic = new RoundThreeLogic(game);
+        break;
+      default:
+        game.roundLogic = new RoundOneLogic(game);
+    }
+
+    // Note: DO NOT automatically restart the timer - let the game resume manually
+
+    game.logger.log(
+      `Restored game from snapshot (state: ${game.gameState}, round: ${game.currentRound})`,
+    );
+
+    return game;
   }
 }

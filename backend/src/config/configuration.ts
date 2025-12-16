@@ -34,6 +34,15 @@ export const validationSchema = Joi.object({
     .description(
       'Inactivity threshold in minutes before game cleanup (5-1440)',
     ),
+
+  // Database configuration
+  DATABASE_PATH: Joi.string()
+    .default('./data/patpanic.db')
+    .description('Path to SQLite database file'),
+
+  DATABASE_BACKUP_ENABLED: Joi.boolean()
+    .default(true)
+    .description('Enable automatic database backups'),
 });
 
 /**
@@ -44,4 +53,6 @@ export interface EnvironmentVariables {
   PORT: number;
   ALLOWED_ORIGINS?: string;
   GAME_INACTIVITY_THRESHOLD_MINUTES: number;
+  DATABASE_PATH: string;
+  DATABASE_BACKUP_ENABLED: boolean;
 }

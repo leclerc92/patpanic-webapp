@@ -20,6 +20,7 @@ import { AdjustTurnScoreDto } from '../dtos/adjustTurnScoreDto';
 import { SocketIOGameEventEmitter } from '../adapters/socket-io-game-event-emitter';
 import { WsThrottlerGuard } from '../guards/ws-throttler.guard';
 import { getAllowedOrigins } from '../config/cors.config';
+import { PersistenceService } from '../services/persistence.service';
 
 // Interface pour typer le socket enrichi
 interface GameSocket extends Socket {
@@ -62,7 +63,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private logger: Logger = new Logger('GameGateway');
 
-  constructor(private readonly gameService: GameService) {}
+  constructor(
+    private readonly gameService: GameService,
+    private readonly persistenceService: PersistenceService,
+  ) {}
 
   private getErrorMessage(error: unknown): string {
     if (error instanceof Error) {
@@ -235,6 +239,18 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('goToRoundInstructions')
   handleRoundInstructions(@ConnectedSocket() client: GameSocket) {
     this.handleGameAction(client, (game) => {
+      // Start a new game session when round 1 begins
+      if (
+        game.getCurrentRound() === 1 &&
+        game.getGameState() !== GameState.ROUND_INSTRUCTION
+      ) {
+        this.persistenceService.startGameSession(
+          game.roomId,
+          game.getPlayers().length,
+        );
+        this.logger.log(`Started game session for room ${game.roomId}`);
+      }
+
       game.initializeRound();
     });
   }
@@ -273,6 +289,19 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('restartGame')
   handleRestartGame(@ConnectedSocket() client: GameSocket) {
     this.handleGameAction(client, (game) => {
+      // Complete the game session before restarting
+      const finalScores: Record<string, number> = {};
+      game.getPlayers().forEach((player) => {
+        finalScores[player.id] = player.score;
+      });
+
+      this.persistenceService.completeGameSession(
+        game.roomId,
+        finalScores,
+        game.getCurrentRound() - 1, // -1 because current round is the next one
+      );
+      this.logger.log(`Completed game session for room ${game.roomId}`);
+
       game.restartGame();
     });
   }

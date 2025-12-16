@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { GameInstanceService } from './game-instance.service';
 import { JsonImporterService } from './json-importer.service';
+import { PersistenceService } from './persistence.service';
 import { ROOMS } from '@patpanic/shared';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { ConfigService } from '@nestjs/config';
@@ -16,9 +17,8 @@ export class GameService {
   constructor(
     private readonly jsonImporterService: JsonImporterService,
     private readonly configService: ConfigService<EnvironmentVariables>,
+    private readonly persistenceService: PersistenceService,
   ) {
-    this.getGameInstance('CLEMICHES');
-
     // Get inactivity threshold from environment (in minutes, convert to ms)
     const thresholdMinutes = this.configService.getOrThrow(
       'GAME_INACTIVITY_THRESHOLD_MINUTES',
@@ -29,6 +29,35 @@ export class GameService {
     this.logger.log(
       `Game cleanup configured: ${thresholdMinutes} minutes inactivity threshold`,
     );
+
+    // Recover active games from database
+    this.initializeFromDatabase();
+
+    // Ensure default room exists
+    this.getGameInstance('CLEMICHES');
+  }
+
+  /**
+   * Initialize games from database on server startup
+   * Recovers active games for crash recovery
+   */
+  private initializeFromDatabase(): void {
+    this.logger.log('🔄 Recovering active games from database...');
+    const snapshots = this.persistenceService.getActiveGames();
+
+    for (const snapshot of snapshots) {
+      const game = GameInstanceService.fromSnapshot(
+        snapshot,
+        this.jsonImporterService,
+        this.persistenceService,
+      );
+      this.games.set(snapshot.room_id, game);
+      this.logger.log(
+        `✅ Recovered room: ${snapshot.room_id} in state ${snapshot.game_state}`,
+      );
+    }
+
+    this.logger.log(`📊 Recovered ${snapshots.length} active game(s)`);
   }
 
   getGameInstance(roomId: string): GameInstanceService {
@@ -40,7 +69,14 @@ export class GameService {
 
     if (!this.games.has(id)) {
       this.logger.log(`Création de l'instance de jeu : ${id}`);
-      this.games.set(id, new GameInstanceService(id, this.jsonImporterService));
+      this.games.set(
+        id,
+        new GameInstanceService(
+          id,
+          this.jsonImporterService,
+          this.persistenceService,
+        ),
+      );
     }
 
     const game = this.games.get(id);
@@ -74,6 +110,9 @@ export class GameService {
       // 3. OR Game in any state but COMPLETELY inactive for X time (anti-forget)
 
       if (this.isInactiveFor(game, this.inactivityThresholdMs)) {
+        // Mark as abandoned in database before cleanup
+        this.persistenceService.markGameAbandoned(roomId);
+
         // Clean up timers before deleting
         game.cleanup();
         this.games.delete(roomId);

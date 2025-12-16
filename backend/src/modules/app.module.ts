@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GameModule } from './game.module';
 import { RessourcesModule } from './ressources.module';
+import { PersistenceModule } from './persistence.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { validationSchema } from '../config/configuration';
 import { WsExceptionFilter } from '../filters/ws-exception.filter';
@@ -17,6 +18,8 @@ import { WsExceptionFilter } from '../filters/ws-exception.filter';
         allowUnknown: true, // Allow other env variables
       },
     }),
+    // Database persistence (must be before GameModule)
+    PersistenceModule,
     GameModule,
     RessourcesModule,
     ScheduleModule.forRoot(),
